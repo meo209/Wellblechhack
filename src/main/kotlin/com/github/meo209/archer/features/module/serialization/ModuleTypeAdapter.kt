@@ -1,5 +1,6 @@
 package com.github.meo209.archer.features.module.serialization
 
+import com.github.meo209.archer.Archer
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
@@ -22,7 +23,7 @@ class ModuleTypeAdapter : JsonDeserializer<Module?> {
 
         try {
             val cls: Class<out Module?> = Class.forName(typeName) as Class<out Module?>
-            return Gson().fromJson(json, cls)
+            return Archer.GSON.fromJson(json, cls)
         } catch (e: ClassNotFoundException) {
             throw JsonParseException(e)
         }
