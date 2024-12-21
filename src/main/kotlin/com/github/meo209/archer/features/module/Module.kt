@@ -5,6 +5,7 @@ import com.github.meo209.archer.events.ClientShutdownEvent
 import com.github.meo209.archer.events.ClientStartEvent
 import com.github.meo209.archer.features.module.serialization.ModuleExclusionStrategy
 import com.github.meo209.archer.features.module.serialization.ModuleTypeAdapter
+import com.github.meo209.keventbus.Event
 import com.github.meo209.keventbus.EventBus
 import com.github.meo209.keventbus.FunctionTarget
 import com.google.gson.GsonBuilder
@@ -31,18 +32,25 @@ abstract class Module(@Transient val name: String = "", @Transient val category:
     @Include
     var enabled: Boolean = false
 
+    val moduleBus = EventBus.createScoped()
+
+    class InitEventPre: Event
+    class InitEventPost: Event
+
     init {
         logger.debug("Registering event handlers")
 
         EventBus.global().handler(ClientStartEvent::class) { _: ClientStartEvent ->
+            register()
+            moduleBus.post(InitEventPre())
             loadConfiguration()
-            initAfterConfig()
+            moduleBus.post(InitEventPost())
         }
 
         EventBus.global().function<ClientShutdownEvent>(::saveConfiguration)
     }
 
-    open fun initAfterConfig() {}
+    open fun register() {}
 
     private fun loadConfiguration() {
         if (!configFile.exists() || configFile.readText().isEmpty()) return

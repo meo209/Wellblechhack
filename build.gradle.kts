@@ -49,6 +49,8 @@ dependencies {
     include("com.google.code.gson:gson:${property("gson_version")}")
 
     modImplementation(include("com.github.meo209:KeventBus:${property("keventbus_version")}")!!)
+
+    modImplementation(include("io.github.0x3c50.renderer:renderer-fabric:${property("renderer_version")}")!!)
 }
 
 tasks.processResources {

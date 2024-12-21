@@ -1,4 +1,4 @@
-package com.github.meo209.archer.features.module.setting
+package com.github.meo209.archer.features.module.settings
 
 import com.github.meo209.archer.features.module.Include
 
