@@ -33,6 +33,10 @@ repositories {
         name = "Jitpack"
         url = uri("https://jitpack.io")
     }
+
+    maven {
+        url = uri("https://mcef-download.cinemamod.com/repositories/releases")
+    }
 }
 
 dependencies {

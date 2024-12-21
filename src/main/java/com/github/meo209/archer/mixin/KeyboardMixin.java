@@ -1,8 +1,6 @@
 package com.github.meo209.archer.mixin;
 
-import com.github.meo209.archer.features.gui.moduleinterface.ModuleInterfaceScreen;
 import net.minecraft.client.Keyboard;
-import net.minecraft.client.MinecraftClient;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,7 +14,7 @@ public class KeyboardMixin {
     public void onKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
         if (action == GLFW.GLFW_PRESS) {
             if (key == GLFW.GLFW_KEY_RIGHT_SHIFT) {
-                MinecraftClient.getInstance().setScreen(new ModuleInterfaceScreen());
+
             }
         }
     }

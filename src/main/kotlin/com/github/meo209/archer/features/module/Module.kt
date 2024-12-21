@@ -82,7 +82,8 @@ abstract class Module(@Transient val name: String = "", @Transient val category:
     }
 
     enum class Category {
-        OTHER
+        OTHER,
+        RENDER
     }
 
 }
