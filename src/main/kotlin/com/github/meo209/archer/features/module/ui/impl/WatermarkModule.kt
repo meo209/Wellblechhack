@@ -1,7 +1,7 @@
-package com.github.meo209.archer.features.module.modules.ui.impl
+package com.github.meo209.archer.features.module.ui.impl
 
 import com.github.meo209.archer.Archer
-import com.github.meo209.archer.features.module.modules.ui.HudModule
+import com.github.meo209.archer.features.module.ui.HudModule
 import com.github.meo209.archer.utils.math.Vec2
 import me.x150.renderer.render.Renderer2d
 import net.minecraft.client.MinecraftClient

@@ -2,8 +2,8 @@ package com.github.meo209.archer.features.module
 
 import com.github.meo209.archer.features.module.modules.DebugModule
 import com.github.meo209.archer.features.module.modules.HudConfigurationModule
-import com.github.meo209.archer.features.module.modules.ui.HudModule
-import com.github.meo209.archer.features.module.modules.ui.impl.WatermarkModule
+import com.github.meo209.archer.features.module.ui.HudModule
+import com.github.meo209.archer.features.module.ui.impl.WatermarkModule
 import org.apache.logging.log4j.LogManager
 import kotlin.reflect.KClass
 

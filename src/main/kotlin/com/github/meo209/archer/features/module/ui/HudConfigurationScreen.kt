@@ -1,4 +1,4 @@
-package com.github.meo209.archer.features.module.modules.ui
+package com.github.meo209.archer.features.module.ui
 
 import com.github.meo209.archer.features.module.ModuleHandler
 import com.github.meo209.archer.features.module.modules.HudConfigurationModule
