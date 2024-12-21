@@ -1,8 +1,7 @@
 package com.github.meo209.archer.features.module
 
 import com.github.meo209.archer.FileHandler
-import com.github.meo209.archer.events.ClientShutdownEvent
-import com.github.meo209.archer.events.ClientStartEvent
+import com.github.meo209.archer.events.*
 import com.github.meo209.archer.features.module.serialization.ModuleExclusionStrategy
 import com.github.meo209.archer.features.module.serialization.ModuleTypeAdapter
 import com.github.meo209.keventbus.Event
@@ -37,6 +36,18 @@ abstract class Module(@Transient val name: String = "", @Transient val category:
     class InitEventPre: Event
     class InitEventPost: Event
 
+    fun enable() {
+        if (enabled) return
+        enabled = true
+        EventBus.global().post(ModuleEnableEvent(this))
+    }
+
+    fun disable() {
+        if (!enabled) return
+        enabled = false
+        EventBus.global().post(ModuleDisableEvent(this))
+    }
+
     init {
         logger.debug("Registering event handlers")
 
@@ -60,7 +71,8 @@ abstract class Module(@Transient val name: String = "", @Transient val category:
         val loaded = gson.fromJson(configFile.readText(), Module::class.java)
 
         this::class.java.declaredFields.forEach { field ->
-            if (field.name == "INSTANCE") return@forEach // Skip companion object INSTANCE field
+            if (field.name == "INSTANCE" || field.name == "COMPANION") return@forEach
+            if (!field.isAnnotationPresent(Include::class.java)) return@forEach
 
             val loadedField = loaded::class.java.declaredFields.first { it.name == field.name }
 
@@ -68,7 +80,6 @@ abstract class Module(@Transient val name: String = "", @Transient val category:
             loadedField.isAccessible = true
 
             logger.debug("Changing field ${field.name} to config value")
-
             field.set(this, loadedField.get(loaded))
         }
     }

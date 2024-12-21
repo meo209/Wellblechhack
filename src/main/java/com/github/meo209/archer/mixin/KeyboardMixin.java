@@ -1,5 +1,7 @@
 package com.github.meo209.archer.mixin;
 
+import com.github.meo209.archer.events.KeyPressEvent;
+import com.github.meo209.keventbus.EventBus;
 import net.minecraft.client.Keyboard;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,9 +15,7 @@ public class KeyboardMixin {
     @Inject(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;getHandle()J", ordinal = 0))
     public void onKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
         if (action == GLFW.GLFW_PRESS) {
-            if (key == GLFW.GLFW_KEY_RIGHT_SHIFT) {
-
-            }
+            EventBus.Companion.global().post(new KeyPressEvent(key, modifiers));
         }
     }
 
