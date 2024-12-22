@@ -1,55 +1,36 @@
 package com.github.meo209.archer.features.module
 
-import com.github.meo209.archer.Archer
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.SerializationFeature
 import com.github.meo209.archer.FileHandler
 import com.github.meo209.archer.events.*
-import com.github.meo209.archer.features.module.serialization.ModuleExclusionStrategy
-import com.github.meo209.archer.features.module.serialization.ModuleTypeAdapter
-import com.github.meo209.keventbus.Event
 import com.github.meo209.keventbus.EventBus
 import com.github.meo209.keventbus.FunctionTarget
-import com.google.gson.GsonBuilder
-import org.apache.commons.lang3.arch.Processor.Arch
 import org.apache.logging.log4j.LogManager
 import java.io.File
 
-abstract class Module(val name: String = "", val category: Category = Category.OTHER) {
+abstract class Module(
+    @JsonIgnore
+    val name: String,
+    @JsonIgnore
+    val category: Category
+) {
 
     private val logger = LogManager.getLogger("${name}Module")
 
     private val configFile = File(FileHandler.MODULE_DIRECTORY, "$name.json")
 
-    @Include
-    public val type = javaClass.name
-
-    @Include
-    var enabled: Boolean = false
-
-    val moduleBus = EventBus.createScoped()
-
-    class InitEventPre: Event
-    class InitEventPost: Event
-
-    fun enable() {
-        if (enabled) return
-        enabled = true
-        EventBus.global().post(ModuleEnableEvent(this))
-    }
-
-    fun disable() {
-        if (!enabled) return
-        enabled = false
-        EventBus.global().post(ModuleDisableEvent(this))
+    private val mapper = ObjectMapper().apply {
+        enable(SerializationFeature.INDENT_OUTPUT)
     }
 
     init {
         logger.debug("Registering event handlers")
 
         EventBus.global().handler(ClientStartEvent::class) { _: ClientStartEvent ->
-            register()
-            moduleBus.post(InitEventPre())
             loadConfiguration()
-            moduleBus.post(InitEventPost())
+            register()
         }
 
         EventBus.global().function<ClientShutdownEvent>(::saveConfiguration)
@@ -62,20 +43,7 @@ abstract class Module(val name: String = "", val category: Category = Category.O
 
         logger.debug("Loading config from file")
 
-        val loaded = Archer.GSON.fromJson(configFile.readText(), Module::class.java)
-
-        this::class.java.declaredFields.forEach { field ->
-            if (field.name == "INSTANCE" || field.name == "COMPANION") return@forEach
-            if (!field.isAnnotationPresent(Include::class.java)) return@forEach
-
-            val loadedField = loaded::class.java.declaredFields.first { it.name == field.name }
-
-            field.isAccessible = true
-            loadedField.isAccessible = true
-
-            logger.debug("Changing field ${field.name} to config value")
-            field.set(this, loadedField.get(loaded))
-        }
+        mapper.readerForUpdating(this).readValue<Module>(configFile.readText())
     }
 
     @FunctionTarget
@@ -83,12 +51,14 @@ abstract class Module(val name: String = "", val category: Category = Category.O
         if (!configFile.exists()) configFile.createNewFile()
 
         logger.debug("Writing config to file")
-        configFile.writeText(Archer.GSON.toJson(this))
+
+        configFile.writeText(mapper.writeValueAsString(this))
     }
 
     enum class Category {
         OTHER,
-        RENDER
+        RENDER,
+        MOVEMENT
     }
 
 }

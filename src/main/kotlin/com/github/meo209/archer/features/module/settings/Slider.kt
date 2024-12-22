@@ -1,5 +1,5 @@
 package com.github.meo209.archer.features.module.settings
 
-import com.github.meo209.archer.features.module.Include
+import com.fasterxml.jackson.annotation.JsonIgnore
 
-data class Slider<T: Comparable<T>>(@Include var value: T, val range: ClosedRange<T>)
+data class Slider(var value: Float, @JsonIgnore val min: Float = 0f, @JsonIgnore val max: Float = 1f)

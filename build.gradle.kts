@@ -50,7 +50,7 @@ dependencies {
 
     modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:${property("devauth_version")}")
 
-    include("com.google.code.gson:gson:${property("gson_version")}")
+    include("com.fasterxml.jackson.core:jackson-core:${property("jackson_version")}")
 
     modImplementation(include("com.github.meo209:KeventBus:${property("keventbus_version")}")!!)
 

@@ -1,9 +1,10 @@
 package com.github.meo209.archer.utils.math
 
-import com.github.meo209.archer.features.module.Include
+import kotlinx.serialization.Serializable
 import net.minecraft.util.math.Vec2f
 
-data class Vec2(@Include var x: Double, @Include var y: Double) {
+@Serializable
+data class Vec2(var x: Double, var y: Double) {
 
     operator fun plus(other: Vec2): Vec2 =
         Vec2(this.x + other.x, this.y + other.y)
