@@ -1,10 +1,14 @@
 package com.github.meo209.archer.utils.math
 
-import kotlinx.serialization.Serializable
 import net.minecraft.util.math.Vec2f
 
-@Serializable
 data class Vec2(var x: Double, var y: Double) {
+    
+    constructor(x: Int, y: Int) : this(x.toDouble(), y.toDouble())
+    constructor(x: Float, y: Float) : this(x.toDouble(), y.toDouble())
+    constructor(x: Long, y: Long) : this(x.toDouble(), y.toDouble())
+    constructor(x: Byte, y: Byte) : this(x.toDouble(), y.toDouble())
+    constructor(x: Short, y: Short) : this(x.toDouble(), y.toDouble())
 
     operator fun plus(other: Vec2): Vec2 =
         Vec2(this.x + other.x, this.y + other.y)
