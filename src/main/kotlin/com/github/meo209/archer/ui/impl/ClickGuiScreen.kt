@@ -2,6 +2,7 @@ package com.github.meo209.archer.ui.impl
 
 import com.github.meo209.archer.features.module.Module
 import com.github.meo209.archer.features.module.ModuleHandler
+import com.github.meo209.archer.features.module.settings.Keybind
 import com.github.meo209.archer.features.module.settings.Slider
 import com.github.meo209.archer.ui.ArcherImGui
 import imgui.ImGui
@@ -14,31 +15,31 @@ import imgui.type.ImString
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
+import org.lwjgl.glfw.GLFW
 import java.awt.Color
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.memberProperties
 
-class ClickGuiScreen : Screen(Text.literal("Click GUI")) {
+class ClickGuiScreen : Screen(Text.literal("Click Gui")) {
 
     private var selectedCategory: Module.Category? = null
     private var selectedModule: Module? = null
     private val searchText = ImString(256)
+    private var selectingKeybind: Keybind? = null // Track which keybind is being selected
 
     override fun render(context: DrawContext?, mouseX: Int, mouseY: Int, delta: Float) {
         super.render(context, mouseX, mouseY, delta)
 
         ArcherImGui.draw {
             ImGui.begin("ClickGUI", ImGuiWindowFlags.NoCollapse or ImGuiWindowFlags.NoTitleBar or ImGuiWindowFlags.NoResize)
-            
+
             val separation = 250f
-            
+
             ImGui.setWindowPos(ImVec2(separation / 2, separation / 2))
             ImGui.setWindowSize(ImVec2(client!!.window.width - separation, client!!.window.height - separation))
 
-            // Search bar
             ImGui.inputTextWithHint("Search", "Module", searchText)
 
-            // Category tabs
             if (ImGui.beginTabBar("Categories")) {
                 Module.Category.entries.forEach { category: Module.Category ->
                     if (ImGui.beginTabItem(category.name.lowercase())) {
@@ -52,7 +53,6 @@ class ClickGuiScreen : Screen(Text.literal("Click GUI")) {
                 ImGui.endTabBar()
             }
 
-            // Split the window into two columns
             ImGui.columns(2, "ModuleListAndSettings", true)
 
             if (selectedCategory != null) {
@@ -61,7 +61,6 @@ class ClickGuiScreen : Screen(Text.literal("Click GUI")) {
                 ImGui.endChild()
             }
 
-            // Right column: Module settings
             ImGui.nextColumn()
             if (selectedModule != null) {
                 ImGui.beginChild("ModuleSettings", 0f, 0f, true)
@@ -78,7 +77,6 @@ class ClickGuiScreen : Screen(Text.literal("Click GUI")) {
     private fun renderModuleList(category: Module.Category, searchQuery: String) {
         val modules = ModuleHandler.fromCategory(category)
 
-        // Filter modules based on the search query
         val filteredModules = if (searchQuery.isBlank()) {
             modules
         } else {
@@ -87,7 +85,6 @@ class ClickGuiScreen : Screen(Text.literal("Click GUI")) {
             }
         }
 
-        // Display filtered modules
         filteredModules.forEach { module ->
             if (ImGui.selectable(module.name, module == selectedModule)) {
                 selectedModule = module // Update the selected module
@@ -113,28 +110,24 @@ class ClickGuiScreen : Screen(Text.literal("Click GUI")) {
                         }
                     }
                     is Float -> {
-                        // Float setting: input field
                         val currentValue = ImFloat(value)
                         if (ImGui.inputFloat(property.name, currentValue)) {
                             property.setter.call(module, currentValue.get())
                         }
                     }
                     is Double -> {
-                        // Double setting: input field
                         val currentValue = ImDouble(value)
                         if (ImGui.inputDouble(property.name, currentValue)) {
                             property.setter.call(module, currentValue.get())
                         }
                     }
                     is String -> {
-                        // String setting: input text field
                         val currentValue = ImString(value, 256)
                         if (ImGui.inputText(property.name, currentValue)) {
                             property.setter.call(module, currentValue.get())
                         }
                     }
                     is Color -> {
-                        // Color setting: color picker
                         val colorArray = floatArrayOf(
                             value.red / 255f,
                             value.green / 255f,
@@ -158,9 +151,22 @@ class ClickGuiScreen : Screen(Text.literal("Click GUI")) {
                             value.value = currentValue.get()
                         }
                     }
+                    is Keybind -> {
+                        if (ImGui.button("Keybind: ${if (value.key == -1) "None" else GLFW.glfwGetKeyName(value.key, 0)?.uppercase()}")) {
+                            selectingKeybind = value
+                        }
+                    }
                 }
             }
         }
     }
-    
+
+    override fun keyPressed(keyCode: Int, scanCode: Int, modifiers: Int): Boolean {
+        if (selectingKeybind != null) {
+            selectingKeybind?.key = keyCode
+            selectingKeybind = null
+            return true
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers)
+    }
 }
