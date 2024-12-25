@@ -21,6 +21,8 @@ abstract class Module(
     private val mapper = ObjectMapper().apply {
         enable(SerializationFeature.INDENT_OUTPUT)
     }
+    
+    var enabled: Boolean = false
 
     init {
         logger.debug("Registering event handlers")

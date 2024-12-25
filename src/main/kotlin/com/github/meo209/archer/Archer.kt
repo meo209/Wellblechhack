@@ -3,7 +3,9 @@ package com.github.meo209.archer
 import com.github.meo209.archer.events.ClientStartEvent
 import com.github.meo209.archer.events.ClientTickEvent
 import com.github.meo209.archer.events.HudRenderEvent
+import com.github.meo209.archer.events.WorldRenderEvent
 import com.github.meo209.archer.features.module.ModuleHandler
+import com.github.meo209.archer.features.module.modules.DebugModule
 import com.github.meo209.keventbus.EventBus
 import me.x150.renderer.event.RenderEvents
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
@@ -39,9 +41,15 @@ object Archer {
             EventBus.global().post(HudRenderEvent(context))
         }
 
+        RenderEvents.WORLD.register { stack ->
+            EventBus.global().post(WorldRenderEvent(stack))
+        }
+
         ClientTickEvents.END_CLIENT_TICK.register { client ->
             EventBus.global().post(ClientTickEvent())
         }
+        
+        DebugModule.infoLines["Example"] = "String"
 
         logger.info("Archer initialized.")
     }
