@@ -1,6 +1,6 @@
 package com.github.meo209.archer.features.module.modules
 
-import com.github.meo209.archer.PlayerInventorySlotChangeEvent
+import com.github.meo209.archer.events.PlayerInventorySlotChangeEvent
 import com.github.meo209.archer.events.KeyPressEvent
 import com.github.meo209.archer.features.module.Module
 import com.github.meo209.archer.features.module.Setting

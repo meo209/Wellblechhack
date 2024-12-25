@@ -1,6 +1,6 @@
 package com.github.meo209.archer.mixin;
 
-import com.github.meo209.archer.PlayerInventorySlotChangeEvent;
+import com.github.meo209.archer.events.PlayerInventorySlotChangeEvent;
 import com.github.meo209.archer.utils.PreviousStackStorage;
 import com.github.meo209.keventbus.EventBus;
 import net.minecraft.client.network.ClientPlayerEntity;
