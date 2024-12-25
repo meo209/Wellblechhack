@@ -17,6 +17,9 @@ object ModuleHandler {
     }
 
     fun all() = modules.toList()
+    
+    fun fromCategory(category: Module.Category) =
+        all().filter { it.category == category }
 
     // Statically load the ModuleHandler
     fun init() {}

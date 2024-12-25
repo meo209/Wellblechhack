@@ -2,11 +2,14 @@ package com.github.meo209.archer.features.module.modules
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.github.meo209.archer.events.HudRenderEvent
+import com.github.meo209.archer.events.KeyPressEvent
 import com.github.meo209.archer.features.module.Module
+import com.github.meo209.archer.ui.impl.ClickGuiScreen
 import com.github.meo209.archer.utils.Colors
 import com.github.meo209.keventbus.EventBus
 import com.github.meo209.keventbus.FunctionTarget
 import net.minecraft.client.MinecraftClient
+import org.lwjgl.glfw.GLFW
 
 
 class DebugModule : Module("Debug", Category.OTHER) {
@@ -15,9 +18,17 @@ class DebugModule : Module("Debug", Category.OTHER) {
         @JsonIgnore
         val infoLines = mutableMapOf<String, String>()
     }
+    
+    var key = GLFW.GLFW_KEY_RIGHT_SHIFT
 
     override fun register() {
         EventBus.global().function<HudRenderEvent>(::renderHud) { enabled }
+        EventBus.global().function<KeyPressEvent>(::onKey) { enabled && it.key == key }
+    }
+    
+    @FunctionTarget
+    private fun onKey(event: KeyPressEvent) {
+        MinecraftClient.getInstance().setScreen(ClickGuiScreen())
     }
 
     // Draws the info lines on the hud

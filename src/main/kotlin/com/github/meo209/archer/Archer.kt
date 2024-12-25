@@ -6,6 +6,7 @@ import com.github.meo209.archer.events.HudRenderEvent
 import com.github.meo209.archer.events.WorldRenderEvent
 import com.github.meo209.archer.features.module.ModuleHandler
 import com.github.meo209.archer.features.module.modules.DebugModule
+import com.github.meo209.archer.ui.ArcherImGui
 import com.github.meo209.keventbus.EventBus
 import me.x150.renderer.event.RenderEvents
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
@@ -18,6 +19,7 @@ object Archer {
 
     object Data {
         val VERSION = "0.0.1+${MinecraftClient.getInstance().gameVersion}"
+        val MOD_ID = "archer"
     }
 
     /*
@@ -49,7 +51,7 @@ object Archer {
             EventBus.global().post(ClientTickEvent())
         }
         
-        DebugModule.infoLines["Example"] = "String"
+        ArcherImGui.init()
 
         logger.info("Archer initialized.")
     }
