@@ -11,10 +11,7 @@ import org.apache.logging.log4j.LogManager
 import java.io.File
 
 abstract class Module(
-    @JsonIgnore
-    val name: String,
-    @JsonIgnore
-    val category: Category
+    @JsonIgnore val name: String, @JsonIgnore val category: Category
 ) {
 
     private val logger = LogManager.getLogger("${name}Module")
@@ -28,10 +25,10 @@ abstract class Module(
     init {
         logger.debug("Registering event handlers")
 
-        EventBus.global().handler(ClientStartEvent::class) { _: ClientStartEvent ->
+        EventBus.global().handler(ClientStartEvent::class, { _: ClientStartEvent ->
             loadConfiguration()
             register()
-        }
+        })
 
         EventBus.global().function<ClientShutdownEvent>(::saveConfiguration)
     }
@@ -56,9 +53,7 @@ abstract class Module(
     }
 
     enum class Category {
-        OTHER,
-        RENDER,
-        MOVEMENT
+        OTHER, RENDER, MOVEMENT
     }
 
 }
