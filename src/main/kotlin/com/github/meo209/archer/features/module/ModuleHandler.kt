@@ -8,9 +8,10 @@ object ModuleHandler {
     private val logger = LogManager.getLogger(this)
 
     private val modules = arrayListOf(
-        DebugModule(),
-        ClickGuiModule(),
-        AutoTotem()
+        Debug(),
+        ClickGui(),
+        AutoTotem(),
+        Killaura()
     )
 
     init {

@@ -10,7 +10,7 @@ import com.github.meo209.keventbus.FunctionTarget
 import net.minecraft.client.MinecraftClient
 import org.lwjgl.glfw.GLFW
 
-class ClickGuiModule: Module("ClickGui", Category.RENDER) {
+class ClickGui: Module("ClickGui", Category.RENDER) {
 
     @Setting
     var keybind: Keybind = Keybind(GLFW.GLFW_KEY_RIGHT_SHIFT)

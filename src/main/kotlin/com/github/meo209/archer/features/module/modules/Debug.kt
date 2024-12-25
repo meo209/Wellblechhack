@@ -2,20 +2,17 @@ package com.github.meo209.archer.features.module.modules
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.github.meo209.archer.events.HudRenderEvent
-import com.github.meo209.archer.events.KeyPressEvent
 import com.github.meo209.archer.features.module.Module
 import com.github.meo209.archer.features.module.Setting
 import com.github.meo209.archer.features.module.settings.Slider
-import com.github.meo209.archer.ui.impl.ClickGuiScreen
 import com.github.meo209.archer.utils.Colors
 import com.github.meo209.keventbus.EventBus
 import com.github.meo209.keventbus.FunctionTarget
 import net.minecraft.client.MinecraftClient
-import org.lwjgl.glfw.GLFW
 import java.awt.Color
 
 
-class DebugModule : Module("Debug", Category.OTHER) {
+class Debug : Module("Debug", Category.OTHER) {
 
     companion object Info {
         @JsonIgnore

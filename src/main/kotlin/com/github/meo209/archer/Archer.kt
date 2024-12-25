@@ -5,7 +5,6 @@ import com.github.meo209.archer.events.ClientTickEvent
 import com.github.meo209.archer.events.HudRenderEvent
 import com.github.meo209.archer.events.WorldRenderEvent
 import com.github.meo209.archer.features.module.ModuleHandler
-import com.github.meo209.archer.features.module.modules.DebugModule
 import com.github.meo209.archer.ui.ArcherImGui
 import com.github.meo209.keventbus.EventBus
 import me.x150.renderer.event.RenderEvents
