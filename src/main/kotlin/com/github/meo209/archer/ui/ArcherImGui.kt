@@ -33,7 +33,7 @@ object ArcherImGui {
         data.iniFilename = Archer.Data.MOD_ID
         data.fontGlobalScale = 1f
         
-        data.configFlags = ImGuiConfigFlags.DockingEnable
+        data.configFlags = ImGuiConfigFlags.DockingEnable or ImGuiConfigFlags.NavEnableKeyboard
         
         glfw.init(MinecraftClient.getInstance().window.handle, true)
         gl3.init()
@@ -128,10 +128,9 @@ object ArcherImGui {
         ImGui.pushStyleColor(ImGuiCol.ModalWindowDimBg, ImVec4(50f / 255f, 45f / 255f, 139f / 255f, 0.5f))
     }
     
-    fun render(renderInterface: RenderInterface) {
+    fun draw(renderInterface: RenderInterface) {
         gl3.newFrame()
         glfw.newFrame()
-        
         ImGui.newFrame()
         
         renderInterface.render(ImGui.getIO())
@@ -140,8 +139,8 @@ object ArcherImGui {
         gl3.renderDrawData(ImGui.getDrawData())
     }
     
-    fun render(block: (ImGuiIO) -> Unit) {
-        render(object : RenderInterface {
+    fun draw(block: (ImGuiIO) -> Unit) {
+        draw(object : RenderInterface {
             override fun render(io: ImGuiIO) {
                 block(io)
             }

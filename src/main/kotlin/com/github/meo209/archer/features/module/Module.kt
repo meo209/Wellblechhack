@@ -1,6 +1,7 @@
 package com.github.meo209.archer.features.module
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.github.meo209.archer.FileHandler
@@ -20,9 +21,20 @@ abstract class Module(
 
     private val mapper = ObjectMapper().apply {
         enable(SerializationFeature.INDENT_OUTPUT)
+        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     }
-    
+
+    @JsonIgnore
+    val settings = this.javaClass.declaredFields.filter {
+        it.isAnnotationPresent(Setting::class.java)
+    }
+
+    @Setting
     var enabled: Boolean = false
+    
+    fun toggle() {
+        enabled = !enabled
+    }
 
     init {
         logger.debug("Registering event handlers")
