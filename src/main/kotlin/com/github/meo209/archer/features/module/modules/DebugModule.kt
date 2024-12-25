@@ -23,9 +23,6 @@ class DebugModule : Module("Debug", Category.OTHER) {
     }
     
     @Setting
-    var key = GLFW.GLFW_KEY_RIGHT_SHIFT
-    
-    @Setting
     var slider = Slider(0f, 0f, 69f)
     
     @Setting
@@ -33,12 +30,6 @@ class DebugModule : Module("Debug", Category.OTHER) {
 
     override fun register() {
         EventBus.global().function<HudRenderEvent>(::renderHud) { enabled }
-        EventBus.global().function<KeyPressEvent>(::onKey) { enabled && it.key == key }
-    }
-    
-    @FunctionTarget
-    private fun onKey(event: KeyPressEvent) {
-        MinecraftClient.getInstance().setScreen(ClickGuiScreen())
     }
 
     // Draws the info lines on the hud

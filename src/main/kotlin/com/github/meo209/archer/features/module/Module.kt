@@ -30,7 +30,7 @@ abstract class Module(
     }
 
     @Setting
-    var enabled: Boolean = false
+    open var enabled: Boolean = false
     
     fun toggle() {
         enabled = !enabled

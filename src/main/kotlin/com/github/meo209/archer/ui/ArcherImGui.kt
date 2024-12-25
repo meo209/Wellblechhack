@@ -64,13 +64,14 @@ object ArcherImGui {
             columnsMinSpacing = 6.0f
             scrollbarSize = 12.0f
             scrollbarRounding = 0.0f
-            grabMinSize = 12.0f
+            grabMinSize = 6.0f
             grabRounding = 0.0f
             tabRounding = 0.0f
             tabBorderSize = 0.0f
             tabMinWidthForCloseButton = 0.0f
             buttonTextAlign.set(0.5f, 0.5f)
             selectableTextAlign.set(0.0f, 0.0f)
+            scaleAllSizes(3f)
         }
 
         ImGui.pushStyleColor(ImGuiCol.Text, ImVec4(1f, 1f, 1f, 1f))

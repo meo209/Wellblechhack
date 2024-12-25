@@ -5,6 +5,7 @@ import com.github.meo209.archer.features.module.ModuleHandler
 import com.github.meo209.archer.features.module.settings.Slider
 import com.github.meo209.archer.ui.ArcherImGui
 import imgui.ImGui
+import imgui.ImVec2
 import imgui.flag.ImGuiWindowFlags
 import imgui.type.ImDouble
 import imgui.type.ImFloat
@@ -27,7 +28,12 @@ class ClickGuiScreen : Screen(Text.literal("Click GUI")) {
         super.render(context, mouseX, mouseY, delta)
 
         ArcherImGui.draw {
-            ImGui.begin("ClickGUI", ImGuiWindowFlags.NoCollapse or ImGuiWindowFlags.NoTitleBar)
+            ImGui.begin("ClickGUI", ImGuiWindowFlags.NoCollapse or ImGuiWindowFlags.NoTitleBar or ImGuiWindowFlags.NoResize)
+            
+            val separation = 250f
+            
+            ImGui.setWindowPos(ImVec2(separation / 2, separation / 2))
+            ImGui.setWindowSize(ImVec2(client!!.window.width - separation, client!!.window.height - separation))
 
             // Search bar
             ImGui.inputTextWithHint("Search", "Module", searchText)
