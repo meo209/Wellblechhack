@@ -1,7 +1,6 @@
 package com.github.meo209.archer.features.module
 
-import com.github.meo209.archer.features.module.modules.ClickGuiModule
-import com.github.meo209.archer.features.module.modules.DebugModule
+import com.github.meo209.archer.features.module.modules.*
 import org.apache.logging.log4j.LogManager
 
 object ModuleHandler {
@@ -10,7 +9,8 @@ object ModuleHandler {
 
     private val modules = arrayListOf(
         DebugModule(),
-        ClickGuiModule()
+        ClickGuiModule(),
+        AutoTotem()
     )
 
     init {

@@ -67,7 +67,7 @@ abstract class Module(
     }
 
     enum class Category {
-        OTHER, RENDER, MOVEMENT
+        OTHER, RENDER, MOVEMENT, PLAYER, WORLD
     }
 
 }
