@@ -10,6 +10,9 @@ import com.github.meo209.keventbus.EventBus
 import com.github.meo209.keventbus.FunctionTarget
 import org.apache.logging.log4j.LogManager
 import java.io.File
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.hasAnnotation
+import kotlin.reflect.full.memberProperties
 
 abstract class Module(
     @JsonIgnore val name: String, @JsonIgnore val category: Category
@@ -24,14 +27,9 @@ abstract class Module(
         configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     }
 
-    @JsonIgnore
-    val settings = this.javaClass.declaredFields.filter {
-        it.isAnnotationPresent(Setting::class.java)
-    }
-
     @Setting
     open var enabled: Boolean = false
-    
+
     fun toggle() {
         enabled = !enabled
     }
