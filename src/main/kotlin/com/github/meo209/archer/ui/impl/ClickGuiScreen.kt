@@ -2,7 +2,6 @@ package com.github.meo209.archer.ui.impl
 
 import com.github.meo209.archer.features.module.Module
 import com.github.meo209.archer.features.module.ModuleHandler
-import com.github.meo209.archer.features.module.Setting
 import com.github.meo209.archer.features.module.settings.Keybind
 import com.github.meo209.archer.features.module.settings.Slider
 import com.github.meo209.archer.ui.ArcherImGui
@@ -34,12 +33,8 @@ class ClickGuiScreen : Screen(Text.literal("Click Gui")) {
     }
 
     private fun renderClickGuiWindow() {
-        ImGui.begin("ClickGUI", ImGuiWindowFlags.NoCollapse or ImGuiWindowFlags.NoTitleBar or ImGuiWindowFlags.NoResize)
-
-        val separation = 250f
-        ImGui.setWindowPos(ImVec2(separation / 2, separation / 2))
-        ImGui.setWindowSize(ImVec2(client!!.window.width - separation, client!!.window.height - separation))
-
+        ImGui.begin("ClickGUI", ImGuiWindowFlags.NoCollapse or ImGuiWindowFlags.NoTitleBar)
+        
         renderSearchBar()
         renderCategoryTabs()
         renderModuleListAndSettings()
