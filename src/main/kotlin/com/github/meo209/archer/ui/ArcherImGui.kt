@@ -33,7 +33,7 @@ object ArcherImGui {
         data.iniFilename = Archer.Data.MOD_ID
         data.fontGlobalScale = 1f
         
-        data.configFlags = ImGuiConfigFlags.DockingEnable or ImGuiConfigFlags.NavEnableKeyboard
+        data.configFlags = ImGuiConfigFlags.DockingEnable or ImGuiConfigFlags.NavEnableKeyboard or ImGuiConfigFlags.NoMouseCursorChange // Minecraft conflicts with ImGui cursor
         
         glfw.init(MinecraftClient.getInstance().window.handle, true)
         gl3.init()
@@ -151,6 +151,7 @@ object ArcherImGui {
     @FunctionTarget
     fun dispose(event: ClientShutdownEvent) {
         gl3.shutdown()
+        glfw.shutdown()
         
         ImGui.destroyContext()
         ImPlot.destroyContext()

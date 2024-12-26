@@ -152,7 +152,7 @@ class ClickGuiScreen : Screen(Text.literal("Click Gui")) {
                         }
                     }
                     is Keybind -> {
-                        if (ImGui.button("Keybind: ${if (value.key == -1) "None" else GLFW.glfwGetKeyName(value.key, 0)?.uppercase()}")) {
+                        if (ImGui.button("Keybind: ${if (value.key == -1) "None" else ImGui.getKeyName(value.key)?.uppercase()}")) {
                             selectingKeybind = value
                         }
                     }
