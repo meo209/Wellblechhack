@@ -8,11 +8,9 @@ import com.github.meo209.archer.FileHandler
 import com.github.meo209.archer.events.*
 import com.github.meo209.keventbus.EventBus
 import com.github.meo209.keventbus.FunctionTarget
+import net.minecraft.client.MinecraftClient
 import org.apache.logging.log4j.LogManager
 import java.io.File
-import kotlin.reflect.KMutableProperty
-import kotlin.reflect.full.hasAnnotation
-import kotlin.reflect.full.memberProperties
 
 abstract class Module(
     @JsonIgnore val name: String, @JsonIgnore val category: Category
@@ -30,6 +28,23 @@ abstract class Module(
     @Setting
     open var enabled: Boolean = false
 
+    @get:JsonIgnore
+    val client
+        get() = MinecraftClient.getInstance()
+    @get:JsonIgnore
+    val player 
+        get() = client.player
+    @get:JsonIgnore
+    val world 
+        get() = client.world
+    @get:JsonIgnore
+    val network
+        get() = client.networkHandler
+
+    @get:JsonIgnore
+    val inGame: Boolean
+        get() = player != null && world != null
+    
     fun toggle() {
         enabled = !enabled
     }
