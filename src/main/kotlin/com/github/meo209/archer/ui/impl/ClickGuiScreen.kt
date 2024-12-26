@@ -1,12 +1,13 @@
 package com.github.meo209.archer.ui.impl
 
+
+import com.github.meo209.archer.features.Features
+import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
-import com.github.meo209.archer.features.module.ModuleHandler
 import com.github.meo209.archer.features.module.settings.Keybind
-import com.github.meo209.archer.features.module.settings.Slider
+import com.github.meo209.archer.features.module.settings.Range
 import com.github.meo209.archer.ui.ArcherImGui
 import imgui.ImGui
-import imgui.ImVec2
 import imgui.flag.ImGuiWindowFlags
 import imgui.type.*
 import net.minecraft.client.gui.DrawContext
@@ -14,12 +15,11 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
 import java.awt.Color
 import kotlin.reflect.KMutableProperty
-import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.memberProperties
 
 class ClickGuiScreen : Screen(Text.literal("Click Gui")) {
 
-    private var selectedCategory: Module.Category? = null
+    private var selectedCategory: Category? = null
     private var selectedModule: Module? = null
     private val searchText = ImString(256)
     private var selectingKeybind: Keybind? = null
@@ -34,7 +34,7 @@ class ClickGuiScreen : Screen(Text.literal("Click Gui")) {
 
     private fun renderClickGuiWindow() {
         ImGui.begin("ClickGUI", ImGuiWindowFlags.NoCollapse or ImGuiWindowFlags.NoTitleBar)
-        
+
         renderSearchBar()
         renderCategoryTabs()
         renderModuleListAndSettings()
@@ -48,7 +48,7 @@ class ClickGuiScreen : Screen(Text.literal("Click Gui")) {
 
     private fun renderCategoryTabs() {
         if (ImGui.beginTabBar("Categories")) {
-            Module.Category.entries.forEach { category ->
+            Category.entries.forEach { category ->
                 if (ImGui.beginTabItem(category.name.lowercase())) {
                     if (selectedCategory != category) {
                         selectedCategory = category
@@ -77,11 +77,12 @@ class ClickGuiScreen : Screen(Text.literal("Click Gui")) {
         ImGui.columns(1)
     }
 
-    private fun renderModuleList(category: Module.Category, searchQuery: String) {
+    private fun renderModuleList(category: Category, searchQuery: String) {
         ImGui.beginChild("ModuleList", ImGui.getColumnWidth() - 10, 0f, true)
 
-        val modules = ModuleHandler.fromCategory(category)
-        val filteredModules = if (searchQuery.isBlank()) modules else modules.filter { it.name.contains(searchQuery, true) }
+        val modules = Features.Module.fromCategory(category)
+        val filteredModules =
+            if (searchQuery.isBlank()) modules else modules.filter { it.name.contains(searchQuery, true) }
 
         filteredModules.forEach { module ->
             if (ImGui.selectable(module.name, module == selectedModule)) {
@@ -111,8 +112,8 @@ class ClickGuiScreen : Screen(Text.literal("Click Gui")) {
             is Double -> renderDoubleSetting(property, module, value)
             is String -> renderStringSetting(property, module, value)
             is Color -> renderColorSetting(property, module, value)
-            is Slider -> renderSliderSetting(property, module, value)
             is Keybind -> renderKeybindSetting(property, module, value)
+            is Range -> renderRangeSetting(property, module, value)
         }
     }
 
@@ -165,17 +166,17 @@ class ClickGuiScreen : Screen(Text.literal("Click Gui")) {
         }
     }
 
-    private fun renderSliderSetting(property: KMutableProperty<*>, module: Module, value: Slider) {
-        val currentValue = ImFloat(value.value)
-        if (ImGui.sliderFloat(property.name, currentValue.data, value.min, value.max)) {
-            value.value = currentValue.get()
+    private fun renderKeybindSetting(property: KMutableProperty<*>, module: Module, value: Keybind) {
+        val keybindText = if (value.key == -1) "None" else ImGui.getKeyName(value.key)?.uppercase()
+        if (ImGui.button("Keybind: $keybindText")) {
+            selectingKeybind = value
         }
     }
 
-    private fun renderKeybindSetting(property: KMutableProperty<*>, module: Module, value: Keybind) {
-        val keybindText = if (value.key == -1) "None" else ImGui.getKeyName(value.key)?.uppercase() ?: "Unknown"
-        if (ImGui.button("Keybind: $keybindText")) {
-            selectingKeybind = value
+    private fun renderRangeSetting(property: KMutableProperty<*>, module: Module, value: Range) {
+        val currentValue = ImFloat(value.value)
+        if (ImGui.sliderFloat(property.name, currentValue.data, value.min, value.max)) {
+            property.setter.call(module, currentValue.get())
         }
     }
 

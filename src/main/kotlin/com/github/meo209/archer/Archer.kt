@@ -4,7 +4,7 @@ import com.github.meo209.archer.events.ClientStartEvent
 import com.github.meo209.archer.events.ClientTickEvent
 import com.github.meo209.archer.events.HudRenderEvent
 import com.github.meo209.archer.events.WorldRenderEvent
-import com.github.meo209.archer.features.module.ModuleHandler
+import com.github.meo209.archer.features.Features
 import com.github.meo209.archer.ui.ArcherImGui
 import com.github.meo209.keventbus.EventBus
 import me.x150.renderer.event.RenderEvents
@@ -32,7 +32,7 @@ object Archer {
     init {
         logger.info("Initializing archer...")
         FileHandler.init()
-        ModuleHandler.init()
+        Features.init()
 
         synchronized(this) {
             EventBus.global().post(ClientStartEvent())

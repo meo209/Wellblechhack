@@ -1,22 +1,22 @@
-package com.github.meo209.archer.features.module.modules
+package com.github.meo209.archer.features.module.impl
 
-import com.github.meo209.archer.events.PlayerInventorySlotChangeEvent
 import com.github.meo209.archer.events.KeyPressEvent
+import com.github.meo209.archer.events.PlayerInventorySlotChangeEvent
+import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
-import com.github.meo209.archer.features.module.Setting
 import com.github.meo209.archer.features.module.settings.Keybind
+import com.github.meo209.archer.features.module.settings.Range
 import com.github.meo209.archer.utils.InventoryUtils
 import com.github.meo209.archer.utils.PlayerInventorySlots
 import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
 import net.minecraft.item.Items
 
-class AutoTotem : Module("Auto Totem", Category.PLAYER) {
+class ModuleAutoTotem : Module("AutoTotem", Category.Combat) {
 
-    @Setting
-    var keybind: Keybind = Keybind()
-
-    override fun register() {
+    var keybind = Keybind()
+    
+    override fun init() {
         EventBus.global().handler(KeyPressEvent::class, { toggle() }, { it.key == keybind.key })
 
         EventBus.global().handler(PlayerInventorySlotChangeEvent::class, { event ->
@@ -27,4 +27,5 @@ class AutoTotem : Module("Auto Totem", Category.PLAYER) {
             }
         }, { enabled })
     }
+
 }
