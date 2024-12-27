@@ -8,7 +8,6 @@ import com.github.meo209.archer.features.module.settings.Keybind
 import com.github.meo209.archer.utils.InventoryUtils
 import com.github.meo209.archer.utils.PlayerInventorySlots
 import com.github.meo209.keventbus.EventBus
-import com.github.meo209.keventbus.FunctionTarget
 import net.minecraft.entity.EntityStatuses
 import net.minecraft.item.Items
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket
@@ -24,7 +23,6 @@ class ModuleAutoTotem : Module("AutoTotem", Category.Combat) {
         EventBus.global().function<S2CPacketEvent>(::onEvent) { enabled && inGame }
     }
 
-    @FunctionTarget
     private fun onEvent(event: S2CPacketEvent) {
         if (event.packet !is EntityStatusS2CPacket) return
 

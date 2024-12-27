@@ -3,7 +3,6 @@ package com.github.meo209.archer.ui
 import com.github.meo209.archer.Archer
 import com.github.meo209.archer.events.ClientShutdownEvent
 import com.github.meo209.keventbus.EventBus
-import com.github.meo209.keventbus.FunctionTarget
 import imgui.ImGui
 import imgui.ImGuiIO
 import imgui.ImGuiStyle
@@ -151,7 +150,6 @@ object MinecraftImGuiImpl {
         })
     }
     
-    @FunctionTarget
     fun dispose(event: ClientShutdownEvent) {
         gl3.shutdown()
         glfw.shutdown()
