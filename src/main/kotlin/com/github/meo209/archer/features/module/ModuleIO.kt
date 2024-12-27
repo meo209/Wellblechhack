@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.github.meo209.archer.FileHandler
 import java.io.File
-
+import kotlin.reflect.full.memberProperties
 
 object ModuleIO {
 
@@ -21,7 +21,6 @@ object ModuleIO {
         File(FileHandler.MODULE_DIRECTORY, "${module.name}.json").apply {
             if (!exists()) createNewFile()
         }
-
 
     fun load(module: Module) {
         val file = getFileFor(module)

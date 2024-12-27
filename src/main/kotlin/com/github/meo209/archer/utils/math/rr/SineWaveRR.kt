@@ -1,16 +1,12 @@
 package com.github.meo209.archer.utils.math.rr
 
-import com.github.meo209.archer.features.module.ClickGui
 import com.github.meo209.archer.utils.math.RotationRandomizer
 import com.github.meo209.archer.utils.math.Vec2
 import kotlin.math.sin
 
 class SineWaveRR(
-    @property:ClickGui
     var amplitudeYaw: Float = 4f,
-    @property:ClickGui
     var amplitudePitch: Float = 5f,
-    @property:ClickGui
     var frequency: Float = 1f
 ) : RotationRandomizer {
 

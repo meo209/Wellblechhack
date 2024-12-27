@@ -1,14 +1,11 @@
 package com.github.meo209.archer.utils.math.rr
 
-import com.github.meo209.archer.features.module.ClickGui
 import com.github.meo209.archer.utils.math.RotationRandomizer
 import com.github.meo209.archer.utils.math.Vec2
 import java.util.Random
 
 class GaussianRR(
-    @property:ClickGui
     var maxYaw: Float = 4f,
-    @property:ClickGui
     var maxPitch: Float = 5f
 ) : RotationRandomizer {
 

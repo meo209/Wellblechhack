@@ -1,36 +1,32 @@
 package com.github.meo209.archer.features.module
 
-import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonAutoDetect
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.meo209.archer.events.ModuleDisableEvent
 import com.github.meo209.archer.events.ModuleEnableEvent
 import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
+import kotlin.properties.ReadWriteProperty
 
-abstract class Module(@JsonIgnore val name: String, @JsonIgnore val category: Category) {
-    
-    @property:ClickGui
-    open var enabled = false
+@JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
+abstract class Module(val name: String, val category: Category) {
 
-    @get:JsonIgnore
+    @get:JsonProperty
+    open var enabled by boolean("Enabled")
+
     val client
         get() = MinecraftClient.getInstance()
-    @get:JsonIgnore
     val player
         get() = client.player
-    @get:JsonIgnore
     val world
         get() = client.world
-    @get:JsonIgnore
     val network
         get() = client.networkHandler
 
-    @get:JsonIgnore
     val inGame: Boolean
         get() = player != null && world != null
-    @get:JsonIgnore
     val inGameScreen: Boolean
         get() = inGame && client.currentScreen == null
-
 
     abstract fun init()
 
@@ -46,11 +42,7 @@ abstract class Module(@JsonIgnore val name: String, @JsonIgnore val category: Ca
         ModuleIO.save(this)
     }
 
-    fun load() {
-        ModuleIO.load(this)
-    }
+    fun boolean(name: String): ReadWriteProperty<Module, Boolean> = ModuleProperty(name, false)
 
-    fun save() {
-        ModuleIO.save(this)
-    }
+    fun keybind(name: String, default: Int = -1): ReadWriteProperty<Module, Int> = ModuleProperty(name, default)
 }

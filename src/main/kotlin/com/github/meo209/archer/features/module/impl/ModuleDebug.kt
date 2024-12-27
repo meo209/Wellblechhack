@@ -5,7 +5,6 @@ import com.github.meo209.archer.events.ClientTickEvent
 import com.github.meo209.archer.events.HudRenderEvent
 import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
-import com.github.meo209.archer.utils.PlayerInventorySlots
 import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
 
