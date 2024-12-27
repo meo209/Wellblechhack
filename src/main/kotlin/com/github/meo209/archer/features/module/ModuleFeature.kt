@@ -1,15 +1,15 @@
 package com.github.meo209.archer.features.module
 
 import com.github.meo209.archer.events.ClientShutdownEvent
-import com.github.meo209.archer.features.module.impl.ModuleClickGui
-import com.github.meo209.archer.features.module.impl.ModuleAutoTotem
+import com.github.meo209.archer.features.module.impl.*
 import com.github.meo209.keventbus.EventBus
 
 class ModuleFeature {
 
     private val modules = arrayListOf(
         ModuleClickGui(),
-        ModuleAutoTotem()
+        ModuleAutoTotem(),
+        ModuleDebug(),
     )
 
 

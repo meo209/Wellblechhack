@@ -1,8 +1,13 @@
 package com.github.meo209.archer.utils
 
+import net.minecraft.entity.player.PlayerInventory
+
 @Suppress("Unused", "MemberVisibilityCanBePrivate")
 
 object PlayerInventorySlots {
+    
+    // Invalid or not found (e.g. no space in inventory)
+    const val NOT_FOUND_INVALID = PlayerInventory.NOT_FOUND
 
     // Hotbar slots (0-8)
     const val HOTBAR_1 = 0
@@ -47,18 +52,12 @@ object PlayerInventorySlots {
     const val INVENTORY_ROW3_COL9 = 35
 
     // Armor slots (36-39)
-    const val ARMOR_HELMET = 36
-    const val ARMOR_CHESTPLATE = 37
-    const val ARMOR_LEGGINGS = 38
-    const val ARMOR_BOOTS = 39
+    const val ARMOR_HELMET = 39
+    const val ARMOR_CHESTPLATE = 38
+    const val ARMOR_LEGGINGS = 37
+    const val ARMOR_BOOTS = 36
 
     // Offhand slot (40)
     const val OFFHAND = 40
-
-    // Crafting slots (not part of the player's inventory, but included for completeness)
-    const val CRAFTING_OUTPUT = 0 // In the crafting table screen
-    const val CRAFTING_INPUT_1 = 1
-    const val CRAFTING_INPUT_2 = 2
-    const val CRAFTING_INPUT_3 = 3
-    const val CRAFTING_INPUT_4 = 4
+    
 }

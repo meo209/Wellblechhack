@@ -5,7 +5,7 @@ import com.github.meo209.archer.events.ClientTickEvent
 import com.github.meo209.archer.events.HudRenderEvent
 import com.github.meo209.archer.events.WorldRenderEvent
 import com.github.meo209.archer.features.Features
-import com.github.meo209.archer.ui.ArcherImGui
+import com.github.meo209.archer.ui.MinecraftImGuiImpl
 import com.github.meo209.keventbus.EventBus
 import me.x150.renderer.event.RenderEvents
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
@@ -49,8 +49,8 @@ object Archer {
         ClientTickEvents.END_CLIENT_TICK.register { client ->
             EventBus.global().post(ClientTickEvent())
         }
-        
-        ArcherImGui.init()
+
+        MinecraftImGuiImpl.init()
 
         logger.info("Archer initialized.")
     }

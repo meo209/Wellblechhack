@@ -6,18 +6,18 @@ import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
 import com.github.meo209.archer.features.module.settings.Keybind
 import com.github.meo209.archer.features.module.settings.Range
-import com.github.meo209.archer.ui.ArcherImGui
+import com.github.meo209.archer.ui.MinecraftImGuiImpl
+import com.github.meo209.archer.ui.ImGuiScreen
 import imgui.ImGui
 import imgui.flag.ImGuiWindowFlags
 import imgui.type.*
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
 import java.awt.Color
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.memberProperties
 
-class ClickGuiScreen : Screen(Text.literal("Click Gui")) {
+class ClickGuiScreen : ImGuiScreen(Text.literal("Click Gui")) {
 
     private var selectedCategory: Category? = null
     private var selectedModule: Module? = null
@@ -27,7 +27,7 @@ class ClickGuiScreen : Screen(Text.literal("Click Gui")) {
     override fun render(context: DrawContext?, mouseX: Int, mouseY: Int, delta: Float) {
         super.render(context, mouseX, mouseY, delta)
 
-        ArcherImGui.draw {
+        MinecraftImGuiImpl.draw {
             renderClickGuiWindow()
         }
     }

@@ -1,31 +1,38 @@
 package com.github.meo209.archer.features.module.impl
 
 import com.github.meo209.archer.events.KeyPressEvent
-import com.github.meo209.archer.events.PlayerInventorySlotChangeEvent
+import com.github.meo209.archer.events.S2CPacketEvent
 import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
 import com.github.meo209.archer.features.module.settings.Keybind
-import com.github.meo209.archer.features.module.settings.Range
 import com.github.meo209.archer.utils.InventoryUtils
 import com.github.meo209.archer.utils.PlayerInventorySlots
 import com.github.meo209.keventbus.EventBus
-import net.minecraft.client.MinecraftClient
+import com.github.meo209.keventbus.FunctionTarget
+import net.minecraft.entity.EntityStatuses
 import net.minecraft.item.Items
+import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket
 
 class ModuleAutoTotem : Module("AutoTotem", Category.Combat) {
 
     var keybind = Keybind()
-    
+    var simulate: Boolean = true
+
     override fun init() {
         EventBus.global().handler(KeyPressEvent::class, { toggle() }, { it.key == keybind.key })
 
-        EventBus.global().handler(PlayerInventorySlotChangeEvent::class, { event ->
-            if (event.slot == PlayerInventorySlots.OFFHAND && event.old.item == Items.TOTEM_OF_UNDYING && MinecraftClient.getInstance().currentScreen == null) {
-                InventoryUtils.moveFirstMatchingItem(
-                    { it.item == Items.TOTEM_OF_UNDYING }, PlayerInventorySlots.OFFHAND
-                )
-            }
-        }, { enabled })
+        EventBus.global().function<S2CPacketEvent>(::onEvent) { enabled && inGame }
+    }
+
+    @FunctionTarget
+    private fun onEvent(event: S2CPacketEvent) {
+        if (event.packet !is EntityStatusS2CPacket) return
+
+        if (event.packet.status != EntityStatuses.USE_TOTEM_OF_UNDYING) return
+
+        InventoryUtils.moveFirstMatchingItem({ stack ->
+            stack.item == Items.TOTEM_OF_UNDYING
+        }, PlayerInventorySlots.OFFHAND, simulate)
     }
 
 }

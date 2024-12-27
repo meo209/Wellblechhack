@@ -15,9 +15,9 @@ import imgui.gl3.ImGuiImplGl3
 import imgui.glfw.ImGuiImplGlfw
 import net.minecraft.client.MinecraftClient
 
-// Stolen from FlorianMichael
+// Partly stolen from FlorianMichael
 // https://github.com/FlorianMichael/fabric-imgui-example-mod/blob/1.21.4/src/main/java/de/florianmichael/imguiexample/imgui/ImGuiImpl.java
-object ArcherImGui {
+object MinecraftImGuiImpl {
     
     private val glfw = ImGuiImplGlfw()
     private val gl3 = ImGuiImplGl3()
@@ -34,6 +34,9 @@ object ArcherImGui {
         data.fontGlobalScale = 1f
         
         data.configFlags = ImGuiConfigFlags.DockingEnable or ImGuiConfigFlags.NavEnableKeyboard or ImGuiConfigFlags.NoMouseCursorChange // Minecraft conflicts with ImGui cursor
+        
+        data.wantCaptureMouse = false
+        data.wantCaptureKeyboard = false
         
         glfw.init(MinecraftClient.getInstance().window.handle, true)
         gl3.init()

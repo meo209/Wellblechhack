@@ -1,5 +1,6 @@
 package com.github.meo209.archer.events
 
+import com.github.meo209.archer.features.module.Module
 import com.github.meo209.keventbus.Event
 
 class ModuleEnableEvent(module: Module): Event
