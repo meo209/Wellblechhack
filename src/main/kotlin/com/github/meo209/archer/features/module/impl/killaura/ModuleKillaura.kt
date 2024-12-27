@@ -1,4 +1,4 @@
-package com.github.meo209.archer.features.module.impl
+package com.github.meo209.archer.features.module.impl.killaura
 
 import com.github.meo209.archer.events.ClientTickEvent
 import com.github.meo209.archer.events.HudRenderEvent
@@ -8,8 +8,10 @@ import com.github.meo209.archer.features.module.ClickGui
 import com.github.meo209.archer.features.module.Module
 import com.github.meo209.archer.features.module.settings.Keybind
 import com.github.meo209.archer.features.module.settings.Range
+import com.github.meo209.archer.utils.math.RotationRandomizer
 import com.github.meo209.archer.utils.math.RotationUtil
 import com.github.meo209.archer.utils.math.RotationUtil.applyTo
+import com.github.meo209.archer.utils.math.rr.SimpleRR
 import com.github.meo209.keventbus.EventBus
 import net.minecraft.entity.LivingEntity
 
@@ -19,6 +21,9 @@ class ModuleKillaura : Module("Killaura", Category.Combat) {
     var keybind = Keybind()
     @property:ClickGui
     var range = Range(4f, 0.1f..12f)
+
+    @property:ClickGui
+    var randomizer: RotationRandomizer = SimpleRR()
 
     override fun init() {
         EventBus.global().handler(KeyPressEvent::class, { toggle() }, { it.key == keybind.key })

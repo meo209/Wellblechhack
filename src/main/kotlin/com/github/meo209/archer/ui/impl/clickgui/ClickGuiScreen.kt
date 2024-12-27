@@ -1,4 +1,4 @@
-package com.github.meo209.archer.ui.impl
+package com.github.meo209.archer.ui.impl.clickgui
 
 
 import com.github.meo209.archer.features.Features
@@ -7,26 +7,24 @@ import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.ClickGui
 import com.github.meo209.archer.features.module.Module
 import com.github.meo209.archer.features.module.settings.Keybind
-import com.github.meo209.archer.features.module.settings.Range
 import com.github.meo209.archer.ui.MinecraftImGuiImpl
 import com.github.meo209.archer.ui.ImGuiScreen
 import imgui.ImGui
 import imgui.flag.ImGuiWindowFlags
 import imgui.type.*
+import kotlinx.atomicfu.atomic
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.Text
-import java.awt.Color
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.isAccessible
 
 class ClickGuiScreen : ImGuiScreen(Text.literal("Click Gui")) {
 
     private var selectedCategory: Category? = null
     private var selectedModule: Module? = null
     private val searchText = ImString(256)
-    private var selectingKeybind: Keybind? = null
+    var selectingKeybind: Keybind? = null
 
     override fun render(context: DrawContext?, mouseX: Int, mouseY: Int, delta: Float) {
         super.render(context, mouseX, mouseY, delta)
@@ -110,27 +108,23 @@ class ClickGuiScreen : ImGuiScreen(Text.literal("Click Gui")) {
         ImGui.endChild()
     }
 
-    private fun hasTooltip(property: KMutableProperty<*>): Boolean =
-        property.annotations.any { it.annotationClass == Tooltip::class }
-    
-    private fun getTooltip(property: KMutableProperty<*>): String? {
-        return property.annotations.find { it.annotationClass == Tooltip::class }?.let {
-            (it as Tooltip).value
-        }
-    }
-
     private fun renderSetting(property: KMutableProperty<*>, module: Module) {
-        property.isAccessible = true
         if (!property.hasAnnotation<ClickGui>()) return
-        when (val value = property.getter.call(module)) {
-            is Boolean -> renderBooleanSetting(property, module, value)
-            is Int -> renderIntSetting(property, module, value)
-            is Float -> renderFloatSetting(property, module, value)
-            is Double -> renderDoubleSetting(property, module, value)
-            is String -> renderStringSetting(property, module, value)
-            is Color -> renderColorSetting(property, module, value)
-            is Keybind -> renderKeybindSetting(property, module, value)
-            is Range -> renderRangeSetting(property, module, value)
+
+        val instance = property.getter.call(module)
+        val atomic = atomic(instance)
+
+        (SettingRendererFactory.getRenderer(atomic) as? SettingRenderer<Any?>)?.render(
+            atomic,
+            property.name,
+            module,
+            this
+        )
+
+        // Check if the value has changed
+        if (atomic.value != instance) {
+            // Update the original property with the new value
+            property.setter.call(module, atomic.value)
         }
 
         if (hasTooltip(property)) {
@@ -146,66 +140,12 @@ class ClickGuiScreen : ImGuiScreen(Text.literal("Click Gui")) {
         }
     }
 
-    private fun renderBooleanSetting(property: KMutableProperty<*>, module: Module, value: Boolean) {
-        if (ImGui.checkbox(property.name, value)) {
-            property.setter.call(module, !value)
-        }
-    }
+    private fun hasTooltip(property: KMutableProperty<*>): Boolean =
+        property.annotations.any { it.annotationClass == Tooltip::class }
 
-    private fun renderIntSetting(property: KMutableProperty<*>, module: Module, value: Int) {
-        val currentValue = ImInt(value)
-        if (ImGui.inputInt(property.name, currentValue)) {
-            property.setter.call(module, currentValue.get())
-        }
-    }
-
-    private fun renderFloatSetting(property: KMutableProperty<*>, module: Module, value: Float) {
-        val currentValue = ImFloat(value)
-        if (ImGui.inputFloat(property.name, currentValue)) {
-            property.setter.call(module, currentValue.get())
-        }
-    }
-
-    private fun renderDoubleSetting(property: KMutableProperty<*>, module: Module, value: Double) {
-        val currentValue = ImDouble(value)
-        if (ImGui.inputDouble(property.name, currentValue)) {
-            property.setter.call(module, currentValue.get())
-        }
-    }
-
-    private fun renderStringSetting(property: KMutableProperty<*>, module: Module, value: String) {
-        val currentValue = ImString(value, 256)
-        if (ImGui.inputText(property.name, currentValue)) {
-            property.setter.call(module, currentValue.get())
-        }
-    }
-
-    private fun renderColorSetting(property: KMutableProperty<*>, module: Module, value: Color) {
-        val colorArray = floatArrayOf(
-            value.red / 255f, value.green / 255f, value.blue / 255f, value.alpha / 255f
-        )
-        if (ImGui.colorEdit4(property.name, colorArray)) {
-            val newColor = Color(
-                (colorArray[0] * 255).toInt(),
-                (colorArray[1] * 255).toInt(),
-                (colorArray[2] * 255).toInt(),
-                (colorArray[3] * 255).toInt()
-            )
-            property.setter.call(module, newColor)
-        }
-    }
-
-    private fun renderKeybindSetting(property: KMutableProperty<*>, module: Module, value: Keybind) {
-        val keybindText = if (value.key == -1) "None" else ImGui.getKeyName(value.key)?.uppercase()
-        if (ImGui.button("Keybind: $keybindText")) {
-            selectingKeybind = value
-        }
-    }
-
-    private fun renderRangeSetting(property: KMutableProperty<*>, module: Module, value: Range) {
-        val currentValue = ImFloat(value.value)
-        if (ImGui.sliderFloat(property.name, currentValue.data, value.min, value.max)) {
-            property.setter.call(module, value.copy(value = currentValue.get()))
+    private fun getTooltip(property: KMutableProperty<*>): String? {
+        return property.annotations.find { it.annotationClass == Tooltip::class }?.let {
+            (it as Tooltip).value
         }
     }
 

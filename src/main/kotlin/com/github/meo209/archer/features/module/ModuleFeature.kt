@@ -2,6 +2,7 @@ package com.github.meo209.archer.features.module
 
 import com.github.meo209.archer.events.ClientShutdownEvent
 import com.github.meo209.archer.features.module.impl.*
+import com.github.meo209.archer.features.module.impl.killaura.ModuleKillaura
 import com.github.meo209.keventbus.EventBus
 
 class ModuleFeature {

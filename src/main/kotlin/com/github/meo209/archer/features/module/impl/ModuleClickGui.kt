@@ -6,7 +6,7 @@ import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.ClickGui
 import com.github.meo209.archer.features.module.Module
 import com.github.meo209.archer.features.module.settings.Keybind
-import com.github.meo209.archer.ui.impl.ClickGuiScreen
+import com.github.meo209.archer.ui.impl.clickgui.ClickGuiScreen
 import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
 import org.lwjgl.glfw.GLFW
