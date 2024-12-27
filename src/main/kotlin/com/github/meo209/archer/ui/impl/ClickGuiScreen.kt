@@ -4,6 +4,7 @@ package com.github.meo209.archer.ui.impl
 import com.github.meo209.archer.features.Features
 import com.github.meo209.archer.features.common.Tooltip
 import com.github.meo209.archer.features.module.Category
+import com.github.meo209.archer.features.module.ClickGui
 import com.github.meo209.archer.features.module.Module
 import com.github.meo209.archer.features.module.settings.Keybind
 import com.github.meo209.archer.features.module.settings.Range
@@ -16,7 +17,9 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.Text
 import java.awt.Color
 import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
 
 class ClickGuiScreen : ImGuiScreen(Text.literal("Click Gui")) {
 
@@ -117,6 +120,8 @@ class ClickGuiScreen : ImGuiScreen(Text.literal("Click Gui")) {
     }
 
     private fun renderSetting(property: KMutableProperty<*>, module: Module) {
+        property.isAccessible = true
+        if (!property.hasAnnotation<ClickGui>()) return
         when (val value = property.getter.call(module)) {
             is Boolean -> renderBooleanSetting(property, module, value)
             is Int -> renderIntSetting(property, module, value)
@@ -200,7 +205,7 @@ class ClickGuiScreen : ImGuiScreen(Text.literal("Click Gui")) {
     private fun renderRangeSetting(property: KMutableProperty<*>, module: Module, value: Range) {
         val currentValue = ImFloat(value.value)
         if (ImGui.sliderFloat(property.name, currentValue.data, value.min, value.max)) {
-            property.setter.call(module, currentValue.get())
+            property.setter.call(module, value.copy(value = currentValue.get()))
         }
     }
 

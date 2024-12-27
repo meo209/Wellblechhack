@@ -7,7 +7,8 @@ import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
 
 abstract class Module(@JsonIgnore val name: String, @JsonIgnore val category: Category) {
-
+    
+    @property:ClickGui
     open var enabled = false
 
     @get:JsonIgnore

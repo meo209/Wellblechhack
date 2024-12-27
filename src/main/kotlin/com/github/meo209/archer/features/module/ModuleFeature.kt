@@ -10,6 +10,7 @@ class ModuleFeature {
         ModuleClickGui(),
         ModuleAutoTotem(),
         ModuleDebug(),
+        ModuleKillaura(),
     )
 
 

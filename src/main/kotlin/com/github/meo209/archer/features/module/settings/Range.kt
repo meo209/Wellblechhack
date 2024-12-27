@@ -6,8 +6,13 @@ data class Range(
     val max: Float
 ) {
     
+    constructor(value: Float, range: ClosedFloatingPointRange<Float>) : this(value, range.start, range.endInclusive)
+    
     init {
         require(value in min..max) { "Value needs to be in range of min..max" }
     }
+    
+    operator fun invoke(): Float =
+        value
     
 }

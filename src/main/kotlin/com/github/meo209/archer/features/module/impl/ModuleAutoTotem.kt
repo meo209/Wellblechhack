@@ -4,6 +4,7 @@ import com.github.meo209.archer.events.KeyPressEvent
 import com.github.meo209.archer.events.S2CPacketEvent
 import com.github.meo209.archer.features.common.Tooltip
 import com.github.meo209.archer.features.module.Category
+import com.github.meo209.archer.features.module.ClickGui
 import com.github.meo209.archer.features.module.Module
 import com.github.meo209.archer.features.module.settings.Keybind
 import com.github.meo209.archer.utils.InventoryUtils
@@ -14,10 +15,12 @@ import net.minecraft.item.Items
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket
 
 class ModuleAutoTotem : Module("AutoTotem", Category.Combat) {
-
+    
+    @property:ClickGui
     var keybind = Keybind()
     
     @property:Tooltip("Should the client send an CloseHandledScreenC2SPacket")
+    @property:ClickGui
     var simulate: Boolean = true
 
     override fun init() {
