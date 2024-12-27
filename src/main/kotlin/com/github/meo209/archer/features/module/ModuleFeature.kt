@@ -9,6 +9,7 @@ class ModuleFeature {
     private val modules = arrayListOf(
         ModuleAutoTotem(),
         ModuleDebug(),
+        ModuleClickGui(),
     )
 
 

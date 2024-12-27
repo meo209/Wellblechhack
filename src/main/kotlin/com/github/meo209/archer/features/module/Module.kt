@@ -10,7 +10,9 @@ import kotlin.properties.ReadWriteProperty
 
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
 abstract class Module(val name: String, val category: Category) {
-
+    
+    val properties = mutableSetOf<ModuleProperty<*>>()
+    
     @get:JsonProperty
     open var enabled by boolean("Enabled")
 
@@ -42,7 +44,9 @@ abstract class Module(val name: String, val category: Category) {
         ModuleIO.save(this)
     }
 
-    fun boolean(name: String): ReadWriteProperty<Module, Boolean> = ModuleProperty(name, false)
+    fun boolean(name: String): ReadWriteProperty<Module, Boolean> =
+        ModuleProperty(name, false).also { this.properties.add(it) }
 
-    fun keybind(name: String, default: Int = -1): ReadWriteProperty<Module, Int> = ModuleProperty(name, default)
+    fun keybind(name: String, default: Int = -1): ReadWriteProperty<Module, Int> =
+        ModuleProperty(name, default).also { this.properties.add(it) }
 }

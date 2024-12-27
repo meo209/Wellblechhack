@@ -10,7 +10,7 @@ import net.minecraft.text.Text
  * ImGui hooks cannot be used since they conflict with minecraft.
  * @see MinecraftImGuiImpl
  */
-open class ImGuiScreen(title: Text) : Screen(title) {
+open class ImScreen(title: Text) : Screen(title) {
 
     private val data = ImGui.getIO()
     
