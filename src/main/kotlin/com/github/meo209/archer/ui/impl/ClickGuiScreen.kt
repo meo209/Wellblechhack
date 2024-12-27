@@ -2,6 +2,7 @@ package com.github.meo209.archer.ui.impl
 
 
 import com.github.meo209.archer.features.Features
+import com.github.meo209.archer.features.common.Tooltip
 import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
 import com.github.meo209.archer.features.module.settings.Keybind
@@ -104,6 +105,15 @@ class ClickGuiScreen : ImGuiScreen(Text.literal("Click Gui")) {
         ImGui.endChild()
     }
 
+    private fun hasTooltip(property: KMutableProperty<*>): Boolean =
+        property.annotations.any { it.annotationClass == Tooltip::class }
+    
+    private fun getTooltip(property: KMutableProperty<*>): String? {
+        return property.annotations.find { it.annotationClass == Tooltip::class }?.let {
+            (it as Tooltip).value
+        }
+    }
+
     private fun renderSetting(property: KMutableProperty<*>, module: Module) {
         when (val value = property.getter.call(module)) {
             is Boolean -> renderBooleanSetting(property, module, value)
@@ -114,6 +124,18 @@ class ClickGuiScreen : ImGuiScreen(Text.literal("Click Gui")) {
             is Color -> renderColorSetting(property, module, value)
             is Keybind -> renderKeybindSetting(property, module, value)
             is Range -> renderRangeSetting(property, module, value)
+        }
+
+        if (hasTooltip(property)) {
+            ImGui.sameLine()
+            ImGui.textDisabled("(?)")
+            if (ImGui.isItemHovered()) {
+                ImGui.beginTooltip()
+                ImGui.pushTextWrapPos(ImGui.getFontSize() * 35.0f)
+                ImGui.textUnformatted(getTooltip(property))
+                ImGui.popTextWrapPos()
+                ImGui.endTooltip()
+            }
         }
     }
 

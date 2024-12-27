@@ -1,6 +1,7 @@
 package com.github.meo209.archer.features.module.impl
 
 import com.github.meo209.archer.events.KeyPressEvent
+import com.github.meo209.archer.features.common.Tooltip
 import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
 import com.github.meo209.archer.features.module.settings.Keybind
@@ -14,6 +15,7 @@ class ModuleClickGui : Module("ClickGui", Category.Uncategorized) {
     var keybind: Keybind = Keybind(GLFW.GLFW_KEY_RIGHT_SHIFT)
 
     // Lock enabled to always be true
+    @property:Tooltip("Always enabled.")
     override var enabled: Boolean = true
         get() = true
         set(_) { field = true }

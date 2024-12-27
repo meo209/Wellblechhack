@@ -35,9 +35,6 @@ object InventoryUtils {
         if (!player.inventory.getStack(destSlot).isEmpty) {
             replaceAction()
         }
-        
-        println("Source: $sourceSlot ${player.inventory.getStack(sourceSlot)}")
-        println("Destination: $destSlot ${player.inventory.getStack(destSlot)}")
 
         interactionManager.clickSlot(
             player.playerScreenHandler.syncId, sourceSlot, 0, SlotActionType.PICKUP, player
