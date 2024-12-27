@@ -7,7 +7,7 @@ import kotlinx.atomicfu.AtomicRef
 import java.awt.Color
 
 object SettingRendererFactory {
-    
+
     fun getRenderer(atomicRef: AtomicRef<*>): SettingRenderer<*>? {
         return when (atomicRef.value!!::class) {
             Boolean::class -> BooleanSettingRenderer()
@@ -18,9 +18,7 @@ object SettingRendererFactory {
             Color::class -> ColorSettingRenderer()
             Keybind::class -> KeybindSettingRenderer()
             Range::class -> RangeSettingRenderer()
-            else -> {
-                null
-            }
+            else -> null
         }
     }
 }
