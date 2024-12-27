@@ -3,6 +3,9 @@ package com.github.meo209.archer.ui
 import com.github.meo209.archer.Archer
 import com.github.meo209.archer.events.ClientShutdownEvent
 import com.github.meo209.keventbus.EventBus
+import imgui.ImFont
+import imgui.ImFontConfig
+import imgui.ImFontGlyphRangesBuilder
 import imgui.ImGui
 import imgui.ImGuiIO
 import imgui.ImGuiStyle
@@ -17,32 +20,79 @@ import net.minecraft.client.MinecraftClient
 // Partly stolen from FlorianMichael
 // https://github.com/FlorianMichael/fabric-imgui-example-mod/blob/1.21.4/src/main/java/de/florianmichael/imguiexample/imgui/ImGuiImpl.java
 object MinecraftImGuiImpl {
-    
+
     private val glfw = ImGuiImplGlfw()
     private val gl3 = ImGuiImplGl3()
-    
+
+    object Fonts {
+        private val fontMap = mutableMapOf<String, ImFont>()
+
+        private fun getFont(name: String): ImFont =
+            fontMap[name] ?: throw IllegalStateException("Font '$name' not found")
+
+        fun addFont(name: String, font: ImFont) {
+            fontMap[name] = font
+        }
+        
+        operator fun get(name: String): ImFont =
+            getFont(name)
+    }
+
     init {
         ImGui.createContext()
         ImPlot.createContext()
 
         applyStyle()
-        
+
         val data = ImGui.getIO()
-        
+
         data.iniFilename = Archer.Data.MOD_ID
         data.fontGlobalScale = 1f
-        
-        data.configFlags = ImGuiConfigFlags.DockingEnable or ImGuiConfigFlags.NavEnableKeyboard or ImGuiConfigFlags.NoMouseCursorChange // Minecraft conflicts with ImGui cursor
-        
+
+        data.configFlags =
+            ImGuiConfigFlags.DockingEnable or ImGuiConfigFlags.NavEnableKeyboard or ImGuiConfigFlags.NoMouseCursorChange // Minecraft conflicts with ImGui cursor
+
         data.wantCaptureMouse = false
         data.wantCaptureKeyboard = false
-        
+
+        loadFont("Inter", 20)
+
         glfw.init(MinecraftClient.getInstance().window.handle, true)
         gl3.init()
-        
+
         EventBus.global().function<ClientShutdownEvent>(::dispose)
     }
-    
+
+    private fun loadFont(name: String, size: Int, data: ImGuiIO = ImGui.getIO()) {
+        val fonts = data.fonts
+        val rangesBuilder = ImFontGlyphRangesBuilder()
+
+        rangesBuilder.addRanges(data.fonts.glyphRangesDefault)
+        rangesBuilder.addRanges(data.fonts.glyphRangesCyrillic)
+        rangesBuilder.addRanges(data.fonts.glyphRangesJapanese)
+
+        val glyphRanges = rangesBuilder.buildRanges()
+
+        val config = ImFontConfig()
+        config.glyphRanges = data.fonts.glyphRangesCyrillic
+
+        val fontData =
+            MinecraftImGuiImpl::class.java.getResourceAsStream("/assets/archer/fonts/$name.ttf")!!.readAllBytes()
+
+        config.setName("$name${size}px")
+        val font = fonts.addFontFromMemoryTTF(
+            fontData,
+            size.toFloat(),
+            config,
+            glyphRanges
+        )
+
+        fonts.build()
+        config.destroy()
+
+        Fonts.addFont("$name$size", font)
+    }
+
     private fun applyStyle(style: ImGuiStyle = ImGui.getStyle()) {
         with(style) {
             alpha = 1.0f
@@ -130,18 +180,18 @@ object MinecraftImGuiImpl {
         ImGui.pushStyleColor(ImGuiCol.NavWindowingDimBg, ImVec4(50f / 255f, 45f / 255f, 139f / 255f, 0.5f))
         ImGui.pushStyleColor(ImGuiCol.ModalWindowDimBg, ImVec4(50f / 255f, 45f / 255f, 139f / 255f, 0.5f))
     }
-    
+
     fun draw(renderInterface: RenderInterface) {
         gl3.newFrame()
         glfw.newFrame()
         ImGui.newFrame()
-        
+
         renderInterface.render(ImGui.getIO())
-        
+
         ImGui.render()
         gl3.renderDrawData(ImGui.getDrawData())
     }
-    
+
     fun draw(block: (ImGuiIO) -> Unit) {
         draw(object : RenderInterface {
             override fun render(io: ImGuiIO) {
@@ -149,16 +199,16 @@ object MinecraftImGuiImpl {
             }
         })
     }
-    
+
     fun dispose(event: ClientShutdownEvent) {
         gl3.shutdown()
         glfw.shutdown()
-        
+
         ImGui.destroyContext()
         ImPlot.destroyContext()
     }
 
     // Statically load ArcherImGui
     fun init() {}
-    
+
 }

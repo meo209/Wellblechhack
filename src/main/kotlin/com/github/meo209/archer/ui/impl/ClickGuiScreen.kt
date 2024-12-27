@@ -29,7 +29,9 @@ class ClickGuiScreen : ImGuiScreen(Text.literal("Click Gui")) {
         super.render(context, mouseX, mouseY, delta)
 
         MinecraftImGuiImpl.draw {
+            ImGui.pushFont(MinecraftImGuiImpl.Fonts["Inter20"])
             renderClickGuiWindow()
+            ImGui.popFont()
         }
     }
 
