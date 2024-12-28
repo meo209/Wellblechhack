@@ -9,6 +9,7 @@ import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KMutableProperty
+import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.reflect
 
@@ -18,7 +19,7 @@ abstract class Module(val name: String, val category: Category) {
     val properties = mutableSetOf<ModuleProperty<*>>()
     
     @get:JsonProperty
-    open var enabled by property("Enabled", false)
+    open var enabled by boolean("Enabled", false)
 
     val client
         get() = MinecraftClient.getInstance()
@@ -48,9 +49,16 @@ abstract class Module(val name: String, val category: Category) {
         ModuleIO.save(this)
     }
 
-    fun <T : Any> property(name: String, value: T, ignored: Boolean = false) =
-        ModuleProperty(name, value, ignored).also { this.properties.add(it) }
+    fun boolean(name: String, default: Boolean) =
+        ModuleProperty(name, default).also { properties.add(it) }
+
+    fun string(name: String, default: String) =
+        ModuleProperty(name, default).also { properties.add(it) }
+
+    fun int(name: String, default: Int) =
+        ModuleProperty(name, default).also { properties.add(it) }
+
+    fun keybinding(name: String, default: Int = -1) =
+        ModuleProperty(name, Keybinding(default)).also { properties.add(it) }
     
-    fun keybinding(name: String, value: Int = -1, ignored: Boolean = false) =
-        property(name, Keybinding(value), ignored)
 }

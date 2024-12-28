@@ -52,13 +52,16 @@ class ImClickGui : ImScreen(Text.literal("Click Gui")) {
 
             if (selectedModule != null) {
                 selectedModule!!.properties.forEach { property ->
-                    if (property.ignored) return@forEach
-                    
                     val element = ElementRegistry.getElement(property)
                     val value = property.value
                     
                     val ref = atomic(value)
+                    
+                    if (!property.enabled)
+                        beginDisabled(true)
                     element?.draw_(ref, property)
+                    if (!property.enabled)
+                        endDisabled()
                     if (value != ref.value) {
                         // avoid type projection error *
                         property::value.setter.call(ref.value)

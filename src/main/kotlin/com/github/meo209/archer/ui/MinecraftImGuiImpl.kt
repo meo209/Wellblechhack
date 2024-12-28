@@ -96,7 +96,7 @@ object MinecraftImGuiImpl {
     private fun applyStyle(style: ImGuiStyle = ImGui.getStyle()) {
         with(style) {
             alpha = 1.0f
-            disabledAlpha = 1.0f
+            disabledAlpha = .5f
             windowPadding.set(12.0f, 12.0f)
             windowRounding = 0.0f
             windowBorderSize = 0.0f

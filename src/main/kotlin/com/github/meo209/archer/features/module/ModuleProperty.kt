@@ -1,24 +1,19 @@
 package com.github.meo209.archer.features.module
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonProperty
-import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
-import java.io.Serializable
-import kotlin.reflect.KMutableProperty
-import kotlin.reflect.full.hasAnnotation
 
-class ModuleProperty<T : Any>(
-    @JsonProperty("name") val name: String,
-    @JsonProperty("value") var value: T,
-    @JsonIgnore var ignored: Boolean = false // Shown in clickgui
+class ModuleProperty<T>(
+    val name: String,
+    var value: T,
+    var enabled: Boolean = true
 ) {
 
-    operator fun getValue(thisRef: Module, property: KProperty<*>): T {
+    operator fun getValue(m: Module, p: KProperty<*>): T {
         return value
     }
 
-    operator fun setValue(thisRef: Module, property: KProperty<*>, value: T) {
-        this.value = value
+    operator fun setValue(m: Module, p: KProperty<*>, v: T) {
+        value = v
     }
+
 }

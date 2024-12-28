@@ -15,17 +15,12 @@ class ModuleClickGui : Module("ClickGui", Category.Combat) {
     @get:JsonProperty
     var keybind by keybinding("Keybind", GLFW.GLFW_KEY_RIGHT_SHIFT)
 
-    override var enabled: Boolean by property(
-        "enabled",
-        value = true,
-        ignored = false
-    )
-
     companion object {
         val screen = ImClickGui()
     }
 
     override fun init() {
+        properties.first { it.name == "Enabled" }.enabled = false
         EventBus.global().handler(KeyPressEvent::class, {
             client.setScreen(screen)
         }, { it.key == keybind.key })
