@@ -4,9 +4,13 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.meo209.archer.events.ModuleDisableEvent
 import com.github.meo209.archer.events.ModuleEnableEvent
+import com.github.meo209.archer.features.module.specific.Keybinding
 import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
 import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.reflect
 
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
 abstract class Module(val name: String, val category: Category) {
@@ -44,9 +48,12 @@ abstract class Module(val name: String, val category: Category) {
         ModuleIO.save(this)
     }
 
-    fun boolean(name: String): ReadWriteProperty<Module, Boolean> =
+    fun boolean(name: String) =
         ModuleProperty(name, false).also { this.properties.add(it) }
 
-    fun keybind(name: String, default: Int = -1): ReadWriteProperty<Module, Int> =
-        ModuleProperty(name, default).also { this.properties.add(it) }
+    fun int(name: String) =
+        ModuleProperty(name, 0).also { this.properties.add(it) }
+
+    fun keybind(name: String, default: Int = -1) =
+        ModuleProperty(name, Keybinding(default)).also { this.properties.add(it) }
 }

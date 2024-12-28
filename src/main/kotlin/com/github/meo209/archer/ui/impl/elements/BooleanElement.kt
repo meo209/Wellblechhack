@@ -1,6 +1,7 @@
-package com.github.meo209.archer.ui.impl
+package com.github.meo209.archer.ui.impl.elements
 
 import com.github.meo209.archer.features.module.ModuleProperty
+import com.github.meo209.archer.ui.impl.ClickGuiElement
 import imgui.ImGui.*
 import kotlinx.atomicfu.AtomicRef
 

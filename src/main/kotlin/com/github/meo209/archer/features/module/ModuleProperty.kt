@@ -6,17 +6,13 @@ import kotlin.reflect.KProperty
 import java.io.Serializable
 import kotlin.reflect.KMutableProperty
 
-class ModuleProperty<T>(val name: String, @JsonProperty("value") var value: T) :
-    ReadWriteProperty<Module, T>, Serializable {
-        
-    lateinit var kProperty: KMutableProperty<*>
+class ModuleProperty<T : Any>(@JsonProperty("name") val name: String, @JsonProperty("value") var value: T) {
 
-    override fun getValue(thisRef: Module, property: KProperty<*>): T {
+    operator fun getValue(thisRef: Module, property: KProperty<*>): T {
         return value
     }
 
-    override fun setValue(thisRef: Module, property: KProperty<*>, value: T) {
-        kProperty = property as KMutableProperty<*>
+    operator fun setValue(thisRef: Module, property: KProperty<*>, value: T) {
         this.value = value
     }
 }

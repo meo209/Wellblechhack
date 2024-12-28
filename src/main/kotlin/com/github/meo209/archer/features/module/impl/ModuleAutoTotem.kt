@@ -21,9 +21,12 @@ class ModuleAutoTotem : Module("AutoTotem", Category.Combat) {
     @property:Tooltip("Should the client send an CloseHandledScreenC2SPacket")
     @get:JsonProperty
     var simulate by boolean("Simulate")
+    
+    @get:JsonProperty
+    var test by int("Test")
 
     override fun init() {
-        EventBus.global().handler(KeyPressEvent::class, { toggle() }, { it.key == keybind })
+        EventBus.global().handler(KeyPressEvent::class, { toggle() }, { it.key == keybind.key })
 
         EventBus.global().function<S2CPacketEvent>(::onEvent) { enabled && inGame }
         

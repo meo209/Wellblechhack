@@ -32,6 +32,10 @@ object Archer {
     init {
         logger.info("Initializing archer...")
         FileHandler.init()
+        
+        // Modules use imgui so we init it here
+        MinecraftImGuiImpl.init()
+        
         Features.init()
 
         synchronized(this) {
@@ -49,8 +53,6 @@ object Archer {
         ClientTickEvents.END_CLIENT_TICK.register { client ->
             EventBus.global().post(ClientTickEvent())
         }
-
-        MinecraftImGuiImpl.init()
 
         logger.info("Archer initialized.")
     }

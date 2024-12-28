@@ -1,17 +1,19 @@
 package com.github.meo209.archer.ui.impl
 
 import com.github.meo209.archer.features.Features
+import com.github.meo209.archer.features.common.Ignore
 import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
-import com.github.meo209.archer.features.module.ModuleProperty
+import com.github.meo209.archer.features.module.impl.ModuleClickGui
 import com.github.meo209.archer.ui.ImScreen
 import com.github.meo209.archer.ui.MinecraftImGuiImpl
 import imgui.ImGui.*
 import imgui.type.ImString
-import kotlinx.atomicfu.AtomicRef
 import kotlinx.atomicfu.atomic
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.Text
+import org.lwjgl.glfw.GLFW
+import kotlin.reflect.full.hasAnnotation
 
 class ImClickGui : ImScreen(Text.literal("Click Gui")) {
 
@@ -52,12 +54,13 @@ class ImClickGui : ImScreen(Text.literal("Click Gui")) {
             if (selectedModule != null) {
                 selectedModule!!.properties.forEach { property ->
                     val element = ElementRegistry.getElement(property)
-                    val value = property.value!!
-
+                    val value = property.value
+                    
                     val ref = atomic(value)
-                    element?.draw(ref, property)
+                    element?.draw_(ref, property)
                     if (value != ref.value) {
-                        property.kProperty.setter.call(selectedModule!!, ref.value)
+                        // avoid type projection error *
+                        property::value.setter.call(ref.value)
                     }
                 }
             }
