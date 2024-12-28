@@ -18,7 +18,7 @@ import com.github.meo209.archer.features.module.config.Configurable
 import com.github.meo209.archer.features.module.specific.Keybinding
 import kotlin.reflect.KProperty
 
-class KeybindingConfigurable(override val name: String): Configurable<Keybinding>(name, Keybinding(-1)) {
+class KeybindingConfigurable(override val name: String, keybinding: Keybinding = Keybinding(-1)): Configurable<Keybinding>(name, keybinding) {
 
     override fun setValue(thisRef: Module, property: KProperty<*>, value: Keybinding) {
         this.value = value

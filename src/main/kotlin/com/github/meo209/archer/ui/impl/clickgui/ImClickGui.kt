@@ -11,20 +11,20 @@
  *
  */
 
-package com.github.meo209.archer.ui.impl
+package com.github.meo209.archer.ui.impl.clickgui
 
 import com.github.meo209.archer.features.Features
 import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
+import com.github.meo209.archer.features.module.config.Configurable
+import com.github.meo209.archer.features.module.config.types.BooleanConfigurable
 import com.github.meo209.archer.ui.ImScreen
 import com.github.meo209.archer.ui.MinecraftImGuiImpl
 import imgui.ImGui.*
 import imgui.type.ImString
-import kotlinx.atomicfu.AtomicRef
-import kotlinx.atomicfu.atomic
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.Text
-import java.util.concurrent.atomic.AtomicReference
+import kotlin.reflect.full.functions
 
 class ImClickGui : ImScreen(Text.literal("Click Gui")) {
 
@@ -63,8 +63,13 @@ class ImClickGui : ImScreen(Text.literal("Click Gui")) {
             nextColumn()
 
             if (selectedModule != null) {
-                /*
-                selectedModule!!.properties.forEach { property ->
+                selectedModule!!.configurables.forEach { configurable ->
+                    val renderer = RendererFactory.create(configurable)
+                    
+                    // render the configurable
+                    renderer::class.members.firstOrNull { it.name == "render" }?.call(renderer, configurable)
+                    
+                    /*
                     val element = ElementRegistry.getElement(property)
                     val value = property.value
 
@@ -81,8 +86,8 @@ class ImClickGui : ImScreen(Text.literal("Click Gui")) {
                     if (value != ref.value) {
                         property.value = ref.value
                     }
+                     */
                 }
-                 */
             }
 
             end()

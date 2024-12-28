@@ -11,17 +11,20 @@
  *
  */
 
-package com.github.meo209.archer.features.module.config
+package com.github.meo209.archer.ui.impl.clickgui.renderers
 
-import com.github.meo209.archer.features.module.Module
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
+import com.github.meo209.archer.features.module.config.types.StringConfigurable
+import com.github.meo209.archer.ui.impl.clickgui.ConfigurableRenderer
+import imgui.ImGui.*
+import imgui.type.ImString
 
-abstract class Configurable<T>(@Transient open val name: String, internal var value: T): ReadWriteProperty<Module, T> {
+class StringRenderer : ConfigurableRenderer<StringConfigurable> {
 
-    @Suppress("UNCHECKED_CAST")
-    override fun getValue(thisRef: Module, property: KProperty<*>): T {
-        return thisRef.configurables.firstOrNull { it.name == name }!!.value as T
+    override fun render(configurable: StringConfigurable) {
+        val imString = ImString(configurable.value)
+        if (inputText(configurable.name, imString)) {
+            configurable.value = imString.get()
+        }
     }
-    
+
 }

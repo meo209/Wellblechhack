@@ -54,8 +54,8 @@ object ModuleIO {
         
         println(properties.joinToString(", ") { it.name })
         
-        module.properties.clear()
-        module.properties.addAll(
+        module.configurables.clear()
+        module.configurables.addAll(
             gson.fromJson(file.readText(), typeToken)
         )
     }
@@ -63,7 +63,7 @@ object ModuleIO {
     fun save(module: Module) {
         val file = getFileFor(module)
 
-        val json = gson.toJson(module.properties)
+        val json = gson.toJson(module.configurables)
         file.writeText(json)
     }
 }

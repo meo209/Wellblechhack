@@ -20,12 +20,13 @@ import com.github.meo209.archer.features.module.config.types.BooleanConfigurable
 import com.github.meo209.archer.features.module.config.types.IntConfigurable
 import com.github.meo209.archer.features.module.config.types.KeybindingConfigurable
 import com.github.meo209.archer.features.module.config.types.StringConfigurable
+import com.github.meo209.archer.features.module.specific.Keybinding
 import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
 
 abstract class Module(val name: String, val category: Category) {
 
-    internal val properties = mutableSetOf<Configurable<*>>()
+    internal val configurables = mutableSetOf<Configurable<*>>()
 
     open var enabled by boolean("Enabled")
 
@@ -57,12 +58,12 @@ abstract class Module(val name: String, val category: Category) {
         ModuleIO.save(this)
     }
 
-    fun string(name: String) = StringConfigurable(name).also { properties += it }
+    fun string(name: String) = StringConfigurable(name).also { configurables += it }
 
-    fun keybinding(name: String) = KeybindingConfigurable(name).also { properties += it }
+    fun keybinding(name: String, default: Int = -1) = KeybindingConfigurable(name, Keybinding(default)).also { configurables += it }
 
-    fun int(name: String) = IntConfigurable(name).also { properties += it }
+    fun int(name: String) = IntConfigurable(name).also { configurables += it }
 
-    fun boolean(name: String) = BooleanConfigurable(name).also { properties += it }
+    fun boolean(name: String) = BooleanConfigurable(name).also { configurables += it }
 
 }
