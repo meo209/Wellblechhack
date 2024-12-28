@@ -62,31 +62,17 @@ class ImClickGui : ImScreen(Text.literal("Click Gui")) {
 
             nextColumn()
 
-            if (selectedModule != null) {
+            if (selectedModule != null && selectedModule!!.category == selectedCategory) {
                 selectedModule!!.configurables.forEach { configurable ->
                     val renderer = RendererFactory.create(configurable)
-                    
+
                     // render the configurable
+                    // If disabled, render with less opacity (alpha)
+                    if (!configurable.enabled)
+                        beginDisabled()
                     renderer::class.members.firstOrNull { it.name == "render" }?.call(renderer, configurable)
-                    
-                    /*
-                    val element = ElementRegistry.getElement(property)
-                    val value = property.value
-
-                    val ref = atomic(property.value)
-                    
-                    // Draw disabled properties with a decreased alpha
-                    if (!property.enabled)
-                        beginDisabled(true)
-                    element?.draw_(ref, property)
-                    if (!property.enabled)
+                    if (!configurable.enabled)
                         endDisabled()
-
-                    // Update the value if ref has been updated
-                    if (value != ref.value) {
-                        property.value = ref.value
-                    }
-                     */
                 }
             }
 

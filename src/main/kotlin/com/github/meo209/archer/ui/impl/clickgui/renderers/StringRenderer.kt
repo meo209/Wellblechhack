@@ -21,7 +21,7 @@ import imgui.type.ImString
 class StringRenderer : ConfigurableRenderer<StringConfigurable> {
 
     override fun render(configurable: StringConfigurable) {
-        val imString = ImString(configurable.value)
+        val imString = ImString(configurable.value, 1024)
         if (inputText(configurable.name, imString)) {
             configurable.value = imString.get()
         }

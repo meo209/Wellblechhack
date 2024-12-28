@@ -19,6 +19,8 @@ import kotlin.reflect.KProperty
 
 abstract class Configurable<T>(@Transient open val name: String, internal var value: T): ReadWriteProperty<Module, T> {
 
+    var enabled: Boolean = true
+    
     @Suppress("UNCHECKED_CAST")
     override fun getValue(thisRef: Module, property: KProperty<*>): T {
         return thisRef.configurables.firstOrNull { it.name == name }!!.value as T

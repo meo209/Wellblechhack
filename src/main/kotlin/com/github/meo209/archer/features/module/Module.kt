@@ -28,7 +28,7 @@ abstract class Module(val name: String, val category: Category) {
 
     internal val configurables = mutableSetOf<Configurable<*>>()
 
-    open var enabled by boolean("Enabled")
+    open var enabled by boolean("Enabled", true)
 
     val client
         get() = MinecraftClient.getInstance()
@@ -57,6 +57,10 @@ abstract class Module(val name: String, val category: Category) {
     open fun stop() {
         ModuleIO.save(this)
     }
+    
+    @Suppress("UNCHECKED_CAST")
+    operator fun <T: Configurable<*>> get(name: String): T? =
+        configurables.firstOrNull { it.name == name } as T?
 
     fun string(name: String) = StringConfigurable(name).also { configurables += it }
 
@@ -64,6 +68,6 @@ abstract class Module(val name: String, val category: Category) {
 
     fun int(name: String) = IntConfigurable(name).also { configurables += it }
 
-    fun boolean(name: String) = BooleanConfigurable(name).also { configurables += it }
+    fun boolean(name: String, enabled: Boolean = true) = BooleanConfigurable(name).apply { configurables += this; this.enabled = enabled }
 
 }

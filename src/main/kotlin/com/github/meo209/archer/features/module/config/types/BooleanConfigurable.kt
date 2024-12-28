@@ -18,7 +18,7 @@ import com.github.meo209.archer.features.module.config.Configurable
 import kotlin.reflect.KProperty
 
 class BooleanConfigurable(override val name: String): Configurable<Boolean>(name, false) {
-
+    
     override fun setValue(thisRef: Module, property: KProperty<*>, value: Boolean) {
         this.value = value
     }
