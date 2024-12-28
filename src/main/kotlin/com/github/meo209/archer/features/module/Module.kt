@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.meo209.archer.events.ModuleDisableEvent
 import com.github.meo209.archer.events.ModuleEnableEvent
 import com.github.meo209.archer.features.module.specific.Keybinding
+import com.github.meo209.archer.features.module.specific.RangedValue
 import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
 import kotlin.properties.ReadWriteProperty
@@ -50,15 +51,18 @@ abstract class Module(val name: String, val category: Category) {
     }
 
     fun boolean(name: String, default: Boolean) =
-        ModuleProperty(name, default).also { properties.add(it) }
+        ModuleProperty<Boolean>(name, default).also { properties.add(it) }
 
     fun string(name: String, default: String) =
-        ModuleProperty(name, default).also { properties.add(it) }
+        ModuleProperty<String>(name, default).also { properties.add(it) }
 
     fun int(name: String, default: Int) =
-        ModuleProperty(name, default).also { properties.add(it) }
+        ModuleProperty<Int>(name, default).also { properties.add(it) }
 
     fun keybinding(name: String, default: Int = -1) =
-        ModuleProperty(name, Keybinding(default)).also { properties.add(it) }
+        ModuleProperty<Keybinding>(name, Keybinding(default)).also { properties.add(it) }
     
+    fun range(name: String, value: Float, range: ClosedFloatingPointRange<Float>) =
+        ModuleProperty<RangedValue>(name, RangedValue(value, range)).also { properties.add(it) }
+
 }

@@ -5,6 +5,7 @@ import com.github.meo209.archer.ui.impl.ClickGuiElement
 import imgui.ImGui.*
 import imgui.type.ImInt
 import kotlinx.atomicfu.AtomicRef
+import java.util.concurrent.atomic.AtomicReference
 
 class IntElement: ClickGuiElement<Int> {
 

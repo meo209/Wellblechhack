@@ -2,6 +2,7 @@ package com.github.meo209.archer.ui.impl
 
 import com.github.meo209.archer.features.module.ModuleProperty
 import kotlinx.atomicfu.AtomicRef
+import java.util.concurrent.atomic.AtomicReference
 
 interface ClickGuiElement<T : Any> {
     

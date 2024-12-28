@@ -6,6 +6,7 @@ import imgui.ImGui.*
 import imgui.internal.flag.ImGuiItemFlags
 import imgui.type.ImInt
 import kotlinx.atomicfu.AtomicRef
+import java.util.concurrent.atomic.AtomicReference
 
 class BooleanElement : ClickGuiElement<Boolean> {
 

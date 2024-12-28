@@ -9,6 +9,7 @@ import imgui.ImGui.*
 import imgui.type.ImInt
 import kotlinx.atomicfu.AtomicRef
 import org.lwjgl.glfw.GLFW
+import java.util.concurrent.atomic.AtomicReference
 
 class KeybindingElement: ClickGuiElement<Keybinding> {
     
@@ -32,10 +33,10 @@ class KeybindingElement: ClickGuiElement<Keybinding> {
             text("Press any key... (GraveAccent ^ to cancel)")
             if (lastCaptured.first != -1) {
                 if (lastCaptured.first == GLFW.GLFW_KEY_GRAVE_ACCENT) {
-                    ref.value.key = -1
+                    ref.value = Keybinding(-1)
                     reset()
                 } else {
-                    ref.value.key = lastCaptured.first
+                    ref.value = Keybinding(lastCaptured.first)
                     reset()
                 }
             }

@@ -3,16 +3,15 @@ package com.github.meo209.archer.ui.impl
 import com.github.meo209.archer.features.Features
 import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
-import com.github.meo209.archer.features.module.impl.ModuleClickGui
 import com.github.meo209.archer.ui.ImScreen
 import com.github.meo209.archer.ui.MinecraftImGuiImpl
 import imgui.ImGui.*
 import imgui.type.ImString
+import kotlinx.atomicfu.AtomicRef
 import kotlinx.atomicfu.atomic
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.Text
-import org.lwjgl.glfw.GLFW
-import kotlin.reflect.full.hasAnnotation
+import java.util.concurrent.atomic.AtomicReference
 
 class ImClickGui : ImScreen(Text.literal("Click Gui")) {
 
@@ -54,17 +53,19 @@ class ImClickGui : ImScreen(Text.literal("Click Gui")) {
                 selectedModule!!.properties.forEach { property ->
                     val element = ElementRegistry.getElement(property)
                     val value = property.value
+
+                    val ref = atomic(property.value)
                     
-                    val ref = atomic(value)
-                    
+                    // Draw disabled properties with a decreased alpha
                     if (!property.enabled)
                         beginDisabled(true)
                     element?.draw_(ref, property)
                     if (!property.enabled)
                         endDisabled()
+
+                    // Update the value if ref has been updated
                     if (value != ref.value) {
-                        // avoid type projection error *
-                        property::value.setter.call(ref.value)
+                        property.value = ref.value
                     }
                 }
             }

@@ -1,6 +1,7 @@
 
 package com.github.meo209.archer.features.module.impl
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.meo209.archer.events.ClientTickEvent
 import com.github.meo209.archer.events.HudRenderEvent
 import com.github.meo209.archer.features.module.Category
@@ -9,6 +10,9 @@ import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
 
 class ModuleDebug : Module("Debug", Category.Uncategorized) {
+
+    @get:JsonProperty
+    val test by range("Test", 0f, 0f..10f)
 
     companion object {
         private val infoLines = mutableSetOf<String>()
