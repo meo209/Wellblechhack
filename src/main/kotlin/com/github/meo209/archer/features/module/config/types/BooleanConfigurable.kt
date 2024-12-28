@@ -11,22 +11,15 @@
  *
  */
 
-package com.github.meo209.archer.ui.impl.elements
+package com.github.meo209.archer.features.module.config.types
 
-import com.github.meo209.archer.features.module.ModuleProperty
-import com.github.meo209.archer.ui.impl.ClickGuiElement
-import imgui.ImGui.*
-import imgui.internal.flag.ImGuiItemFlags
-import imgui.type.ImInt
-import kotlinx.atomicfu.AtomicRef
-import java.util.concurrent.atomic.AtomicReference
+import com.github.meo209.archer.features.module.Module
+import com.github.meo209.archer.features.module.config.Configurable
+import kotlin.reflect.KProperty
 
-class BooleanElement : ClickGuiElement<Boolean> {
+class BooleanConfigurable(override val name: String): Configurable<Boolean>(name, false) {
 
-    override fun draw(ref: AtomicRef<Boolean>, property: ModuleProperty<Boolean>) {
-        if (checkbox(property.name, ref.value)) {
-            ref.value = !ref.value
-        }
+    override fun setValue(thisRef: Module, property: KProperty<*>, value: Boolean) {
+        this.value = value
     }
-
 }

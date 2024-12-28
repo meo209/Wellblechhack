@@ -63,6 +63,7 @@ class ImClickGui : ImScreen(Text.literal("Click Gui")) {
             nextColumn()
 
             if (selectedModule != null) {
+                /*
                 selectedModule!!.properties.forEach { property ->
                     val element = ElementRegistry.getElement(property)
                     val value = property.value
@@ -81,6 +82,7 @@ class ImClickGui : ImScreen(Text.literal("Click Gui")) {
                         property.value = ref.value
                     }
                 }
+                 */
             }
 
             end()

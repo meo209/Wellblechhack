@@ -23,10 +23,7 @@ import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
 
 class ModuleDebug : Module("Debug", Category.Uncategorized) {
-
-    @get:JsonProperty
-    val test by range("Test", 0f, 0f..10f)
-
+    
     companion object {
         private val infoLines = mutableSetOf<String>()
 
@@ -57,10 +54,5 @@ class ModuleDebug : Module("Debug", Category.Uncategorized) {
                 offset += MinecraftClient.getInstance().textRenderer.fontHeight + 2
             }
         }, { enabled })
-
-        EventBus.global().handler(ClientTickEvent::class, { event ->
-            //println("----")
-            //println(player!!.inventory.getStack(PlayerInventorySlots.ARMOR_HELMET))
-        }, { enabled && inGame })
     }
 }

@@ -11,6 +11,15 @@
  *
  */
 
-package com.github.meo209.archer.features.module.specific
+package com.github.meo209.archer.features.module.config.types
 
-class Selection(var selection: String, val list: List<String>)
+import com.github.meo209.archer.features.module.Module
+import com.github.meo209.archer.features.module.config.Configurable
+import kotlin.reflect.KProperty
+
+class StringConfigurable(override val name: String): Configurable<String>(name, "") {
+
+    override fun setValue(thisRef: Module, property: KProperty<*>, value: String) {
+        this.value = value
+    }
+}

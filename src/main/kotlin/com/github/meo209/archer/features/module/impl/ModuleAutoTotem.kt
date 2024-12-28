@@ -33,13 +33,10 @@ class ModuleAutoTotem : Module("AutoTotem", Category.Combat) {
     
     @get:JsonProperty
     @property:Tooltip("Should the client send an CloseHandledScreenC2SPacket")
-    var simulate by boolean("Simulate", false)
+    var simulate by boolean("Simulate")
     
     @get:JsonProperty
-    var test by int("Test", 50)
-    
-    @get:JsonProperty
-    var choice = choice("Choice", "Hey", listOf("Hey", "Hello", "Whatup"))
+    var test by int("Test")
 
     override fun init() {
         EventBus.global().handler(KeyPressEvent::class, { toggle() }, { it.key == keybind.key })

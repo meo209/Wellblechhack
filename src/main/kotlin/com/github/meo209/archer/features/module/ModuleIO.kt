@@ -13,22 +13,31 @@
 
 package com.github.meo209.archer.features.module
 
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.github.meo209.archer.FileHandler
+import com.github.meo209.archer.features.module.config.Configurable
+import com.github.meo209.archer.features.module.config.ConfigurableSerializer
+import com.github.meo209.archer.features.module.config.ExclusionStrategy
+import com.github.meo209.archer.features.module.config.types.BooleanConfigurable
+import com.github.meo209.archer.features.module.config.types.IntConfigurable
+import com.github.meo209.archer.features.module.config.types.KeybindingConfigurable
+import com.github.meo209.archer.features.module.config.types.StringConfigurable
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import java.io.File
-import kotlin.reflect.full.memberProperties
+import java.lang.reflect.Type
+
 
 object ModuleIO {
-
-    private val objectMapper = ObjectMapper().apply {
-        enable(SerializationFeature.INDENT_OUTPUT)
-        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        registerKotlinModule()
-    }
+    
+    private val gson = GsonBuilder()
+        .registerTypeAdapter(BooleanConfigurable::class.java, ConfigurableSerializer())
+        .registerTypeAdapter(IntConfigurable::class.java, ConfigurableSerializer())
+        .registerTypeAdapter(KeybindingConfigurable::class.java, ConfigurableSerializer())
+        .registerTypeAdapter(StringConfigurable::class.java, ConfigurableSerializer())
+        .registerTypeAdapter(Configurable::class.java, ConfigurableSerializer())
+        .addSerializationExclusionStrategy(ExclusionStrategy())
+        .setPrettyPrinting()
+        .create()
 
     private fun getFileFor(module: Module): File =
         File(FileHandler.MODULE_DIRECTORY, "${module.name}.json").apply {
@@ -39,13 +48,22 @@ object ModuleIO {
         val file = getFileFor(module)
         if (file.readText().isEmpty()) return
 
-        objectMapper.readerForUpdating(module).readValue<Module>(file.readText())
+        val typeToken: Type = object : TypeToken<ArrayList<Configurable<*>>>() {}.type
+        
+        val properties = gson.fromJson<List<Configurable<*>>>(file.readText(), typeToken)
+        
+        println(properties.joinToString(", ") { it.name })
+        
+        module.properties.clear()
+        module.properties.addAll(
+            gson.fromJson(file.readText(), typeToken)
+        )
     }
 
     fun save(module: Module) {
         val file = getFileFor(module)
 
-        val json = objectMapper.writeValueAsString(module)
+        val json = gson.toJson(module.properties)
         file.writeText(json)
     }
 }

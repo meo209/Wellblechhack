@@ -13,23 +13,21 @@
 
 package com.github.meo209.archer.features.module
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.meo209.archer.events.ModuleDisableEvent
 import com.github.meo209.archer.events.ModuleEnableEvent
-import com.github.meo209.archer.features.module.specific.Keybinding
-import com.github.meo209.archer.features.module.specific.RangedValue
-import com.github.meo209.archer.features.module.specific.Selection
+import com.github.meo209.archer.features.module.config.Configurable
+import com.github.meo209.archer.features.module.config.types.BooleanConfigurable
+import com.github.meo209.archer.features.module.config.types.IntConfigurable
+import com.github.meo209.archer.features.module.config.types.KeybindingConfigurable
+import com.github.meo209.archer.features.module.config.types.StringConfigurable
 import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
 
-@JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
 abstract class Module(val name: String, val category: Category) {
-    
-    val properties = mutableSetOf<ModuleProperty<*>>()
-    
-    @get:JsonProperty
-    open var enabled by boolean("Enabled", false)
+
+    internal val properties = mutableSetOf<Configurable<*>>()
+
+    open var enabled by boolean("Enabled")
 
     val client
         get() = MinecraftClient.getInstance()
@@ -59,22 +57,12 @@ abstract class Module(val name: String, val category: Category) {
         ModuleIO.save(this)
     }
 
-    fun boolean(name: String, default: Boolean) =
-        ModuleProperty<Boolean>(name, default).also { properties.add(it) }
+    fun string(name: String) = StringConfigurable(name).also { properties += it }
 
-    fun string(name: String, default: String) =
-        ModuleProperty<String>(name, default).also { properties.add(it) }
+    fun keybinding(name: String) = KeybindingConfigurable(name).also { properties += it }
 
-    fun int(name: String, default: Int) =
-        ModuleProperty<Int>(name, default).also { properties.add(it) }
+    fun int(name: String) = IntConfigurable(name).also { properties += it }
 
-    fun keybinding(name: String, default: Int = -1) =
-        ModuleProperty<Keybinding>(name, Keybinding(default)).also { properties.add(it) }
-    
-    fun range(name: String, value: Float, range: ClosedFloatingPointRange<Float>) =
-        ModuleProperty<RangedValue>(name, RangedValue(value, range)).also { properties.add(it) }
-    
-    fun choice(name: String, selection: String, list: List<String>) =
-        ModuleProperty<RangedValue>(name, Selection(selection, list)).also { properties.add(it) }
+    fun boolean(name: String) = BooleanConfigurable(name).also { properties += it }
 
 }

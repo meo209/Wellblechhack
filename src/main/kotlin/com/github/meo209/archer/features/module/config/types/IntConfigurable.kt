@@ -11,21 +11,15 @@
  *
  */
 
-package com.github.meo209.archer.features.module
+package com.github.meo209.archer.features.module.config.types
 
+import com.github.meo209.archer.features.module.Module
+import com.github.meo209.archer.features.module.config.Configurable
 import kotlin.reflect.KProperty
 
-class ModuleProperty<T: Any>(
-    val name: String,
-    var value: Any, // Should be <T>, however, this works so imma leave it.
-    var enabled: Boolean = true
-) {
-    operator fun getValue(m: Module, p: KProperty<*>): T {
-        return value as T
-    }
+class IntConfigurable(override val name: String): Configurable<Int>(name, 0) {
 
-    operator fun setValue(m: Module, p: KProperty<*>, v: T) {
-        value = v
+    override fun setValue(thisRef: Module, property: KProperty<*>, value: Int) {
+        this.value = value
     }
-
 }

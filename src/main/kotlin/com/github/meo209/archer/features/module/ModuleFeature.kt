@@ -24,6 +24,7 @@ class ModuleFeature {
         ModuleAutoTotem(),
         ModuleDebug(),
         ModuleClickGui(),
+        ModuleTest()
     )
 
 

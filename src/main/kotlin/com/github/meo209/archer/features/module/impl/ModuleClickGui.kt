@@ -26,14 +26,13 @@ import org.lwjgl.glfw.GLFW
 class ModuleClickGui : Module("ClickGui", Category.Combat) {
 
     @get:JsonProperty
-    var keybind by keybinding("Keybind", GLFW.GLFW_KEY_RIGHT_SHIFT)
+    var keybind by keybinding("Keybind")
 
     companion object {
         val screen = ImClickGui()
     }
 
     override fun init() {
-        properties.first { it.name == "Enabled" }.enabled = false
         EventBus.global().handler(KeyPressEvent::class, {
             client.setScreen(screen)
         }, { it.key == keybind.key })

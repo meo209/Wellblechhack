@@ -60,9 +60,8 @@ dependencies {
 
     modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:${project.devauth_version}")
 
-    include(implementation("com.fasterxml.jackson.core:jackson-core:${project.jackson_version}"))
-    include(implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.18.+"))
-    
+    include(implementation "com.google.code.gson:gson:${project.gson_version}")
+
     include(implementation("com.github.meo209:KeventBus:${project.keventbus_version}"))
 
     include(modImplementation("io.github.0x3c50.renderer:renderer-fabric:${project.renderer_version}"))

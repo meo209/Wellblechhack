@@ -11,23 +11,15 @@
  *
  */
 
-package com.github.meo209.archer.ui.impl.elements
+package com.github.meo209.archer.features.module.config
 
-import com.github.meo209.archer.features.module.ModuleProperty
-import com.github.meo209.archer.features.module.specific.RangedValue
-import com.github.meo209.archer.ui.impl.ClickGuiElement
-import imgui.ImGui.*
-import imgui.type.ImFloat
-import kotlinx.atomicfu.AtomicRef
+import com.google.gson.ExclusionStrategy
+import com.google.gson.FieldAttributes
 
-class RangedValueElement : ClickGuiElement<RangedValue> {
+class ExclusionStrategy: ExclusionStrategy {
+    
+    override fun shouldSkipField(attributes: FieldAttributes): Boolean =
+        attributes.getAnnotation(Exclude::class.java) != null
 
-    override fun draw(ref: AtomicRef<RangedValue>, property: ModuleProperty<RangedValue>) {
-        val float = ImFloat(ref.value.value)
-        val range = ref.value.range
-
-        if (sliderFloat(property.name, float.data, range.start, range.endInclusive)) {
-            ref.value = RangedValue(float.get(), range.start..range.endInclusive)
-        }
-    }
+    override fun shouldSkipClass(clazz: Class<*>): Boolean = false
 }

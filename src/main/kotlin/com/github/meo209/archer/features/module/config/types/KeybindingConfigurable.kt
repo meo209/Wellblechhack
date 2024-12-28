@@ -11,27 +11,16 @@
  *
  */
 
-package com.github.meo209.archer.ui.impl
+package com.github.meo209.archer.features.module.config.types
 
-import com.github.meo209.archer.features.module.ModuleProperty
+import com.github.meo209.archer.features.module.Module
+import com.github.meo209.archer.features.module.config.Configurable
 import com.github.meo209.archer.features.module.specific.Keybinding
-import com.github.meo209.archer.features.module.specific.RangedValue
-import com.github.meo209.archer.features.module.specific.Selection
-import com.github.meo209.archer.ui.impl.elements.*
-import kotlin.reflect.KClass
+import kotlin.reflect.KProperty
 
-object ElementRegistry {
+class KeybindingConfigurable(override val name: String): Configurable<Keybinding>(name, Keybinding(-1)) {
 
-    private val elements = mapOf<KClass<*>, ClickGuiElement<*>>(
-        Boolean::class to BooleanElement(),
-        Int::class to IntElement(),
-        Keybinding::class to KeybindingElement(),
-        RangedValue::class to RangedValueElement(),
-        Selection::class to ValuedListElement()
-    )
-
-    fun getElement(property: ModuleProperty<*>): ClickGuiElement<*>? {
-        return elements[property.value::class]
+    override fun setValue(thisRef: Module, property: KProperty<*>, value: Keybinding) {
+        this.value = value
     }
-    
 }

@@ -11,22 +11,20 @@
  *
  */
 
-package com.github.meo209.archer.ui.impl.elements
 
-import com.github.meo209.archer.features.module.ModuleProperty
-import com.github.meo209.archer.ui.impl.ClickGuiElement
-import imgui.ImGui.*
-import imgui.type.ImInt
-import kotlinx.atomicfu.AtomicRef
-import java.util.concurrent.atomic.AtomicReference
+package com.github.meo209.archer.features.module.impl
 
-class IntElement: ClickGuiElement<Int> {
+import com.github.meo209.archer.features.module.Category
+import com.github.meo209.archer.features.module.Module
 
-    override fun draw(ref: AtomicRef<Int>, property: ModuleProperty<Int>) {
-        val int = ImInt(ref.value)
-        if (inputInt(property.name, int)) {
-            ref.value = int.get()
-        }
+class ModuleTest : Module("Test", Category.Uncategorized) {
+
+    val testString by string("TestString")
+    val testBoolean by boolean("TestBoolean")
+    val testKeybinding by keybinding("TestKeybinding")
+    val testInt by int("TestInt")
+
+    override fun init() {
+        
     }
-    
 }

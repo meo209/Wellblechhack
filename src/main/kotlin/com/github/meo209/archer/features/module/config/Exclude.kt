@@ -11,12 +11,8 @@
  *
  */
 
-package com.github.meo209.archer.features.module.specific
+package com.github.meo209.archer.features.module.config
 
-class RangedValue(var value: Float, var range: ClosedFloatingPointRange<Float>) {
-    
-    init {
-        require(value in range) { "Value is not in range for RangedValue." }
-    }
-    
-}
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.FIELD)
+annotation class Exclude
