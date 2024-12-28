@@ -29,7 +29,7 @@ class KeybindingElement: ClickGuiElement<Keybinding> {
         }
 
         if (capturing) {
-            text("Press any key... (ESC+Shift to cancel)")
+            text("Press any key... (GraveAccent ^ to cancel)")
             if (lastCaptured.first != -1) {
                 if (lastCaptured.first == GLFW.GLFW_KEY_GRAVE_ACCENT) {
                     ref.value.key = -1

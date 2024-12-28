@@ -18,7 +18,7 @@ abstract class Module(val name: String, val category: Category) {
     val properties = mutableSetOf<ModuleProperty<*>>()
     
     @get:JsonProperty
-    open var enabled by boolean("Enabled")
+    open var enabled by property("Enabled", false)
 
     val client
         get() = MinecraftClient.getInstance()
@@ -48,12 +48,9 @@ abstract class Module(val name: String, val category: Category) {
         ModuleIO.save(this)
     }
 
-    fun boolean(name: String) =
-        ModuleProperty(name, false).also { this.properties.add(it) }
-
-    fun int(name: String) =
-        ModuleProperty(name, 0).also { this.properties.add(it) }
-
-    fun keybind(name: String, default: Int = -1) =
-        ModuleProperty(name, Keybinding(default)).also { this.properties.add(it) }
+    fun <T : Any> property(name: String, value: T, ignored: Boolean = false) =
+        ModuleProperty(name, value, ignored).also { this.properties.add(it) }
+    
+    fun keybinding(name: String, value: Int = -1, ignored: Boolean = false) =
+        property(name, Keybinding(value), ignored)
 }

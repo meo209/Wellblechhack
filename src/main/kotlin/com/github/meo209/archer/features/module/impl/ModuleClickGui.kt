@@ -2,7 +2,6 @@ package com.github.meo209.archer.features.module.impl
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.meo209.archer.events.KeyPressEvent
-import com.github.meo209.archer.features.common.Ignore
 import com.github.meo209.archer.features.common.Tooltip
 import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
@@ -14,10 +13,13 @@ import org.lwjgl.glfw.GLFW
 class ModuleClickGui : Module("ClickGui", Category.Combat) {
 
     @get:JsonProperty
-    var keybind by keybind("Keybind", GLFW.GLFW_KEY_RIGHT_SHIFT)
+    var keybind by keybinding("Keybind", GLFW.GLFW_KEY_RIGHT_SHIFT)
 
-    @property:Ignore
-    override var enabled: Boolean = true
+    override var enabled: Boolean by property(
+        "enabled",
+        value = true,
+        ignored = false
+    )
 
     companion object {
         val screen = ImClickGui()

@@ -1,7 +1,6 @@
 package com.github.meo209.archer.ui.impl
 
 import com.github.meo209.archer.features.Features
-import com.github.meo209.archer.features.common.Ignore
 import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
 import com.github.meo209.archer.features.module.impl.ModuleClickGui
@@ -53,6 +52,8 @@ class ImClickGui : ImScreen(Text.literal("Click Gui")) {
 
             if (selectedModule != null) {
                 selectedModule!!.properties.forEach { property ->
+                    if (property.ignored) return@forEach
+                    
                     val element = ElementRegistry.getElement(property)
                     val value = property.value
                     

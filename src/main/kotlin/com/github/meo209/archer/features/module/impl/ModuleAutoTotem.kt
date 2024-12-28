@@ -16,14 +16,14 @@ import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket
 class ModuleAutoTotem : Module("AutoTotem", Category.Combat) {
 
     @get:JsonProperty
-    var keybind by keybind("Keybind")
+    var keybind by keybinding("Keybind")
     
     @property:Tooltip("Should the client send an CloseHandledScreenC2SPacket")
     @get:JsonProperty
-    var simulate by boolean("Simulate")
+    var simulate by property("Simulate", false)
     
     @get:JsonProperty
-    var test by int("Test")
+    var test by property("Test", 50)
 
     override fun init() {
         EventBus.global().handler(KeyPressEvent::class, { toggle() }, { it.key == keybind.key })
