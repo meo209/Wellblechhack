@@ -37,6 +37,9 @@ class ModuleAutoTotem : Module("AutoTotem", Category.Combat) {
     
     @get:JsonProperty
     var test by int("Test", 50)
+    
+    @get:JsonProperty
+    var choice = choice("Choice", "Hey", listOf("Hey", "Hello", "Whatup"))
 
     override fun init() {
         EventBus.global().handler(KeyPressEvent::class, { toggle() }, { it.key == keybind.key })

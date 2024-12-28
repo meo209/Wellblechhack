@@ -11,27 +11,29 @@
  *
  */
 
-package com.github.meo209.archer.ui.impl
+package com.github.meo209.archer.ui.impl.elements
 
 import com.github.meo209.archer.features.module.ModuleProperty
-import com.github.meo209.archer.features.module.specific.Keybinding
-import com.github.meo209.archer.features.module.specific.RangedValue
 import com.github.meo209.archer.features.module.specific.Selection
-import com.github.meo209.archer.ui.impl.elements.*
-import kotlin.reflect.KClass
+import com.github.meo209.archer.ui.impl.ClickGuiElement
+import imgui.ImGui.*
+import imgui.type.ImInt
+import kotlinx.atomicfu.AtomicRef
 
-object ElementRegistry {
+class ValuedListElement : ClickGuiElement<Selection> {
 
-    private val elements = mapOf<KClass<*>, ClickGuiElement<*>>(
-        Boolean::class to BooleanElement(),
-        Int::class to IntElement(),
-        Keybinding::class to KeybindingElement(),
-        RangedValue::class to RangedValueElement(),
-        Selection::class to ValuedListElement()
-    )
+    override fun draw(ref: AtomicRef<Selection>, property: ModuleProperty<Selection>) {
+        val list = ref.value.list
+        val selection = ref.value.selection
 
-    fun getElement(property: ModuleProperty<*>): ClickGuiElement<*>? {
-        return elements[property.value::class]
+        val items = list.toTypedArray()
+
+        val currentIndex = list.indexOf(selection)
+        val currentSelection = ImInt(currentIndex)
+        
+        if (combo(property.name, currentSelection, items)) {
+            val newSelection = list[currentSelection.get()]
+            ref.value.selection = newSelection
+        }
     }
-    
 }

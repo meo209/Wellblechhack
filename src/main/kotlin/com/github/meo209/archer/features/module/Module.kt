@@ -19,13 +19,9 @@ import com.github.meo209.archer.events.ModuleDisableEvent
 import com.github.meo209.archer.events.ModuleEnableEvent
 import com.github.meo209.archer.features.module.specific.Keybinding
 import com.github.meo209.archer.features.module.specific.RangedValue
+import com.github.meo209.archer.features.module.specific.Selection
 import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KMutableProperty
-import kotlin.reflect.KProperty1
-import kotlin.reflect.full.memberProperties
-import kotlin.reflect.jvm.reflect
 
 @JsonAutoDetect(getterVisibility = JsonAutoDetect.Visibility.NONE)
 abstract class Module(val name: String, val category: Category) {
@@ -77,5 +73,8 @@ abstract class Module(val name: String, val category: Category) {
     
     fun range(name: String, value: Float, range: ClosedFloatingPointRange<Float>) =
         ModuleProperty<RangedValue>(name, RangedValue(value, range)).also { properties.add(it) }
+    
+    fun choice(name: String, selection: String, list: List<String>) =
+        ModuleProperty<RangedValue>(name, Selection(selection, list)).also { properties.add(it) }
 
 }
