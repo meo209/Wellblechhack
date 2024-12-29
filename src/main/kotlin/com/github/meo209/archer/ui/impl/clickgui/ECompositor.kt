@@ -14,11 +14,16 @@
 package com.github.meo209.archer.ui.impl.clickgui
 
 import com.github.meo209.archer.features.module.config.parameter.ParameterType
-import com.github.meo209.archer.ui.impl.clickgui.compositors.CheckboxCompositor
+import com.github.meo209.archer.ui.impl.clickgui.compositors.*
 
 enum class ECompositor(private val type: ParameterType, private val compositor: ParameterCompositor<*>) {
 
-    CHECKBOX(ParameterType.BOOLEAN, CheckboxCompositor());
+    KEYBINDING(ParameterType.KEYBINDING, KeybindingCompositor()),
+    CHECKBOX(ParameterType.BOOLEAN, CheckboxCompositor()),
+    STRING(ParameterType.STRING, InputTextCompositor()),
+    DOUBLE(ParameterType.DOUBLE, InputDoubleCompositor()),
+    FLOAT(ParameterType.FLOAT, InputFloatCompositor()),
+    Int(ParameterType.INT, InputIntCompositor());
     
     companion object {
         fun get(parameterType: ParameterType): ParameterCompositor<*> =

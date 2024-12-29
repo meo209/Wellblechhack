@@ -48,20 +48,26 @@ abstract class Module(name: String, val category: Category) : ModuleContainer(na
             EventBus.global().post(ModuleDisableEvent(this))
     }
 
-    open fun stop() {}
+    open fun stop() {
+        ModuleSerialization.serialize(this)
+    }
 
     @Suppress("UNCHECKED_CAST")
     operator fun <T : Parameter<*>> get(name: String): T? =
         parameters.firstOrNull { it.name == name } as T?
 
-    fun string(name: String) = Parameter(name, "", ParameterType.STRING).also { parameters += it }
-
-    fun keybinding(name: String, default: Int = -1) =
-        Parameter(name, default, ParameterType.KEYBINDING).also { parameters += it }
-
-    fun int(name: String) = Parameter(name, 0, ParameterType.INT).also { parameters += it }
-
-    fun boolean(name: String) =
-        Parameter(name, false, ParameterType.BOOLEAN).apply { parameters += this; }
-
+    private fun <T> parameter(name: String, default: T, parameterType: ParameterType) =
+        Parameter<T>(name, default, parameterType).also { parameters.add(it) }
+    
+    fun boolean(name: String, default: Boolean = false) = parameter(name, default, ParameterType.BOOLEAN)
+    
+    fun string(name: String, default: String = "") = parameter(name, default, ParameterType.STRING)
+    
+    fun keybinding(name: String, default: Int = -1) = parameter(name, default, ParameterType.KEYBINDING)
+    
+    fun int(name: String, default: Int = 0) = parameter(name, default, ParameterType.INT)
+    
+    fun double(name: String, default: Double = 0.0) = parameter(name, default, ParameterType.DOUBLE)
+    
+    fun float(name: String, default: Float = 0f) = parameter(name, default, ParameterType.FLOAT)
 }

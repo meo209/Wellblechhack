@@ -11,25 +11,20 @@
  *
  */
 
-package com.github.meo209.archer.features.module.config.parameter
+package com.github.meo209.archer.ui.impl.clickgui.compositors
 
-enum class ParameterType {
-                         
-    // Numbers
-    INT,
-    DOUBLE,
-    FLOAT,
-    
-    BOOLEAN,
-    
-    STRING,
-    
-    // Collection types
-    ARRAY,
-    MAP,
-    
-    // Other types
-    KEYBINDING,
-    CHOICE,
-    
+import com.github.meo209.archer.features.module.config.parameter.Parameter
+import com.github.meo209.archer.features.module.config.parameter.ParameterType
+import com.github.meo209.archer.ui.impl.clickgui.ParameterCompositor
+import imgui.ImGui.*
+import imgui.type.ImString
+
+class InputTextCompositor : ParameterCompositor<String>(ParameterType.STRING) {
+
+    override fun render(parameter: Parameter<String>) {
+        val imString = ImString(1024) // 1024 max length.
+        if (inputText(parameter.name, imString))
+            parameter.value = imString.get()
+    }
+
 }

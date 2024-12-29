@@ -11,10 +11,10 @@
  *
  */
 
-package com.github.meo209.archer.features.module.config.parameter
+package com.github.meo209.archer.features.module.config.serialization
 
+import com.github.meo209.archer.features.module.config.parameter.Parameter
 import com.google.gson.JsonElement
-import com.google.gson.JsonNull
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer

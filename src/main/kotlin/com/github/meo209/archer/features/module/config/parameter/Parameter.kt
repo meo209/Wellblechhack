@@ -26,5 +26,12 @@ class Parameter<T>(val name: String, var value: T, val type: ParameterType) : Re
     override fun getValue(thisRef: ModuleContainer, property: KProperty<*>): T {
         return value
     }
+    
+    @Suppress("UNCHECKED_CAST")
+    fun syncFrom(other: Parameter<*>) {
+        require(this.type == other.type) { "Parameter types do not match!" }
+        
+        this.value = other.value as T
+    }
 
 }

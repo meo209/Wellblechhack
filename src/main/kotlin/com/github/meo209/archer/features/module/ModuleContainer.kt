@@ -13,10 +13,13 @@
 
 package com.github.meo209.archer.features.module
 
+import com.github.meo209.archer.FileHandler
 import com.github.meo209.archer.features.module.config.parameter.Parameter
+import java.io.File
 
-abstract class ModuleContainer(val name: String) {
+abstract class ModuleContainer(val name: String, val parent: ModuleContainer? = null) {
     
+    val configFile: File = File(FileHandler.MODULE_DIRECTORY, "${name}.json")
     val parameters = mutableSetOf<Parameter<*>>()
     
 }

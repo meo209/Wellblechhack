@@ -36,6 +36,7 @@ class ModuleFeature {
         all().firstOrNull { it::class == kClass } as T?
 
     init {
+        modules.forEach(ModuleSerialization::deserialize)
         modules.forEach(Module::init)
 
         EventBus.global().handler(ClientShutdownEvent::class, {
