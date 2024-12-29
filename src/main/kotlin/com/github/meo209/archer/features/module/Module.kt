@@ -20,6 +20,12 @@ import com.github.meo209.archer.features.module.config.parameter.ParameterType
 import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
 
+/**
+ * Base class for all modules.
+ * Contains a set of parameters (or settings)
+ * @see ModuleContainer
+ * @see Parameter
+ */
 abstract class Module(name: String, val category: Category) : ModuleContainer(name) {
 
     open var enabled by boolean("Enabled")
