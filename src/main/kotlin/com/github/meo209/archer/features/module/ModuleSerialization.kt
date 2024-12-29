@@ -25,8 +25,8 @@ object ModuleSerialization {
         .setPrettyPrinting()
         .create()
     
-    fun deserialize(moduleContainer: ModuleContainer) {
-        val file = moduleContainer.configFile
+    fun deserialize(configurable: Configurable) {
+        val file = configurable.configFile
         if (!file.exists())
             file.createNewFile()
         
@@ -37,7 +37,7 @@ object ModuleSerialization {
         
         val data = gsonInstance.fromJson(file.readText(), typeToken)
         
-        moduleContainer.parameters.forEach { param ->
+        configurable.parameters.forEach { param ->
             val dataParam = data.first { it.name == param.name && it.type == param.type }
             
             // Sync the parameter to the deserialized parameter
@@ -45,10 +45,10 @@ object ModuleSerialization {
         }
     }
 
-    fun serialize(moduleContainer: ModuleContainer) {
-        val file = moduleContainer.configFile
+    fun serialize(configurable: Configurable) {
+        val file = configurable.configFile
         
-        val data = gsonInstance.toJson(moduleContainer.parameters)
+        val data = gsonInstance.toJson(configurable.parameters)
         
         file.writeText(data)
     }

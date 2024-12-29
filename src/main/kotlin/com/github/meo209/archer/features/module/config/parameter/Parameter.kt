@@ -13,17 +13,17 @@
 
 package com.github.meo209.archer.features.module.config.parameter
 
-import com.github.meo209.archer.features.module.ModuleContainer
+import com.github.meo209.archer.features.module.Configurable
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class Parameter<T>(val name: String, var value: T, val type: ParameterType) : ReadWriteProperty<ModuleContainer, T> {
+class Parameter<T>(val name: String, var value: T, val type: ParameterType) : ReadWriteProperty<Configurable, T> {
 
-    override fun setValue(thisRef: ModuleContainer, property: KProperty<*>, value: T) {
+    override fun setValue(thisRef: Configurable, property: KProperty<*>, value: T) {
         this.value = value
     }
         
-    override fun getValue(thisRef: ModuleContainer, property: KProperty<*>): T {
+    override fun getValue(thisRef: Configurable, property: KProperty<*>): T {
         return value
     }
     

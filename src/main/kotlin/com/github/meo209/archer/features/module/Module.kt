@@ -23,10 +23,10 @@ import net.minecraft.client.MinecraftClient
 /**
  * Base class for all modules.
  * Contains a set of parameters (or settings)
- * @see ModuleContainer
+ * @see Configurable
  * @see Parameter
  */
-abstract class Module(name: String, val category: Category) : ModuleContainer(name) {
+abstract class Module(name: String, val category: Category) : Configurable(name) {
 
     open var enabled by boolean("Enabled")
 
