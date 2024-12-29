@@ -26,7 +26,7 @@ import net.minecraft.entity.EntityStatuses
 import net.minecraft.item.Items
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket
 
-class ModuleAutoTotem : Module("AutoTotem", Category.Combat) {
+object ModuleAutoTotem : Module("AutoTotem", Category.Combat) {
 
     @get:JsonProperty
     var keybind by keybinding("Keybind")

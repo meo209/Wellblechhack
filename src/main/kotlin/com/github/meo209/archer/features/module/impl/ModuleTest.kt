@@ -17,7 +17,7 @@ package com.github.meo209.archer.features.module.impl
 import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
 
-class ModuleTest : Module("Test", Category.Uncategorized) {
+object ModuleTest : Module("Test", Category.Uncategorized) {
 
     val testString by string("TestString")
     val testBoolean by boolean("TestBoolean")

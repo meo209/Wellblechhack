@@ -21,10 +21,10 @@ import kotlin.reflect.KClass
 class ModuleFeature {
 
     private val modules = arrayListOf(
-        ModuleAutoTotem(),
-        ModuleDebug(),
-        ModuleClickGui(),
-        ModuleTest()
+        ModuleAutoTotem,
+        ModuleDebug,
+        ModuleClickGui,
+        ModuleTest
     )
 
 

@@ -22,22 +22,20 @@ import com.github.meo209.archer.features.module.Module
 import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
 
-class ModuleDebug : Module("Debug", Category.Uncategorized) {
-    
-    companion object {
-        private val infoLines = mutableSetOf<String>()
+object ModuleDebug : Module("Debug", Category.Uncategorized) {
 
-        fun info(content: String?) {
-            content?.let { infoLines.add(it) } 
-        }
-        
-        fun remove(content: String?) {
-            content?.let { infoLines.remove(it) }
-        }
-        
-        fun clear() {
-            infoLines.clear()
-        }
+    private val infoLines = mutableSetOf<String>()
+
+    fun info(content: String?) {
+        content?.let { infoLines.add(it) }
+    }
+
+    fun remove(content: String?) {
+        content?.let { infoLines.remove(it) }
+    }
+
+    fun clear() {
+        infoLines.clear()
     }
 
     override fun init() {

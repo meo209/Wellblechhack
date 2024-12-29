@@ -21,16 +21,14 @@ import com.github.meo209.archer.ui.impl.clickgui.ImClickGui
 import com.github.meo209.keventbus.EventBus
 import org.lwjgl.glfw.GLFW
 
-class ModuleClickGui : Module("ClickGui", Category.Combat) {
+object ModuleClickGui : Module("ClickGui", Category.Combat) {
 
     var keybind by keybinding("Keybind", GLFW.GLFW_KEY_RIGHT_SHIFT)
-    
-    companion object {
-        val screen = ImClickGui()
-    }
+
+    val screen = ImClickGui()
 
     override fun init() {
-        // Manually set the enabled configurable to be false. 
+        // Manually set the enabled enabled configurable to be false. 
         this.get<BooleanConfigurable>("Enabled")?.enabled = false
         
         EventBus.global().handler(KeyPressEvent::class, {
