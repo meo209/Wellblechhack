@@ -11,20 +11,24 @@
  *
  */
 
+package com.github.meo209.archer.features.module.modules.uncategorized
 
-package com.github.meo209.archer.features.module.modules
-
+import com.github.meo209.archer.events.KeyPressEvent
 import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
+import com.github.meo209.archer.ui.impl.clickgui.ImClickGui
+import com.github.meo209.keventbus.EventBus
+import org.lwjgl.glfw.GLFW
 
-object ModuleTest : Module("Test", Category.Uncategorized) {
+object ModuleClickGui : Module("ClickGui", Category.Combat) {
 
-    val testString by string("TestString")
-    val testBoolean by boolean("TestBoolean")
-    val testKeybinding by keybinding("TestKeybinding")
-    val testInt by int("TestInt")
+    var keybind by keybinding("Keybind", GLFW.GLFW_KEY_RIGHT_SHIFT)
+
+    val screen = ImClickGui()
 
     override fun init() {
-        println(parameters.size)
+        EventBus.global().handler(KeyPressEvent::class, {
+            client.setScreen(screen)
+        }, { it.key == keybind })
     }
 }

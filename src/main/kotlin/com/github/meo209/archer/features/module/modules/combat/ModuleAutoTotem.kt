@@ -11,7 +11,7 @@
  *
  */
 
-package com.github.meo209.archer.features.module.modules
+package com.github.meo209.archer.features.module.modules.combat
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.meo209.archer.events.KeyPressEvent
@@ -39,7 +39,7 @@ object ModuleAutoTotem : Module("AutoTotem", Category.Combat) {
     override fun init() {
         EventBus.global().handler(KeyPressEvent::class, { toggle() }, { it.key == keybind })
 
-        EventBus.global().function<S2CPacketEvent>(::onEvent) { enabled && inGame }
+        EventBus.global().function<S2CPacketEvent>(ModuleAutoTotem::onEvent) { enabled && inGame }
         
         println(enabled)
     }

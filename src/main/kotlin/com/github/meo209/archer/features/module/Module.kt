@@ -63,7 +63,7 @@ abstract class Module(name: String, val category: Category) : Configurable(name)
         parameters.firstOrNull { it.name == name } as T?
 
     private fun <T> parameter(name: String, default: T, parameterType: ParameterType) =
-        Parameter<T>(name, default, parameterType).also { parameters.add(it) }
+        Parameter(name, default, parameterType).also { parameters.add(it) }
     
     fun boolean(name: String, default: Boolean = false) = parameter(name, default, ParameterType.BOOLEAN)
     

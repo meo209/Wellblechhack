@@ -14,14 +14,12 @@
 package com.github.meo209.archer.features.module
 
 import com.github.meo209.archer.features.module.config.parameter.Parameter
-import com.github.meo209.archer.features.module.config.serialization.ParameterSerializer
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 
 object ModuleSerialization {
     
     private val gsonInstance = GsonBuilder()
-        .registerTypeAdapter(Parameter::class.java, ParameterSerializer())
         .setPrettyPrinting()
         .create()
     

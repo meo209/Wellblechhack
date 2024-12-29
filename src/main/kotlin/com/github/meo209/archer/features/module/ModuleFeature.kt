@@ -14,7 +14,10 @@
 package com.github.meo209.archer.features.module
 
 import com.github.meo209.archer.events.ClientShutdownEvent
-import com.github.meo209.archer.features.module.modules.*
+import com.github.meo209.archer.features.module.modules.combat.ModuleAutoTotem
+import com.github.meo209.archer.features.module.modules.uncategorized.ModuleClickGui
+import com.github.meo209.archer.features.module.modules.uncategorized.ModuleDebug
+import com.github.meo209.archer.features.module.modules.uncategorized.ModuleTest
 import com.github.meo209.keventbus.EventBus
 import kotlin.reflect.KClass
 

@@ -11,15 +11,20 @@
  *
  */
 
-package com.github.meo209.archer.features.module.config
 
-import com.google.gson.ExclusionStrategy
-import com.google.gson.FieldAttributes
+package com.github.meo209.archer.features.module.modules.uncategorized
 
-class ExclusionStrategy: ExclusionStrategy {
-    
-    override fun shouldSkipField(attributes: FieldAttributes): Boolean =
-        attributes.getAnnotation(Exclude::class.java) != null
+import com.github.meo209.archer.features.module.Category
+import com.github.meo209.archer.features.module.Module
 
-    override fun shouldSkipClass(clazz: Class<*>): Boolean = false
+object ModuleTest : Module("Test", Category.Uncategorized) {
+
+    val testString by string("TestString")
+    val testBoolean by boolean("TestBoolean")
+    val testKeybinding by keybinding("TestKeybinding")
+    val testInt by int("TestInt")
+
+    override fun init() {
+        println(parameters.size)
+    }
 }

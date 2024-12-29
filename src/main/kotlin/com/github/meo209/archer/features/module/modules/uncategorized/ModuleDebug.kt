@@ -12,7 +12,7 @@
  */
 
 
-package com.github.meo209.archer.features.module.modules
+package com.github.meo209.archer.features.module.modules.uncategorized
 
 import com.github.meo209.archer.events.HudRenderEvent
 import com.github.meo209.archer.features.module.Category
