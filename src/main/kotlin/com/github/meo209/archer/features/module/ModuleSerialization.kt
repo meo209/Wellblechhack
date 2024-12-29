@@ -13,31 +13,38 @@
 
 package com.github.meo209.archer.features.module
 
+import com.esotericsoftware.kryo.Kryo
+import com.esotericsoftware.kryo.io.ByteBufferInput
+import com.esotericsoftware.kryo.io.ByteBufferOutput
 import com.github.meo209.archer.features.module.config.parameter.Parameter
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 
 object ModuleSerialization {
-    
-    private val gsonInstance = GsonBuilder()
-        .setPrettyPrinting()
-        .create()
-    
+
+    private val kryo = Kryo()
+
+    init {
+        // unsafe but should work fine
+        kryo.isRegistrationRequired = false
+    }
+
+    @Suppress("UNCHECKED_CAST")
     fun deserialize(configurable: Configurable) {
         val file = configurable.configFile
         if (!file.exists())
             file.createNewFile()
-        
-        if (file.readText().isEmpty()) return
-        
 
-        val typeToken = object : TypeToken<Set<Parameter<*>>>() {}
-        
-        val data = gsonInstance.fromJson(file.readText(), typeToken)
-        
+        if (file.readText().isEmpty()) return
+
+        // Read the file content into a byte array
+        val fileContent = file.readBytes()
+
+        // Initialize ByteBufferInput with the file content
+        val input = ByteBufferInput(fileContent)
+        val parameters = kryo.readObject(input, HashSet::class.java) as Set<Parameter<*>>
+
         configurable.parameters.forEach { param ->
-            val dataParam = data.first { it.name == param.name && it.type == param.type }
-            
+            val dataParam = parameters.first { it.name == param.name && it.type == param.type }
+
             // Sync the parameter to the deserialized parameter
             param.syncFrom(dataParam)
         }
@@ -45,10 +52,13 @@ object ModuleSerialization {
 
     fun serialize(configurable: Configurable) {
         val file = configurable.configFile
-        
-        val data = gsonInstance.toJson(configurable.parameters)
-        
-        file.writeText(data)
+
+        // Initialize ByteBufferOutput with a rather large size
+        val buffer = ByteBufferOutput(1024)
+        kryo.writeObject(buffer, configurable.parameters)
+
+        // Write the serialized data to the file
+        file.writeBytes(buffer.toBytes())
     }
-    
+
 }

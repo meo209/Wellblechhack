@@ -15,7 +15,9 @@
 package com.github.meo209.archer.features.module.modules.uncategorized
 
 import com.github.meo209.archer.features.module.Category
+import com.github.meo209.archer.features.module.Configurable
 import com.github.meo209.archer.features.module.Module
+import com.github.meo209.archer.features.module.config.types.NamedChoice
 
 object ModuleTest : Module("Test", Category.Uncategorized) {
 
@@ -23,8 +25,20 @@ object ModuleTest : Module("Test", Category.Uncategorized) {
     val testBoolean by boolean("TestBoolean")
     val testKeybinding by keybinding("TestKeybinding")
     val testInt by int("TestInt")
+    val testChoice by choice("TestChoice", A, B)
 
     override fun init() {
-        println(parameters.size)
+        println("Current: ${testChoice.current}")
+        println("Options: " + testChoice.options.joinToString(", ") { it.name })
+    }
+
+    object A: NamedChoice("A") {
+        override val parent: Configurable
+            get() = ModuleTest
+    }
+
+    object B: NamedChoice("B") {
+        override val parent: Configurable
+            get() = ModuleTest
     }
 }

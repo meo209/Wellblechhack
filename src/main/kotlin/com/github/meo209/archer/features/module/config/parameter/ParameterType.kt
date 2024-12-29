@@ -32,4 +32,6 @@ enum class ParameterType {
     KEYBINDING,
     CHOICE,
     
+    UNKNOWN,
+    
 }

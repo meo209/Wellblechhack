@@ -34,14 +34,6 @@ object Archer {
         val MOD_ID = "archer"
     }
 
-    /*
-    val GSON = GsonBuilder()
-        //.registerTypeAdapter(Module::class.java, ModuleTypeAdapter())
-        .setExclusionStrategies(ModuleExclusionStrategy())
-        .setPrettyPrinting()
-        .create()
-     */
-
     init {
         logger.info("Initializing archer...")
         FileHandler.init()

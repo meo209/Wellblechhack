@@ -59,8 +59,8 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:${project.fabric_version}")
 
     modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:${project.devauth_version}")
-
-    include(implementation "com.google.code.gson:gson:${project.gson_version}")
+    // The lazy route
+    include(implementation "com.esotericsoftware:kryo:${project.kryo_version}")
 
     include(implementation("com.github.meo209:KeventBus:${project.keventbus_version}"))
 

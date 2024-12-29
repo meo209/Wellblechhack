@@ -19,6 +19,10 @@ import kotlin.reflect.KProperty
 
 class Parameter<T>(val name: String, var value: T, val type: ParameterType) : ReadWriteProperty<Configurable, T> {
 
+    // No-argument constructor for kryo
+    // SHOULD NEVER BE USED DIRECTLY
+    constructor() : this("", null as T, ParameterType.UNKNOWN)
+    
     override fun setValue(thisRef: Configurable, property: KProperty<*>, value: T) {
         this.value = value
     }

@@ -61,11 +61,9 @@ class ImClickGui : ImScreen(Text.literal("Click Gui")) {
 
             if (selectedModule != null && selectedModule!!.category == selectedCategory) {
                 selectedModule!!.parameters.forEach { parameter ->
-                    try {
-                        val compositor = ECompositor.get(parameter.type)
+                    val compositor = ECompositor.get(parameter.type)
 
-                        compositor.render(parameter)
-                    } catch (ignored: Exception) {}
+                    compositor.render(parameter)
                 }
             }
 

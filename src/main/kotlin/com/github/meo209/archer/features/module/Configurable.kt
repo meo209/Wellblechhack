@@ -15,11 +15,42 @@ package com.github.meo209.archer.features.module
 
 import com.github.meo209.archer.FileHandler
 import com.github.meo209.archer.features.module.config.parameter.Parameter
+import com.github.meo209.archer.features.module.config.parameter.ParameterType
+import com.github.meo209.archer.features.module.config.types.Choice
+import com.github.meo209.archer.features.module.config.types.NamedChoice
 import java.io.File
 
-abstract class Configurable(val name: String, val parent: Configurable? = null) {
+/**
+ * Base class that can be configured.
+ * Has a parent which can also be null (in the case of modules)
+ */
+abstract class Configurable(val name: String, open val parent: Configurable? = null) {
     
-    val configFile: File = File(FileHandler.MODULE_DIRECTORY, "${name}.json")
+    // Ignore the configFile from being serialized
+    // Everything else is fine
+    @Transient
+    val configFile: File = File(FileHandler.MODULE_DIRECTORY, "${name}.bin")
     val parameters = mutableSetOf<Parameter<*>>()
+
+
+    @Suppress("UNCHECKED_CAST")
+    operator fun <T : Parameter<*>> get(name: String): T? =
+        parameters.firstOrNull { it.name == name } as T?
+
+    private fun <T> parameter(name: String, default: T, parameterType: ParameterType) =
+        Parameter(name, default, parameterType).also { parameters.add(it) }
+
+    fun boolean(name: String, default: Boolean = false) = parameter(name, default, ParameterType.BOOLEAN)
+
+    fun string(name: String, default: String = "") = parameter(name, default, ParameterType.STRING)
     
+    fun keybinding(name: String, default: Int = -1) = parameter(name, default, ParameterType.KEYBINDING)
+
+    fun int(name: String, default: Int = 0) = parameter(name, default, ParameterType.INT)
+
+    fun double(name: String, default: Double = 0.0) = parameter(name, default, ParameterType.DOUBLE)
+
+    fun float(name: String, default: Float = 0f) = parameter(name, default, ParameterType.FLOAT)
+    
+    fun choice(name: String, vararg options: NamedChoice) = parameter(name, Choice(options.toList()), ParameterType.CHOICE)
 }
