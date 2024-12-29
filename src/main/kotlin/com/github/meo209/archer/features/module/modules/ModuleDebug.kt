@@ -12,10 +12,8 @@
  */
 
 
-package com.github.meo209.archer.features.module.impl
+package com.github.meo209.archer.features.module.modules
 
-import com.fasterxml.jackson.annotation.JsonProperty
-import com.github.meo209.archer.events.ClientTickEvent
 import com.github.meo209.archer.events.HudRenderEvent
 import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module

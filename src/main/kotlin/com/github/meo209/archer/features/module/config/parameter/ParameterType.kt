@@ -11,15 +11,25 @@
  *
  */
 
-package com.github.meo209.archer.features.module.config.types
+package com.github.meo209.archer.features.module.config.parameter
 
-import com.github.meo209.archer.features.module.Module
-import com.github.meo209.archer.features.module.config.Configurable
-import kotlin.reflect.KProperty
-
-class BooleanConfigurable(override val name: String): Configurable<Boolean>(name, false) {
+enum class ParameterType {
+                         
+    // Numbers
+    INT,
+    DOUBLE,
+    FLOAT,
     
-    override fun setValue(thisRef: Module, property: KProperty<*>, value: Boolean) {
-        this.value = value
-    }
+    BOOLEAN,
+    
+    CHARACTER,
+    STRING,
+    
+    // Collection types
+    ARRAY,
+    MAP,
+    
+    // Other types
+    KEYBINDING,
+    
 }

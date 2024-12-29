@@ -11,15 +11,24 @@
  *
  */
 
-package com.github.meo209.archer.features.module.config.types
+package com.github.meo209.archer.features.module.modules
 
+import com.github.meo209.archer.events.KeyPressEvent
+import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
-import com.github.meo209.archer.features.module.config.Configurable
-import kotlin.reflect.KProperty
+import com.github.meo209.archer.ui.impl.clickgui.ImClickGui
+import com.github.meo209.keventbus.EventBus
+import org.lwjgl.glfw.GLFW
 
-class IntConfigurable(override val name: String): Configurable<Int>(name, 0) {
+object ModuleClickGui : Module("ClickGui", Category.Combat) {
 
-    override fun setValue(thisRef: Module, property: KProperty<*>, value: Int) {
-        this.value = value
+    var keybind by keybinding("Keybind", GLFW.GLFW_KEY_RIGHT_SHIFT)
+
+    val screen = ImClickGui()
+
+    override fun init() {
+        EventBus.global().handler(KeyPressEvent::class, {
+            client.setScreen(screen)
+        }, { it.key == keybind })
     }
 }

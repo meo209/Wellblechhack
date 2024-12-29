@@ -11,15 +11,18 @@
  *
  */
 
-package com.github.meo209.archer.features.module.config.types
+package com.github.meo209.archer.ui.impl.clickgui.compositors
 
-import com.github.meo209.archer.features.module.Module
-import com.github.meo209.archer.features.module.config.Configurable
-import kotlin.reflect.KProperty
+import com.github.meo209.archer.features.module.config.parameter.Parameter
+import com.github.meo209.archer.features.module.config.parameter.ParameterType
+import com.github.meo209.archer.ui.impl.clickgui.ParameterCompositor
+import imgui.ImGui.*
 
-class StringConfigurable(override val name: String): Configurable<String>(name, "") {
+class CheckboxCompositor : ParameterCompositor<Boolean>(ParameterType.BOOLEAN) {
 
-    override fun setValue(thisRef: Module, property: KProperty<*>, value: String) {
-        this.value = value
+    override fun render(parameter: Parameter<Boolean>) {
+        if (checkbox(parameter.name, parameter.value))
+            parameter.value = !parameter.value
     }
+
 }

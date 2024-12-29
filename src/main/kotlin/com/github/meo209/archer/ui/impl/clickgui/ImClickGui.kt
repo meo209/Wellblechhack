@@ -16,15 +16,12 @@ package com.github.meo209.archer.ui.impl.clickgui
 import com.github.meo209.archer.features.Features
 import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
-import com.github.meo209.archer.features.module.config.Configurable
-import com.github.meo209.archer.features.module.config.types.BooleanConfigurable
 import com.github.meo209.archer.ui.ImScreen
 import com.github.meo209.archer.ui.MinecraftImGuiImpl
 import imgui.ImGui.*
 import imgui.type.ImString
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.text.Text
-import kotlin.reflect.full.functions
 
 class ImClickGui : ImScreen(Text.literal("Click Gui")) {
 
@@ -63,16 +60,12 @@ class ImClickGui : ImScreen(Text.literal("Click Gui")) {
             nextColumn()
 
             if (selectedModule != null && selectedModule!!.category == selectedCategory) {
-                selectedModule!!.configurables.forEach { configurable ->
-                    val renderer = RendererFactory.create(configurable)
+                selectedModule!!.parameters.forEach { parameter ->
+                    try {
+                        val compositor = ECompositor.get(parameter.type)
 
-                    // render the configurable
-                    // If disabled, render with less opacity (alpha)
-                    if (!configurable.enabled)
-                        beginDisabled()
-                    renderer::class.members.firstOrNull { it.name == "render" }?.call(renderer, configurable)
-                    if (!configurable.enabled)
-                        endDisabled()
+                        compositor.render(parameter)
+                    } catch (ignored: Exception) {}
                 }
             }
 

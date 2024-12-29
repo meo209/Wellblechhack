@@ -15,20 +15,14 @@ package com.github.meo209.archer.features.module
 
 import com.github.meo209.archer.events.ModuleDisableEvent
 import com.github.meo209.archer.events.ModuleEnableEvent
-import com.github.meo209.archer.features.module.config.Configurable
-import com.github.meo209.archer.features.module.config.types.BooleanConfigurable
-import com.github.meo209.archer.features.module.config.types.IntConfigurable
-import com.github.meo209.archer.features.module.config.types.KeybindingConfigurable
-import com.github.meo209.archer.features.module.config.types.StringConfigurable
-import com.github.meo209.archer.features.module.specific.Keybinding
+import com.github.meo209.archer.features.module.config.parameter.Parameter
+import com.github.meo209.archer.features.module.config.parameter.ParameterType
 import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
 
-abstract class Module(val name: String, val category: Category) {
+abstract class Module(name: String, val category: Category) : ModuleContainer(name) {
 
-    internal val configurables = mutableSetOf<Configurable<*>>()
-
-    open var enabled by boolean("Enabled", true)
+    open var enabled by boolean("Enabled")
 
     val client
         get() = MinecraftClient.getInstance()
@@ -54,20 +48,20 @@ abstract class Module(val name: String, val category: Category) {
             EventBus.global().post(ModuleDisableEvent(this))
     }
 
-    open fun stop() {
-        ModuleIO.save(this)
-    }
-    
+    open fun stop() {}
+
     @Suppress("UNCHECKED_CAST")
-    operator fun <T: Configurable<*>> get(name: String): T? =
-        configurables.firstOrNull { it.name == name } as T?
+    operator fun <T : Parameter<*>> get(name: String): T? =
+        parameters.firstOrNull { it.name == name } as T?
 
-    fun string(name: String) = StringConfigurable(name).also { configurables += it }
+    fun string(name: String) = Parameter(name, "", ParameterType.STRING).also { parameters += it }
 
-    fun keybinding(name: String, default: Int = -1) = KeybindingConfigurable(name, Keybinding(default)).also { configurables += it }
+    fun keybinding(name: String, default: Int = -1) =
+        Parameter(name, default, ParameterType.KEYBINDING).also { parameters += it }
 
-    fun int(name: String) = IntConfigurable(name).also { configurables += it }
+    fun int(name: String) = Parameter(name, 0, ParameterType.INT).also { parameters += it }
 
-    fun boolean(name: String, enabled: Boolean = true) = BooleanConfigurable(name).apply { configurables += this; this.enabled = enabled }
+    fun boolean(name: String) =
+        Parameter(name, false, ParameterType.BOOLEAN).apply { parameters += this; }
 
 }

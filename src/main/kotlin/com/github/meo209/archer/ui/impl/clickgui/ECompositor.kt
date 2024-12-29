@@ -11,20 +11,20 @@
  *
  */
 
+package com.github.meo209.archer.ui.impl.clickgui
 
-package com.github.meo209.archer.features.module.impl
+import com.github.meo209.archer.features.module.config.parameter.ParameterType
+import com.github.meo209.archer.ui.impl.clickgui.compositors.CheckboxCompositor
 
-import com.github.meo209.archer.features.module.Category
-import com.github.meo209.archer.features.module.Module
+enum class ECompositor(private val type: ParameterType, private val compositor: ParameterCompositor<*>) {
 
-object ModuleTest : Module("Test", Category.Uncategorized) {
-
-    val testString by string("TestString")
-    val testBoolean by boolean("TestBoolean")
-    val testKeybinding by keybinding("TestKeybinding")
-    val testInt by int("TestInt")
-
-    override fun init() {
-        
+    CHECKBOX(ParameterType.BOOLEAN, CheckboxCompositor());
+    
+    companion object {
+        fun get(parameterType: ParameterType): ParameterCompositor<*> =
+            entries
+                .first { it.type == parameterType }
+                .compositor
     }
+
 }

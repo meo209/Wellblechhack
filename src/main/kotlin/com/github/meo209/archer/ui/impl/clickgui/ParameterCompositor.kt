@@ -11,19 +11,18 @@
  *
  */
 
-package com.github.meo209.archer.features.module.config
+package com.github.meo209.archer.ui.impl.clickgui
 
-import com.github.meo209.archer.features.module.Module
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
+import com.github.meo209.archer.features.module.config.parameter.Parameter
+import com.github.meo209.archer.features.module.config.parameter.ParameterType
 
-abstract class Configurable<T>(@Transient open val name: String, internal var value: T): ReadWriteProperty<Module, T> {
-
-    var enabled: Boolean = true
+abstract class ParameterCompositor<T: Any>(val parameterType: ParameterType) {
+    
+    abstract fun render(parameter: Parameter<T>)
     
     @Suppress("UNCHECKED_CAST")
-    override fun getValue(thisRef: Module, property: KProperty<*>): T {
-        return thisRef.configurables.firstOrNull { it.name == name }!!.value as T
+    fun render(parameter: Any) {
+        render(parameter as Parameter<T>)
     }
     
 }

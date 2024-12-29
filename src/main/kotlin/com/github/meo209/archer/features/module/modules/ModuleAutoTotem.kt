@@ -11,12 +11,11 @@
  *
  */
 
-package com.github.meo209.archer.features.module.impl
+package com.github.meo209.archer.features.module.modules
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.meo209.archer.events.KeyPressEvent
 import com.github.meo209.archer.events.S2CPacketEvent
-import com.github.meo209.archer.features.common.Tooltip
 import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
 import com.github.meo209.archer.utils.InventoryUtils
@@ -32,14 +31,13 @@ object ModuleAutoTotem : Module("AutoTotem", Category.Combat) {
     var keybind by keybinding("Keybind")
     
     @get:JsonProperty
-    @property:Tooltip("Should the client send an CloseHandledScreenC2SPacket")
     var simulate by boolean("Simulate")
     
     @get:JsonProperty
     var test by int("Test")
 
     override fun init() {
-        EventBus.global().handler(KeyPressEvent::class, { toggle() }, { it.key == keybind.key })
+        EventBus.global().handler(KeyPressEvent::class, { toggle() }, { it.key == keybind })
 
         EventBus.global().function<S2CPacketEvent>(::onEvent) { enabled && inGame }
         

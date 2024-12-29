@@ -11,20 +11,12 @@
  *
  */
 
-package com.github.meo209.archer.ui.impl.clickgui.renderers
+package com.github.meo209.archer.features.module
 
-import com.github.meo209.archer.features.module.config.types.StringConfigurable
-import com.github.meo209.archer.ui.impl.clickgui.ConfigurableRenderer
-import imgui.ImGui.*
-import imgui.type.ImString
+import com.github.meo209.archer.features.module.config.parameter.Parameter
 
-class StringRenderer : ConfigurableRenderer<StringConfigurable> {
-
-    override fun render(configurable: StringConfigurable) {
-        val imString = ImString(configurable.value, 1024)
-        if (inputText(configurable.name, imString)) {
-            configurable.value = imString.get()
-        }
-    }
-
+abstract class ModuleContainer(val name: String) {
+    
+    val parameters = mutableSetOf<Parameter<*>>()
+    
 }

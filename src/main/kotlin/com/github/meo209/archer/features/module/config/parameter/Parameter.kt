@@ -11,18 +11,20 @@
  *
  */
 
-package com.github.meo209.archer.ui.impl.clickgui.renderers
+package com.github.meo209.archer.features.module.config.parameter
 
-import com.github.meo209.archer.features.module.config.types.BooleanConfigurable
-import com.github.meo209.archer.ui.impl.clickgui.ConfigurableRenderer
-import imgui.ImGui.*
+import com.github.meo209.archer.features.module.ModuleContainer
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
-class BooleanRenderer : ConfigurableRenderer<BooleanConfigurable> {
+class Parameter<T>(val name: String, var value: T, val type: ParameterType) : ReadWriteProperty<ModuleContainer, T> {
 
-    override fun render(configurable: BooleanConfigurable) {
-        if (checkbox(configurable.name, configurable.value)) {
-            configurable.value = !configurable.value
-        }
+    override fun setValue(thisRef: ModuleContainer, property: KProperty<*>, value: T) {
+        this.value = value
+    }
+        
+    override fun getValue(thisRef: ModuleContainer, property: KProperty<*>): T {
+        return value
     }
 
 }
