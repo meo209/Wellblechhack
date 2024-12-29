@@ -21,20 +21,10 @@ class Choice(
 /**
  * A default implementation of [NamedChoice] for use in the no-argument constructor
  */
-private class DefaultNamedChoice : NamedChoice("default") {
-    override val parent: Configurable
-        get() = throw UnsupportedOperationException("DefaultNamedChoice has no parent")
-}
+private class DefaultNamedChoice : NamedChoice("default")
 
 /**
  * An entry in [Choice]
  * @see Configurable
  */
-abstract class NamedChoice(name: String) : Configurable(name) {
-
-    /**
-     * The parent of this choice (e.g. a module or another choice)
-     */
-    abstract override val parent: Configurable
-
-}
+abstract class NamedChoice(name: String) : Configurable(name)

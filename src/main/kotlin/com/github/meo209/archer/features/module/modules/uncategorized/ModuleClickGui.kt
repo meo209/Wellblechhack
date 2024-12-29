@@ -20,7 +20,7 @@ import com.github.meo209.archer.ui.impl.clickgui.ImClickGui
 import com.github.meo209.keventbus.EventBus
 import org.lwjgl.glfw.GLFW
 
-object ModuleClickGui : Module("ClickGui", Category.Combat) {
+object ModuleClickGui : Module("ClickGui", Category.Uncategorized) {
 
     var keybind by keybinding("Keybind", GLFW.GLFW_KEY_RIGHT_SHIFT)
 

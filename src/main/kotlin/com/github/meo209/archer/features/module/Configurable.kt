@@ -24,13 +24,13 @@ import java.io.File
  * Base class that can be configured.
  * Has a parent which can also be null (in the case of modules)
  */
-abstract class Configurable(val name: String, open val parent: Configurable? = null) {
+abstract class Configurable(val name: String) {
     
     // Ignore the configFile from being serialized
     // Everything else is fine
     @Transient
     val configFile: File = File(FileHandler.MODULE_DIRECTORY, "${name}.bin")
-    val parameters = mutableSetOf<Parameter<*>>()
+    var parameters = mutableSetOf<Parameter<*>>()
 
 
     @Suppress("UNCHECKED_CAST")

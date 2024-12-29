@@ -28,17 +28,16 @@ object ModuleTest : Module("Test", Category.Uncategorized) {
     val testChoice by choice("TestChoice", A, B)
 
     override fun init() {
-        println("Current: ${testChoice.current}")
+        println("Current: ${testChoice.current.name}")
         println("Options: " + testChoice.options.joinToString(", ") { it.name })
     }
 
-    object A: NamedChoice("A") {
-        override val parent: Configurable
-            get() = ModuleTest
+    override fun stop() {
+        println("Current: ${testChoice.current.name}")
+        println("Options: " + testChoice.options.joinToString(", ") { it.name })
     }
 
-    object B: NamedChoice("B") {
-        override val parent: Configurable
-            get() = ModuleTest
-    }
+    object A: NamedChoice("A")
+
+    object B: NamedChoice("B")
 }

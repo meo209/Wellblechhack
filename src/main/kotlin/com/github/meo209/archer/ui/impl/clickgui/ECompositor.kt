@@ -21,6 +21,7 @@ enum class ECompositor(private val type: ParameterType, private val compositor: 
     KEYBINDING(ParameterType.KEYBINDING, KeybindingCompositor()),
     CHECKBOX(ParameterType.BOOLEAN, CheckboxCompositor()),
     STRING(ParameterType.STRING, InputTextCompositor()),
+    CHOICE(ParameterType.CHOICE, ChoiceCompositor()),
     DOUBLE(ParameterType.DOUBLE, InputDoubleCompositor()),
     FLOAT(ParameterType.FLOAT, InputFloatCompositor()),
     Int(ParameterType.INT, InputIntCompositor());

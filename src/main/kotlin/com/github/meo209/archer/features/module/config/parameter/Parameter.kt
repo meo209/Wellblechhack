@@ -27,8 +27,9 @@ class Parameter<T>(val name: String, var value: T, val type: ParameterType) : Re
         this.value = value
     }
         
+    @Suppress("UNCHECKED_CAST")
     override fun getValue(thisRef: Configurable, property: KProperty<*>): T {
-        return value
+        return thisRef.parameters.first { it.name == name && it.type == type }.value as T
     }
     
     @Suppress("UNCHECKED_CAST")

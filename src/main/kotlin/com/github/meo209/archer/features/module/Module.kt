@@ -55,7 +55,5 @@ abstract class Module(name: String, val category: Category) : Configurable(name)
             EventBus.global().post(ModuleDisableEvent(this))
     }
 
-    open fun stop() {
-        ModuleSerialization.serialize(this)
-    }
+    open fun stop() {}
 }

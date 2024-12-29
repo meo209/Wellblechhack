@@ -16,15 +16,18 @@ package com.github.meo209.archer.features.module
 import com.esotericsoftware.kryo.Kryo
 import com.esotericsoftware.kryo.io.ByteBufferInput
 import com.esotericsoftware.kryo.io.ByteBufferOutput
+import com.github.meo209.archer.features.Features
 import com.github.meo209.archer.features.module.config.parameter.Parameter
+import com.github.meo209.archer.features.module.config.parameter.ParameterType
+import com.github.meo209.archer.features.module.config.types.Choice
 
 object ModuleSerialization {
 
     private val kryo = Kryo()
 
     init {
-        // unsafe but should work fine
         kryo.isRegistrationRequired = false
+        //kryo.warnUnregisteredClasses = true
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -40,14 +43,9 @@ object ModuleSerialization {
 
         // Initialize ByteBufferInput with the file content
         val input = ByteBufferInput(fileContent)
-        val parameters = kryo.readObject(input, HashSet::class.java) as Set<Parameter<*>>
+        val parameters = kryo.readObject(input, HashSet::class.java) as MutableSet<Parameter<*>>
 
-        configurable.parameters.forEach { param ->
-            val dataParam = parameters.first { it.name == param.name && it.type == param.type }
-
-            // Sync the parameter to the deserialized parameter
-            param.syncFrom(dataParam)
-        }
+        configurable.parameters = parameters
     }
 
     fun serialize(configurable: Configurable) {
@@ -56,6 +54,10 @@ object ModuleSerialization {
         // Initialize ByteBufferOutput with a rather large size
         val buffer = ByteBufferOutput(1024)
         kryo.writeObject(buffer, configurable.parameters)
+        
+        println("---")
+        println(configurable.name)
+        println(configurable.parameters.joinToString(", ") { "${it.name}: ${it.value?.javaClass?.simpleName}" })
 
         // Write the serialized data to the file
         file.writeBytes(buffer.toBytes())
