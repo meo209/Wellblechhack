@@ -14,6 +14,10 @@ OS: Linux (Windows should also work, however I cannot verify that)
 ### Dependency mods:
 - Fabric API
 - Kotlin Language Kotlin
+### Dependency libraries:
+- Renderer
+- Keventbus
+- ImGui (java bindings)
 
 ## License
 This mod is licensed under the Gnu GPLv3.
