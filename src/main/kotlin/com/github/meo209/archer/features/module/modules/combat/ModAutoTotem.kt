@@ -25,21 +25,18 @@ import net.minecraft.entity.EntityStatuses
 import net.minecraft.item.Items
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket
 
-object ModuleAutoTotem : Module("AutoTotem", Category.Combat) {
+object ModAutoTotem : Module("AutoTotem", Category.Combat) {
 
-    @get:JsonProperty
     var keybind by keybinding("Keybind")
     
-    @get:JsonProperty
     var simulate by boolean("Simulate")
     
-    @get:JsonProperty
     var test by int("Test")
 
     override fun init() {
         EventBus.global().handler(KeyPressEvent::class, { toggle() }, { it.key == keybind })
 
-        EventBus.global().function<S2CPacketEvent>(ModuleAutoTotem::onEvent) { enabled && inGame }
+        EventBus.global().function<S2CPacketEvent>(ModAutoTotem::onEvent) { enabled && inGame }
         
         println(enabled)
     }

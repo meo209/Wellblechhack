@@ -14,20 +14,22 @@
 package com.github.meo209.archer.features.module
 
 import com.github.meo209.archer.events.ClientShutdownEvent
-import com.github.meo209.archer.features.module.modules.combat.ModuleAutoTotem
-import com.github.meo209.archer.features.module.modules.uncategorized.ModuleClickGui
-import com.github.meo209.archer.features.module.modules.uncategorized.ModuleDebug
-import com.github.meo209.archer.features.module.modules.uncategorized.ModuleTest
+import com.github.meo209.archer.features.module.modules.combat.ModAutoTotem
+import com.github.meo209.archer.features.module.modules.`fun`.ModHomoDance
+import com.github.meo209.archer.features.module.modules.uncategorized.ModClickGui
+import com.github.meo209.archer.features.module.modules.uncategorized.ModDebug
+import com.github.meo209.archer.features.module.modules.uncategorized.ModTest
 import com.github.meo209.keventbus.EventBus
 import kotlin.reflect.KClass
 
 class ModuleFeature {
 
     private val modules = arrayListOf(
-        ModuleAutoTotem,
-        ModuleDebug,
-        ModuleClickGui,
-        ModuleTest
+        ModAutoTotem,
+        ModDebug,
+        ModClickGui,
+        ModTest,
+        ModHomoDance
     )
 
     fun all() = modules.toList()

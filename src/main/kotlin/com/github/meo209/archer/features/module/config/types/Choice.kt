@@ -10,12 +10,6 @@ class Choice(
     var current: NamedChoice = options.firstOrNull() ?: DefaultNamedChoice() // Default to the first option or a default instance
 ) {
 
-    // No-argument constructor
-    constructor() : this(emptyList(), DefaultNamedChoice())
-
-    fun updateCurrent(choiceName: String) {
-        current = options.first { it.name == choiceName }
-    }
 }
 
 /**

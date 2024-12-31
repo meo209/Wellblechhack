@@ -18,6 +18,7 @@ enum class Category {
     Player,
     World,
     Combat,
+    Fun,
     Render,
     Uncategorized
     

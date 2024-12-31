@@ -31,6 +31,7 @@ enum class ParameterType {
     // Other types
     KEYBINDING,
     CHOICE,
+    RANGE,
     
     UNKNOWN,
     

@@ -11,24 +11,44 @@
  *
  */
 
+
 package com.github.meo209.archer.features.module.modules.uncategorized
 
-import com.github.meo209.archer.events.KeyPressEvent
+import com.github.meo209.archer.events.HudRenderEvent
 import com.github.meo209.archer.features.module.Category
 import com.github.meo209.archer.features.module.Module
-import com.github.meo209.archer.ui.impl.clickgui.ImClickGui
 import com.github.meo209.keventbus.EventBus
-import org.lwjgl.glfw.GLFW
+import net.minecraft.client.MinecraftClient
 
-object ModuleClickGui : Module("ClickGui", Category.Uncategorized) {
+object ModDebug : Module("Debug", Category.Uncategorized) {
 
-    var keybind by keybinding("Keybind", GLFW.GLFW_KEY_RIGHT_SHIFT)
+    private val infoLines = mutableSetOf<String>()
 
-    val screen = ImClickGui()
+    fun info(content: String?) {
+        content?.let { infoLines.add(it) }
+    }
+
+    fun remove(content: String?) {
+        content?.let { infoLines.remove(it) }
+    }
+
+    fun clear() {
+        infoLines.clear()
+    }
 
     override fun init() {
-        EventBus.global().handler(KeyPressEvent::class, {
-            client.setScreen(screen)
-        }, { it.key == keybind })
+        EventBus.global().handler(HudRenderEvent::class, { event ->
+            var offset = 42
+            infoLines.forEach { content ->
+                event.context.drawCenteredTextWithShadow(
+                    MinecraftClient.getInstance().textRenderer,
+                    content,
+                    client.window.width / 4,
+                    offset,
+                    -1
+                )
+                offset += MinecraftClient.getInstance().textRenderer.fontHeight + 2
+            }
+        }, { enabled })
     }
 }
