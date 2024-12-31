@@ -22,9 +22,9 @@ import com.github.meo209.wellblechhack.events.ClientStartEvent
 import com.github.meo209.wellblechhack.events.ClientTickEvent
 import com.github.meo209.wellblechhack.events.HudRenderEvent
 import com.github.meo209.wellblechhack.events.WorldRenderEvent
-import com.github.meo209.wellblechhack.features.Features
 import com.github.meo209.wellblechhack.ui.MinecraftImGuiImpl
 import com.github.meo209.keventbus.EventBus
+import com.github.meo209.wellblechhack.features.module.ModuleManager
 import me.x150.renderer.event.RenderEvents
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.minecraft.client.MinecraftClient
@@ -45,12 +45,10 @@ object Wellblechhack {
         
         // Modules use imgui so we init it here
         MinecraftImGuiImpl.init()
-        
-        Features.init()
 
-        synchronized(this) {
-            EventBus.global().post(ClientStartEvent())
-        }
+        ModuleManager.init()
+
+        EventBus.global().post(ClientStartEvent())
 
         RenderEvents.HUD.register { context ->
             EventBus.global().post(HudRenderEvent(context))

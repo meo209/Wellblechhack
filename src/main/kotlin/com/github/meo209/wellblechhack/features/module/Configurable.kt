@@ -21,20 +21,17 @@ package com.github.meo209.wellblechhack.features.module
 import com.github.meo209.wellblechhack.FileHandler
 import com.github.meo209.wellblechhack.features.module.config.parameter.Parameter
 import com.github.meo209.wellblechhack.features.module.config.parameter.ParameterType
-import com.github.meo209.wellblechhack.features.module.config.types.Choice
-import com.github.meo209.wellblechhack.features.module.config.types.NamedChoice
-import com.github.meo209.wellblechhack.features.module.serialization.Exclude
 import java.io.File
 
 /**
  * Base class that can be configured.
  * Has a parent which can also be null (in the case of modules)
  */
-abstract class Configurable(@Exclude val name: String) {
+abstract class Configurable(val name: String) {
     
     // Ignore the configFile from being serialized
     // Everything else is fine
-    @Exclude
+    @Transient
     val configFile: File = File(FileHandler.MODULE_FILE, "${name}.bin")
     var parameters = mutableSetOf<Parameter<*>>()
 
@@ -57,6 +54,4 @@ abstract class Configurable(@Exclude val name: String) {
     fun double(name: String, default: Double = 0.0) = parameter(name, default, ParameterType.DOUBLE)
 
     fun float(name: String, default: Float = 0f) = parameter(name, default, ParameterType.FLOAT)
-    
-    fun choice(name: String, vararg options: NamedChoice) = parameter(name, Choice(options.toList()), ParameterType.CHOICE)
 }

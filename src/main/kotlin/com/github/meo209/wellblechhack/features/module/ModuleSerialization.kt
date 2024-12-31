@@ -19,15 +19,15 @@
 package com.github.meo209.wellblechhack.features.module
 
 import com.github.meo209.wellblechhack.FileHandler
-import com.github.meo209.wellblechhack.features.Features
-import com.github.meo209.wellblechhack.features.module.serialization.ExcludeStrategy
+import com.github.meo209.wellblechhack.features.module.config.parameter.Parameter
+import com.github.meo209.wellblechhack.features.module.serialization.ConfigurableDeserializer
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 
 object ModuleSerialization {
 
     private val gson = GsonBuilder()
-        .setExclusionStrategies(ExcludeStrategy())
+        .registerTypeAdapter(Configurable::class.java, ConfigurableDeserializer())
         .setPrettyPrinting()
         .create()
 
@@ -36,16 +36,11 @@ object ModuleSerialization {
         if (fileContent.isEmpty()) return
 
         val type = object : TypeToken<ArrayList<Configurable>>() {}.type
-        val configurables = gson.fromJson<ArrayList<Configurable>>(fileContent, type)
-
-        Features.Module.all()
-            .forEach { module: Module ->
-                module.parameters = configurables.first { it.name == module.name }.parameters
-            }
+        gson.fromJson<ArrayList<Configurable>>(fileContent, type)
     }
 
     fun serialize() {
-        FileHandler.MODULE_FILE.writeText(gson.toJson(Features.Module.all()))
+        FileHandler.MODULE_FILE.writeText(gson.toJson(ModuleManager.modules))
     }
 
 }

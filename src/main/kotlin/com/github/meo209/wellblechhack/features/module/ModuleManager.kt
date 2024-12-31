@@ -27,9 +27,9 @@ import com.github.meo209.wellblechhack.features.module.modules.uncategorized.Mod
 import com.github.meo209.keventbus.EventBus
 import kotlin.reflect.KClass
 
-class ModuleFeature {
+object ModuleManager {
 
-    private val modules = arrayListOf(
+    val modules = listOf(
         ModAutoTotem,
         ModDebug,
         ModClickGui,
@@ -37,15 +37,13 @@ class ModuleFeature {
         ModHomoDance
     )
 
-    fun all() = modules.toList()
-
     fun fromCategory(category: Category) =
-        all().filter { it.category == category }
+        modules.filter { it.category == category }
 
     inline fun <reified T : Module> get(kClass: KClass<*>): T? =
-        all().firstOrNull { it::class == kClass } as T?
+        modules.firstOrNull { it::class == kClass } as T?
 
-    init {
+    fun init() {
         ModuleSerialization.deserialize()
         modules.forEach(Module::init)
 

@@ -18,9 +18,9 @@
 
 package com.github.meo209.wellblechhack.ui.impl.clickgui
 
-import com.github.meo209.wellblechhack.features.Features
 import com.github.meo209.wellblechhack.features.module.Category
 import com.github.meo209.wellblechhack.features.module.Module
+import com.github.meo209.wellblechhack.features.module.ModuleManager
 import com.github.meo209.wellblechhack.ui.ImScreen
 import com.github.meo209.wellblechhack.ui.MinecraftImGuiImpl
 import imgui.ImGui.*
@@ -57,7 +57,7 @@ class ImClickGui : ImScreen(Text.literal("Click Gui")) {
 
             columns(2)
 
-            Features.Module.fromCategory(selectedCategory).forEach { module: Module ->
+            ModuleManager.fromCategory(selectedCategory).forEach { module: Module ->
                 if (selectable(module.name, selectedModule == module))
                     selectedModule = module
             }

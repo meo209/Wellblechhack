@@ -21,7 +21,6 @@ package com.github.meo209.wellblechhack.features.module
 import com.github.meo209.wellblechhack.events.ModuleDisableEvent
 import com.github.meo209.wellblechhack.events.ModuleEnableEvent
 import com.github.meo209.wellblechhack.features.module.config.parameter.Parameter
-import com.github.meo209.wellblechhack.features.module.serialization.Exclude
 import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
 
@@ -33,10 +32,11 @@ import net.minecraft.client.MinecraftClient
  */
 abstract class Module(
     name: String,
+    @Transient
     val category: Category
 ) : Configurable(name) {
 
-    @Exclude
+    @delegate:Transient
     open var enabled by boolean("Enabled")
 
     val client
@@ -52,6 +52,9 @@ abstract class Module(
         get() = player != null && world != null
     val inGameScreen: Boolean
         get() = inGame && client.currentScreen == null
+
+    // Used to load the module
+    internal fun initBeforeConfig() {}
 
     abstract fun init()
 

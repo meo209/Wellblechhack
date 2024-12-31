@@ -20,11 +20,11 @@ package com.github.meo209.wellblechhack.ui.impl.clickgui.compositors
 
 import com.github.meo209.wellblechhack.features.module.config.parameter.Parameter
 import com.github.meo209.wellblechhack.features.module.config.parameter.ParameterType
-import com.github.meo209.wellblechhack.features.module.config.types.Choice
 import com.github.meo209.wellblechhack.ui.impl.clickgui.ParameterCompositor
 import imgui.ImGui.*
 import imgui.type.ImInt
 
+/*
 class ChoiceCompositor : ParameterCompositor<Choice>(ParameterType.CHOICE) {
 
     override fun render(parameter: Parameter<Choice>) {
@@ -32,13 +32,14 @@ class ChoiceCompositor : ParameterCompositor<Choice>(ParameterType.CHOICE) {
         
         // Construct variables for ImGui
         val imIndex = ImInt(choice.options.indexOf(choice.current))
-        val items = choice.options.map { it.name }.toTypedArray()
+        val items = choice.options.toTypedArray()
         
         if (combo(parameter.name, imIndex, items, items.size)) {
             val new = choice.options[imIndex.get()]
-            println("Setting ${parameter.name} from ${parameter.value.current.name} to ${new.name}")
+            println("Setting ${parameter.name} from ${parameter.value.current} to $new")
             parameter.value.current = new
         }
     }
 
 }
+ */

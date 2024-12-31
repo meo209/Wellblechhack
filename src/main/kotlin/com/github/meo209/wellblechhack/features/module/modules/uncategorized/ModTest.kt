@@ -21,7 +21,6 @@ package com.github.meo209.wellblechhack.features.module.modules.uncategorized
 
 import com.github.meo209.wellblechhack.features.module.Category
 import com.github.meo209.wellblechhack.features.module.Module
-import com.github.meo209.wellblechhack.features.module.config.types.NamedChoice
 
 object ModTest : Module("Test", Category.Uncategorized) {
 
@@ -29,19 +28,8 @@ object ModTest : Module("Test", Category.Uncategorized) {
     val testBoolean by boolean("TestBoolean")
     val testKeybinding by keybinding("TestKeybinding")
     val testInt by int("TestInt")
-    val testChoice by choice("TestChoice", A, B)
 
     override fun init() {
-        println("Current: ${testChoice.current.name}")
-        println("Options: " + testChoice.options.joinToString(", ") { it.name })
+
     }
-
-    override fun stop() {
-        println("Current: ${testChoice.current.name}")
-        println("Options: " + testChoice.options.joinToString(", ") { it.name })
-    }
-
-    object A: NamedChoice("A")
-
-    object B: NamedChoice("B")
 }

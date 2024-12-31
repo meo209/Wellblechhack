@@ -18,26 +18,24 @@
 
 package com.github.meo209.wellblechhack.features.module.config.parameter
 
-enum class ParameterType {
+enum class ParameterType(val clazz: Class<*>) {
                          
     // Numbers
-    INT,
-    DOUBLE,
-    FLOAT,
+    INT(Int::class.java),
+    DOUBLE(Double::class.java),
+    FLOAT(Float::class.java),
     
-    BOOLEAN,
+    BOOLEAN(Boolean::class.java),
     
-    STRING,
+    STRING(String::class.java),
     
     // Collection types
-    ARRAY,
-    MAP,
+    ARRAY(Array::class.java),
+    MAP(Map::class.java),
     
     // Other types
-    KEYBINDING,
-    CHOICE,
-    RANGE,
+    KEYBINDING(Int::class.java),
     
-    UNKNOWN,
+    UNKNOWN(Class::class.java),
     
 }
