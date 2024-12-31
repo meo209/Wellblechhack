@@ -16,11 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        maven("https://maven.fabricmc.net/") {
-            name = "Fabric"
-        }
-        gradlePluginPortal()
+package com.github.meo209.wellblechhack.ui.impl.clickgui
+
+import com.github.meo209.wellblechhack.features.module.config.parameter.Parameter
+import com.github.meo209.wellblechhack.features.module.config.parameter.ParameterType
+
+abstract class ParameterCompositor<T: Any>(val parameterType: ParameterType) {
+    
+    abstract fun render(parameter: Parameter<T>)
+    
+    @Suppress("UNCHECKED_CAST")
+    fun render(parameter: Any) {
+        render(parameter as Parameter<T>)
     }
+    
 }

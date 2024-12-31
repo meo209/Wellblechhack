@@ -16,11 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        maven("https://maven.fabricmc.net/") {
-            name = "Fabric"
-        }
-        gradlePluginPortal()
-    }
-}
+package com.github.meo209.wellblechhack.events
+
+import com.github.meo209.keventbus.Event
+import net.minecraft.item.ItemStack
+
+class PlayerInventorySlotChangeEvent(val slot: Int, val old: ItemStack, val new: ItemStack): Event

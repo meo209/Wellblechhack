@@ -16,11 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        maven("https://maven.fabricmc.net/") {
-            name = "Fabric"
-        }
-        gradlePluginPortal()
-    }
+package com.github.meo209.wellblechhack.utils
+
+import net.minecraft.item.Items.*
+
+object ItemCollections {
+
+    val HELMETS = arrayOf(LEATHER_HELMET, CHAINMAIL_HELMET, GOLDEN_HELMET, IRON_HELMET, DIAMOND_HELMET, NETHERITE_HELMET)
+    val CHESTPLATES = arrayOf(LEATHER_CHESTPLATE, CHAINMAIL_CHESTPLATE, GOLDEN_CHESTPLATE, IRON_CHESTPLATE, DIAMOND_CHESTPLATE, NETHERITE_CHESTPLATE)
+    val LEGGINGS = arrayOf(LEATHER_LEGGINGS, CHAINMAIL_LEGGINGS, GOLDEN_LEGGINGS, IRON_LEGGINGS, DIAMOND_LEGGINGS, NETHERITE_LEGGINGS)
+    val BOOTS = arrayOf(LEATHER_BOOTS, CHAINMAIL_BOOTS, GOLDEN_BOOTS, IRON_BOOTS, DIAMOND_BOOTS, NETHERITE_BOOTS)
+    
+    val ARMOR = arrayOf(HELMETS, CHESTPLATES, LEGGINGS, BOOTS)
 }

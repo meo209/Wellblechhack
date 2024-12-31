@@ -16,11 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        maven("https://maven.fabricmc.net/") {
-            name = "Fabric"
-        }
-        gradlePluginPortal()
+package com.github.meo209.wellblechhack.ui.impl.clickgui.compositors
+
+import com.github.meo209.wellblechhack.features.module.config.parameter.Parameter
+import com.github.meo209.wellblechhack.features.module.config.parameter.ParameterType
+import com.github.meo209.wellblechhack.ui.impl.clickgui.ParameterCompositor
+import imgui.ImGui.*
+import imgui.type.ImDouble
+
+class InputDoubleCompositor : ParameterCompositor<Double>(ParameterType.DOUBLE) {
+
+    override fun render(parameter: Parameter<Double>) {
+        val imDouble = ImDouble(parameter.value)
+        if (inputDouble(parameter.name, imDouble))
+            parameter.value = imDouble.get()
     }
+
 }

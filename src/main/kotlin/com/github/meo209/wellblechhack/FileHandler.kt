@@ -16,11 +16,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        maven("https://maven.fabricmc.net/") {
-            name = "Fabric"
-        }
-        gradlePluginPortal()
+package com.github.meo209.wellblechhack
+
+import net.fabricmc.loader.api.FabricLoader
+import java.io.File
+
+object FileHandler {
+
+    val ROOT_DIRECTORY = File(FabricLoader.getInstance().configDir.toFile(), Wellblechhack.Data.MOD_ID)
+
+    val MODULE_FILE = File(ROOT_DIRECTORY, "modules.json")
+
+    init {
+        if (!ROOT_DIRECTORY.exists()) ROOT_DIRECTORY.mkdir()
+
+        if (!MODULE_FILE.exists()) MODULE_FILE.createNewFile()
     }
+
+    // Statically load the FileManager
+    fun init() {}
+
 }

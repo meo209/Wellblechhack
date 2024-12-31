@@ -16,11 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        maven("https://maven.fabricmc.net/") {
-            name = "Fabric"
-        }
-        gradlePluginPortal()
-    }
-}
+package com.github.meo209.wellblechhack.events
+
+import com.github.meo209.wellblechhack.features.module.Module
+import com.github.meo209.keventbus.Event
+
+class ModuleEnableEvent(module: Module): Event
+class ModuleDisableEvent(module: Module): Event

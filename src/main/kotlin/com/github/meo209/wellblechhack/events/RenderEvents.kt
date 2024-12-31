@@ -16,11 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        maven("https://maven.fabricmc.net/") {
-            name = "Fabric"
-        }
-        gradlePluginPortal()
-    }
-}
+package com.github.meo209.wellblechhack.events
+
+import com.github.meo209.keventbus.Event
+import net.minecraft.client.gui.DrawContext
+import net.minecraft.client.util.math.MatrixStack
+
+class HudRenderEvent(val context: DrawContext): Event
+class WorldRenderEvent(val matrixStack: MatrixStack): Event

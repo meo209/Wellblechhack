@@ -16,11 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        maven("https://maven.fabricmc.net/") {
-            name = "Fabric"
-        }
-        gradlePluginPortal()
+package com.github.meo209.wellblechhack.ui.impl.clickgui.compositors
+
+import com.github.meo209.wellblechhack.features.module.config.parameter.Parameter
+import com.github.meo209.wellblechhack.features.module.config.parameter.ParameterType
+import com.github.meo209.wellblechhack.ui.impl.clickgui.ParameterCompositor
+import imgui.ImGui.*
+
+class CheckboxCompositor : ParameterCompositor<Boolean>(ParameterType.BOOLEAN) {
+
+    override fun render(parameter: Parameter<Boolean>) {
+        if (checkbox(parameter.name, parameter.value))
+            parameter.value = !parameter.value
     }
+
 }

@@ -16,11 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        maven("https://maven.fabricmc.net/") {
-            name = "Fabric"
-        }
-        gradlePluginPortal()
-    }
+package com.github.meo209.wellblechhack.ui.impl.clickgui
+
+object Constants {
+    
+    const val INPUT_TEXT_LENGTH = 256
+    
 }

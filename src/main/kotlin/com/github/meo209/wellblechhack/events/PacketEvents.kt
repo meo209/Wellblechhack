@@ -16,11 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        maven("https://maven.fabricmc.net/") {
-            name = "Fabric"
-        }
-        gradlePluginPortal()
-    }
-}
+package com.github.meo209.wellblechhack.events
+
+import com.github.meo209.keventbus.Event
+import net.minecraft.network.packet.Packet
+
+class C2SPacketEvent(val packet: Packet<*>): Event
+class S2CPacketEvent(val packet: Packet<*>): Event

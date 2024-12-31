@@ -16,11 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-    repositories {
-        maven("https://maven.fabricmc.net/") {
-            name = "Fabric"
-        }
-        gradlePluginPortal()
-    }
-}
+package com.github.meo209.wellblechhack.features.module.config.types
+
+class Range(
+    var value: Float,
+    val range: ClosedFloatingPointRange<Float>
+)

@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
-  "id": "archer",
+  "id": "wellblechhack",
   "version": "${version}",
-  "name": "Archer",
+  "name": "Wellblechhack",
   "description": "A Minecraft client modification intended for the use on anarchy servers (e.g. 2b2t.org)",
   "authors": [],
   "contact": {},
   "license": "GPL-3.0",
-  "icon": "assets/archer/icon.png",
+  "icon": "assets/wellblechhack/icon.png",
   "environment": "client",
   "entrypoints": {
   },
   "mixins": [
-    "archer.mixins.json"
+    "wellblechhack.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
