@@ -95,7 +95,7 @@ object MinecraftImGuiImpl {
         config.glyphRanges = data.fonts.glyphRangesCyrillic
 
         val fontData =
-            MinecraftImGuiImpl::class.java.getResourceAsStream("/assets/archer/fonts/$name.ttf")!!.readAllBytes()
+            MinecraftImGuiImpl::class.java.getResourceAsStream("/assets/wellblechhack/fonts/$name.ttf")!!.readAllBytes()
 
         config.setName("$name${size}px")
         val font = fonts.addFontFromMemoryTTF(
