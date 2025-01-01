@@ -1,6 +1,6 @@
 /*
  * Wellblechhack
- * Copyright (C) 2024 meo209
+ * Copyright (C) 2025 meo209
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,24 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.meo209.wellblechhack
+package com.github.meo209.wellblechhack.config.module
 
-import net.fabricmc.loader.api.FabricLoader
-import java.io.File
+import com.fasterxml.jackson.annotation.JsonIgnore
 
-object FileHandler {
+abstract class Setting<T : Any>(val name: String, var value: T, @JsonIgnore val description: String = "", val type: SettingType) {
 
-    private val ROOT_DIRECTORY = File(FabricLoader.getInstance().configDir.toFile(), Wellblechhack.Data.MOD_ID)
-
-    val MODULE_DIRECTORY = File(ROOT_DIRECTORY, "modules.xml")
-
-    init {
-        if (!ROOT_DIRECTORY.exists()) ROOT_DIRECTORY.mkdir()
-
-        if (!MODULE_DIRECTORY.exists()) MODULE_DIRECTORY.mkdir()
-    }
-
-    // Statically load the FileManager
-    fun init() {}
+    operator fun invoke() = value
 
 }

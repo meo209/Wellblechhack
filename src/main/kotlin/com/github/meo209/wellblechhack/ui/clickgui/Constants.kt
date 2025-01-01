@@ -16,18 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.meo209.wellblechhack.ui.impl.clickgui.compositors
+package com.github.meo209.wellblechhack.ui.clickgui
 
-import com.github.meo209.wellblechhack.features.module.config.parameter.Parameter
-import com.github.meo209.wellblechhack.features.module.config.parameter.ParameterType
-import com.github.meo209.wellblechhack.ui.impl.clickgui.ParameterCompositor
-import imgui.ImGui.*
-
-class CheckboxCompositor : ParameterCompositor<Boolean>(ParameterType.BOOLEAN) {
-
-    override fun render(parameter: Parameter<Boolean>) {
-        if (checkbox(parameter.name, parameter.value))
-            parameter.value = !parameter.value
-    }
-
+object Constants {
+    
+    const val INPUT_TEXT_LENGTH = 256
+    
 }

@@ -16,18 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.meo209.wellblechhack.ui.impl.clickgui
+package com.github.meo209.wellblechhack.features.module.modules.render
 
-import com.github.meo209.wellblechhack.features.module.config.parameter.Parameter
-import com.github.meo209.wellblechhack.features.module.config.parameter.ParameterType
+/*
+import com.github.meo209.keventbus.EventBus
+import com.github.meo209.wellblechhack.events.HudRenderEvent
+import com.github.meo209.wellblechhack.features.module.Category
+import com.github.meo209.wellblechhack.features.module.Module
 
-abstract class ParameterCompositor<T: Any>(val parameterType: ParameterType) {
-    
-    abstract fun render(parameter: Parameter<T>)
-    
-    @Suppress("UNCHECKED_CAST")
-    fun render(parameter: Any) {
-        render(parameter as Parameter<T>)
+object BlockESP: Module("ESP", Category.Render) {
+
+    override fun init() {
+        EventBus.global().function<HudRenderEvent>(::onHudRender) { enabled && inGame }
     }
-    
+
+    private fun onHudRender(event: HudRenderEvent) {
+
+    }
+
 }
+ */

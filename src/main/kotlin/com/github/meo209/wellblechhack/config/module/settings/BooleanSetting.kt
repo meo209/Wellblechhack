@@ -1,6 +1,6 @@
 /*
  * Wellblechhack
- * Copyright (C) 2024 meo209
+ * Copyright (C) 2025 meo209
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,20 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.meo209.wellblechhack.ui.impl.clickgui.compositors
+package com.github.meo209.wellblechhack.config.module.settings
 
-import com.github.meo209.wellblechhack.features.module.config.parameter.Parameter
-import com.github.meo209.wellblechhack.features.module.config.parameter.ParameterType
-import com.github.meo209.wellblechhack.ui.impl.clickgui.ParameterCompositor
-import imgui.ImGui.*
-import imgui.type.ImInt
+import com.github.meo209.wellblechhack.config.module.SettingType
+import com.github.meo209.wellblechhack.config.module.Setting
 
-class InputIntCompositor : ParameterCompositor<Int>(ParameterType.INT) {
-
-    override fun render(parameter: Parameter<Int>) {
-        val imInt = ImInt(parameter.value)
-        if (inputInt(parameter.name, imInt))
-            parameter.value = imInt.get()
-    }
-
-}
+class BooleanSetting(name: String, value: Boolean, description: String) : Setting<Boolean>(name, value, description, SettingType.BOOLEAN)

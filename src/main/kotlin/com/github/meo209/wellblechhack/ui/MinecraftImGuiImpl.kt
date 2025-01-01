@@ -68,10 +68,7 @@ object MinecraftImGuiImpl {
         data.fontGlobalScale = 1f
 
         data.configFlags =
-            ImGuiConfigFlags.DockingEnable or ImGuiConfigFlags.NavEnableKeyboard or ImGuiConfigFlags.NoMouseCursorChange // Minecraft conflicts with ImGui cursor
-
-        data.wantCaptureMouse = false
-        data.wantCaptureKeyboard = false
+            ImGuiConfigFlags.DockingEnable or ImGuiConfigFlags.NoMouseCursorChange // Minecraft conflicts with ImGui cursor
 
         loadFont("Inter", 20)
 

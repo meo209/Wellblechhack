@@ -25,6 +25,7 @@ import com.github.meo209.wellblechhack.features.module.Module
 import com.github.meo209.keventbus.EventBus
 import net.minecraft.client.MinecraftClient
 
+/*
 object ModDebug : Module("Debug", Category.Uncategorized) {
 
     private val infoLines = mutableSetOf<String>()
@@ -57,3 +58,4 @@ object ModDebug : Module("Debug", Category.Uncategorized) {
         }, { enabled })
     }
 }
+ */

@@ -19,17 +19,20 @@
 
 package com.github.meo209.wellblechhack.features.module.modules.uncategorized
 
+
 import com.github.meo209.wellblechhack.features.module.Category
 import com.github.meo209.wellblechhack.features.module.Module
 
 object ModTest : Module("Test", Category.Uncategorized) {
 
-    val testString by string("TestString")
-    val testBoolean by boolean("TestBoolean")
-    val testKeybinding by keybinding("TestKeybinding")
-    val testInt by int("TestInt")
+    val testBoolean = boolean("TestBoolean")
+    val testInt = int("TestInt")
+    val testChoice = choice("TestChoice", "A", "B")
 
     override fun init() {
-
+        println("Test")
+        println(testInt())
+        println(testChoice().current)
+        println(testBoolean())
     }
 }

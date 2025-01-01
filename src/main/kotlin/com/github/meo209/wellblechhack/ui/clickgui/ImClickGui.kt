@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.meo209.wellblechhack.ui.impl.clickgui
+package com.github.meo209.wellblechhack.ui.clickgui
 
 import com.github.meo209.wellblechhack.features.module.Category
 import com.github.meo209.wellblechhack.features.module.Module
@@ -65,10 +65,10 @@ class ImClickGui : ImScreen(Text.literal("Click Gui")) {
             nextColumn()
 
             if (selectedModule != null && selectedModule!!.category == selectedCategory) {
-                selectedModule!!.parameters.forEach { parameter ->
-                    val compositor = ECompositor.get(parameter.type)
+                selectedModule!!.settings.forEach { setting ->
+                    val compositor = ECompositor.get(setting.type)
 
-                    compositor.render(parameter)
+                    compositor.render(setting)
                 }
             }
 

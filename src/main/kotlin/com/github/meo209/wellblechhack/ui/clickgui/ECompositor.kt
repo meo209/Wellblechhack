@@ -16,23 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.meo209.wellblechhack.ui.impl.clickgui
+package com.github.meo209.wellblechhack.ui.clickgui
 
-import com.github.meo209.wellblechhack.features.module.config.parameter.ParameterType
-import com.github.meo209.wellblechhack.ui.impl.clickgui.compositors.*
+import com.github.meo209.wellblechhack.config.module.SettingType
+import com.github.meo209.wellblechhack.ui.clickgui.compositors.*
 
-enum class ECompositor(private val type: ParameterType, private val compositor: ParameterCompositor<*>) {
+enum class ECompositor(private val type: SettingType, private val compositor: SettingCompositor<*>) {
 
-    KEYBINDING(ParameterType.KEYBINDING, KeybindingCompositor()),
-    CHECKBOX(ParameterType.BOOLEAN, CheckboxCompositor()),
-    STRING(ParameterType.STRING, InputTextCompositor()),
-    //CHOICE(ParameterType.CHOICE, ChoiceCompositor()),
-    DOUBLE(ParameterType.DOUBLE, InputDoubleCompositor()),
-    FLOAT(ParameterType.FLOAT, InputFloatCompositor()),
-    Int(ParameterType.INT, InputIntCompositor());
+    //KEYBINDING(SettingType.KEYBINDING, KeybindingCompositor()),
+    CHECKBOX(SettingType.BOOLEAN, CheckboxCompositor()),
+    //STRING(SettingType.STRING, InputTextCompositor()),
+    //CHOICE(SettingType.CHOICE, ChoiceCompositor()),
+    //DOUBLE(SettingType.DOUBLE, InputDoubleCompositor()),
+    //FLOAT(SettingType.FLOAT, InputFloatCompositor()),
+    Int(SettingType.INT, InputIntCompositor());
     
     companion object {
-        fun get(parameterType: ParameterType): ParameterCompositor<*> =
+        fun get(parameterType: SettingType): SettingCompositor<*> =
             entries
                 .first { it.type == parameterType }
                 .compositor

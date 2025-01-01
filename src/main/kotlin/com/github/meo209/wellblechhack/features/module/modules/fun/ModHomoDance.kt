@@ -19,10 +19,8 @@
 package com.github.meo209.wellblechhack.features.module.modules.`fun`
 
 import com.github.meo209.wellblechhack.events.ClientTickEvent
-import com.github.meo209.wellblechhack.events.KeyPressEvent
 import com.github.meo209.wellblechhack.features.module.Category
 import com.github.meo209.wellblechhack.features.module.Module
-import com.github.meo209.keventbus.EventBus
 
 object ModHomoDance : Module("HomoDance", Category.Fun) {
 
@@ -84,20 +82,17 @@ object ModHomoDance : Module("HomoDance", Category.Fun) {
         .split("\n")
         .toTypedArray()
 
-    var keybind by keybinding("Keybind")
-    var waitTicks by int("waitTicks")
+    var waitTicks = int("waitTicks")
 
     override fun init() {
-        EventBus.global().handler(KeyPressEvent::class, { toggle() }, { it.key == keybind })
-
-        EventBus.global().function<ClientTickEvent>(::onTick) { enabled && inGame }
+        //EventBus.global().function<ClientTickEvent>(::onTick) { enabled && inGame }
     }
 
     private var ticks = 0
     private var line = 0
 
     private fun onTick(event: ClientTickEvent) {
-        if (ticks >= waitTicks) {
+        if (ticks >= waitTicks.value) {
             if (line < lyrics.size) {
                 network?.sendChatMessage(lyrics[line])
                 line++

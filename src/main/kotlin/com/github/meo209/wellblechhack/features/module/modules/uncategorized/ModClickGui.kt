@@ -21,19 +21,23 @@ package com.github.meo209.wellblechhack.features.module.modules.uncategorized
 import com.github.meo209.wellblechhack.events.KeyPressEvent
 import com.github.meo209.wellblechhack.features.module.Category
 import com.github.meo209.wellblechhack.features.module.Module
-import com.github.meo209.wellblechhack.ui.impl.clickgui.ImClickGui
+import com.github.meo209.wellblechhack.ui.clickgui.ImClickGui
 import com.github.meo209.keventbus.EventBus
 import org.lwjgl.glfw.GLFW
 
+/*
 object ModClickGui : Module("ClickGui", Category.Uncategorized) {
 
-    var keybind by keybinding("Keybind", GLFW.GLFW_KEY_RIGHT_SHIFT)
-
-    val screen = ImClickGui()
+    private val screen = ImClickGui()
 
     override fun init() {
+        // Set the default keybind
+        if (keybind == -1)
+            keybind = GLFW.GLFW_KEY_RIGHT_SHIFT
+
         EventBus.global().handler(KeyPressEvent::class, {
             client.setScreen(screen)
         }, { it.key == keybind })
     }
 }
+ */

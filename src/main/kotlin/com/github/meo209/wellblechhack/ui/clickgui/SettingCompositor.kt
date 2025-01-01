@@ -16,20 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.meo209.wellblechhack.ui.impl.clickgui.compositors
+package com.github.meo209.wellblechhack.ui.clickgui
 
-import com.github.meo209.wellblechhack.features.module.config.parameter.Parameter
-import com.github.meo209.wellblechhack.features.module.config.parameter.ParameterType
-import com.github.meo209.wellblechhack.ui.impl.clickgui.ParameterCompositor
-import imgui.ImGui.*
-import imgui.type.ImFloat
+import com.github.meo209.wellblechhack.config.module.Setting
+import com.github.meo209.wellblechhack.config.module.SettingType
 
-class InputFloatCompositor : ParameterCompositor<Float>(ParameterType.FLOAT) {
-
-    override fun render(parameter: Parameter<Float>) {
-        val imFloat = ImFloat(parameter.value)
-        if (inputFloat(parameter.name, imFloat))
-            parameter.value = imFloat.get()
+abstract class SettingCompositor<T: Any>(val settingType: SettingType) {
+    
+    abstract fun render(parameter: Setting<T>)
+    
+    @Suppress("UNCHECKED_CAST")
+    fun render(parameter: Any) {
+        render(parameter as Setting<T>)
     }
-
+    
 }

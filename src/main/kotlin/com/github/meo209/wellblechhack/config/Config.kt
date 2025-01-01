@@ -16,9 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.meo209.wellblechhack.features.module.config.types
+package com.github.meo209.wellblechhack.config
 
-class Range(
-    var value: Float,
-    val range: ClosedFloatingPointRange<Float>
-)
+import java.io.File
+
+interface Config {
+
+    val file: File
+
+    fun load()
+    fun save()
+
+}

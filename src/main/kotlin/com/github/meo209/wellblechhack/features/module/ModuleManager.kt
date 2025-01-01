@@ -18,24 +18,24 @@
 
 package com.github.meo209.wellblechhack.features.module
 
-import com.github.meo209.wellblechhack.events.ClientShutdownEvent
-import com.github.meo209.wellblechhack.features.module.modules.combat.ModAutoTotem
-import com.github.meo209.wellblechhack.features.module.modules.`fun`.ModHomoDance
-import com.github.meo209.wellblechhack.features.module.modules.uncategorized.ModClickGui
-import com.github.meo209.wellblechhack.features.module.modules.uncategorized.ModDebug
-import com.github.meo209.wellblechhack.features.module.modules.uncategorized.ModTest
 import com.github.meo209.keventbus.EventBus
+import com.github.meo209.wellblechhack.config.module.ModuleConfig
+import com.github.meo209.wellblechhack.events.ClientShutdownEvent
+import com.github.meo209.wellblechhack.features.module.modules.`fun`.ModHomoDance
+import com.github.meo209.wellblechhack.features.module.modules.uncategorized.ModTest
 import kotlin.reflect.KClass
 
 object ModuleManager {
 
-    val modules = listOf(
-        ModAutoTotem,
-        ModDebug,
-        ModClickGui,
+    val modules = arrayOf(
+        //ModAutoTotem,
+        //ModDebug,
+        //ModClickGui,
         ModTest,
-        ModHomoDance
+        ModHomoDance,
     )
+
+    private val configs = modules.map { ModuleConfig(it) }
 
     fun fromCategory(category: Category) =
         modules.filter { it.category == category }
@@ -44,13 +44,13 @@ object ModuleManager {
         modules.firstOrNull { it::class == kClass } as T?
 
     fun init() {
-        ModuleSerialization.deserialize()
+        configs.forEach(ModuleConfig::load)
         modules.forEach(Module::init)
 
         EventBus.global().handler(ClientShutdownEvent::class, {
             modules.forEach(Module::stop)
 
-            ModuleSerialization.serialize()
+            configs.forEach(ModuleConfig::save)
         })
     }
 }

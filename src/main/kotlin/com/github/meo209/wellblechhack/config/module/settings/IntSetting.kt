@@ -1,6 +1,6 @@
 /*
  * Wellblechhack
- * Copyright (C) 2024 meo209
+ * Copyright (C) 2025 meo209
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,24 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.meo209.wellblechhack
+package com.github.meo209.wellblechhack.config.module.settings
 
-import net.fabricmc.loader.api.FabricLoader
-import java.io.File
+import com.github.meo209.wellblechhack.config.module.SettingType
+import com.github.meo209.wellblechhack.config.module.Setting
 
-object FileHandler {
-
-    private val ROOT_DIRECTORY = File(FabricLoader.getInstance().configDir.toFile(), Wellblechhack.Data.MOD_ID)
-
-    val MODULE_DIRECTORY = File(ROOT_DIRECTORY, "modules.xml")
-
-    init {
-        if (!ROOT_DIRECTORY.exists()) ROOT_DIRECTORY.mkdir()
-
-        if (!MODULE_DIRECTORY.exists()) MODULE_DIRECTORY.mkdir()
-    }
-
-    // Statically load the FileManager
-    fun init() {}
-
-}
+class IntSetting(name: String, value: Int, description: String) : Setting<Int>(name, value, description, SettingType.INT)

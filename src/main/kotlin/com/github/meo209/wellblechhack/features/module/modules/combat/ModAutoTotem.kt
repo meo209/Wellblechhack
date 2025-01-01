@@ -18,28 +18,24 @@
 
 package com.github.meo209.wellblechhack.features.module.modules.combat
 
-import com.github.meo209.wellblechhack.events.KeyPressEvent
 import com.github.meo209.wellblechhack.events.S2CPacketEvent
 import com.github.meo209.wellblechhack.features.module.Category
 import com.github.meo209.wellblechhack.features.module.Module
 import com.github.meo209.wellblechhack.utils.InventoryUtils
 import com.github.meo209.wellblechhack.utils.PlayerInventorySlots
 import com.github.meo209.keventbus.EventBus
+import com.github.meo209.wellblechhack.config.module.settings.BooleanSetting
+import com.github.meo209.wellblechhack.events.ClientTickEvent
 import net.minecraft.entity.EntityStatuses
 import net.minecraft.item.Items
 import net.minecraft.network.packet.s2c.play.EntityStatusS2CPacket
 
+/*
 object ModAutoTotem : Module("AutoTotem", Category.Combat) {
 
-    var keybind by keybinding("Keybind")
-    
-    var simulate by boolean("Simulate")
-    
-    var test by int("Test")
+    var simulate = boolean("Simulate")
 
     override fun init() {
-        EventBus.global().handler(KeyPressEvent::class, { toggle() }, { it.key == keybind })
-
         EventBus.global().function<S2CPacketEvent>(ModAutoTotem::onEvent) { enabled && inGame }
         
         println(enabled)
@@ -56,3 +52,4 @@ object ModAutoTotem : Module("AutoTotem", Category.Combat) {
     }
 
 }
+ */

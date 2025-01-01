@@ -18,10 +18,12 @@
 
 package com.github.meo209.wellblechhack.features.module
 
-import com.github.meo209.wellblechhack.events.ModuleDisableEvent
-import com.github.meo209.wellblechhack.events.ModuleEnableEvent
-import com.github.meo209.wellblechhack.features.module.config.parameter.Parameter
-import com.github.meo209.keventbus.EventBus
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.github.meo209.wellblechhack.config.module.Setting
+import com.github.meo209.wellblechhack.config.module.settings.BooleanSetting
+import com.github.meo209.wellblechhack.config.module.settings.Choice
+import com.github.meo209.wellblechhack.config.module.settings.ChoiceSetting
+import com.github.meo209.wellblechhack.config.module.settings.IntSetting
 import net.minecraft.client.MinecraftClient
 
 /**
@@ -31,40 +33,49 @@ import net.minecraft.client.MinecraftClient
  * @see Parameter
  */
 abstract class Module(
-    name: String,
-    @Transient
+    val name: String,
+    @JsonIgnore
     val category: Category
-) : Configurable(name) {
+) {
 
-    @delegate:Transient
-    open var enabled by boolean("Enabled")
+    @JsonIgnore
+    val settings = mutableSetOf<Setting<*>>()
 
+    open var enabled = boolean("Enabled")
+
+    @get:JsonIgnore
     val client
         get() = MinecraftClient.getInstance()
+    @get:JsonIgnore
     val player
         get() = client.player
+    @get:JsonIgnore
     val world
         get() = client.world
+    @get:JsonIgnore
     val network
         get() = client.networkHandler
 
+    @get:JsonIgnore
     val inGame: Boolean
         get() = player != null && world != null
+    @get:JsonIgnore
     val inGameScreen: Boolean
         get() = inGame && client.currentScreen == null
 
-    // Used to load the module
-    internal fun initBeforeConfig() {}
-
     abstract fun init()
 
-    fun toggle() {
-        enabled = !enabled
-        if (enabled)
-            EventBus.global().post(ModuleEnableEvent(this))
-        else
-            EventBus.global().post(ModuleDisableEvent(this))
-    }
+    open fun onEnable() {}
+    open fun onDisable() {}
 
     open fun stop() {}
+
+    fun boolean(name: String, value: Boolean = false, description: String = "") =
+        BooleanSetting(name, value, description).also { settings.add(it) }
+
+    fun int(name: String, value: Int = 0, description: String = "") =
+        IntSetting(name, value, description).also { settings.add(it) }
+
+    fun choice(name: String, vararg options: String, description: String = "") =
+        ChoiceSetting(name, Choice(options.first(), options.toList()), description).also { settings.add(it) }
 }

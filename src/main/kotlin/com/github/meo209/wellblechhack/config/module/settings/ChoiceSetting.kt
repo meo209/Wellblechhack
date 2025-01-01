@@ -1,6 +1,6 @@
 /*
  * Wellblechhack
- * Copyright (C) 2024 meo209
+ * Copyright (C) 2025 meo209
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,10 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.meo209.wellblechhack.ui.impl.clickgui
+package com.github.meo209.wellblechhack.config.module.settings
 
-object Constants {
-    
-    const val INPUT_TEXT_LENGTH = 256
-    
-}
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.github.meo209.wellblechhack.config.module.Setting
+import com.github.meo209.wellblechhack.config.module.SettingType
+
+class ChoiceSetting(name: String, value: Choice, description: String) : Setting<Choice>(name, value, description, SettingType.CHOICE)
+
+class Choice(var current: String, @JsonIgnore val options: List<String>)

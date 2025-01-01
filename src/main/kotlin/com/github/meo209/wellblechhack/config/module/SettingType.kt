@@ -1,6 +1,6 @@
 /*
  * Wellblechhack
- * Copyright (C) 2024 meo209
+ * Copyright (C) 2025 meo209
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,26 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.meo209.wellblechhack.features.module.config.parameter
+package com.github.meo209.wellblechhack.config.module
 
-enum class ParameterType(val clazz: Class<*>) {
-                         
-    // Numbers
-    INT(Int::class.java),
-    DOUBLE(Double::class.java),
-    FLOAT(Float::class.java),
-    
-    BOOLEAN(Boolean::class.java),
-    
-    STRING(String::class.java),
-    
-    // Collection types
-    ARRAY(Array::class.java),
-    MAP(Map::class.java),
-    
-    // Other types
-    KEYBINDING(Int::class.java),
-    
-    UNKNOWN(Class::class.java),
-    
+enum class SettingType {
+
+    BOOLEAN,
+    INT,
+
+    CHOICE
+
 }

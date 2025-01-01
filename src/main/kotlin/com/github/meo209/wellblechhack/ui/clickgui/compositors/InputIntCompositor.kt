@@ -16,20 +16,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.meo209.wellblechhack.ui.impl.clickgui.compositors
+package com.github.meo209.wellblechhack.ui.clickgui.compositors
 
-import com.github.meo209.wellblechhack.features.module.config.parameter.Parameter
-import com.github.meo209.wellblechhack.features.module.config.parameter.ParameterType
-import com.github.meo209.wellblechhack.ui.impl.clickgui.ParameterCompositor
+import com.github.meo209.wellblechhack.config.module.Setting
+import com.github.meo209.wellblechhack.config.module.SettingType
+import com.github.meo209.wellblechhack.ui.clickgui.SettingCompositor
 import imgui.ImGui.*
-import imgui.type.ImDouble
+import imgui.type.ImInt
 
-class InputDoubleCompositor : ParameterCompositor<Double>(ParameterType.DOUBLE) {
+class InputIntCompositor : SettingCompositor<Int>(SettingType.INT) {
 
-    override fun render(parameter: Parameter<Double>) {
-        val imDouble = ImDouble(parameter.value)
-        if (inputDouble(parameter.name, imDouble))
-            parameter.value = imDouble.get()
+    override fun render(parameter: Setting<Int>) {
+        val imInt = ImInt(parameter.value)
+        if (inputInt(parameter.name, imInt))
+            parameter.value = imInt.get()
     }
 
 }
