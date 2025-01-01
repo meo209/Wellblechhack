@@ -16,6 +16,8 @@ OS: Linux (Windows should also work, however I cannot verify that)
 - Kotlin Language Kotlin
 ### Dependency libraries:
 - Renderer
+- Jackson
+- Jackson XML
 - Keventbus
 - ImGui (java bindings)
 
